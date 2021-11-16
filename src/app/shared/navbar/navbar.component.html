@@ -1,0 +1,17 @@
+<nav class="site-header navbar-expand-md navbar-dark bg-dark mb-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between navbar-nav">
+        <a class="nav-item nav-link py-2" routerLink="/">Home</a>
+        <a class="nav-item nav-link py-2" (click)="authService.MakeAdmin()">makeAdmin</a>
+        <a class="nav-item nav-link py-2" *ngIf="authService.isValidAdmin"
+            routerLink="login">IsAdmin</a>
+
+        <a class="nav-item nav-link py-2" *ngIf="!authService.isLoggedIn"
+            routerLink="login">Login</a>
+
+        <a class="nav-item nav-link py-2" *ngIf="!authService.isLoggedIn"
+            routerLink="register">Registrarse</a>
+
+        <a class="pointer nav-item nav-link py-2" *ngIf="authService.isLoggedIn"
+            (click)="authService.SignOut()">Desloguearse</a>
+    </div>
+</nav>

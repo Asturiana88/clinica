@@ -1,0 +1,57 @@
+<h2 class="text-primarty my-4"> Registrar especialista </h2>
+<form id="loginform" class="form-horizontal" role="form">
+    <div style="margin-bottom: 25px" class="input-group">
+        <input type="text" class="form-control" name="nombre"  [(ngModel)]="especialista.nombre" placeholder="Nombre">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input type="text" class="form-control" name="apellido"  [(ngModel)]="especialista.apellido" placeholder="Apellido">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="number" name="dni"  [(ngModel)]="especialista.dni" placeholder="DNI">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="number" name="edad"  [(ngModel)]="especialista.edad" placeholder="Edad">                                        
+    </div>
+    
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="email" name="email"  [(ngModel)]="especialista.email" placeholder="Email">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="text" name="fotoPerfil"  [(ngModel)]="especialista.fotoPerfil" placeholder="Foto de perfil">                                        
+    </div>
+
+    <div style="max-height: 200px;" *ngIf="especialidades | async as especialidadesData">
+        <h3>Especialidad</h3>
+        <div *ngFor="let especialidad of especialidadesData">
+            <label class="d-flex align-items-center">
+                <input class="m-3" type="checkbox" [checked]="false" (click)="handleClick(especialidad.especialidad)">                                        
+                {{especialidad.especialidad}}
+            </label>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="text" name="especialidad" [(ngModel)]="nuevaEspecialidad" placeholder="Nueva especialidad">                                        
+        <button class="btn btn-secondary" (click)="crearEspecialidad()">Agregar</button>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="password" name="password"  [(ngModel)]="especialista.password" placeholder="Password">                                        
+    </div>
+
+    <div class="input-group">
+        <div style="margin-top:10px" class="form-group">
+            <div class="col-sm-12 controls">
+                <button (click)="registrarse()" class="btn btn-success"> Registrarse </button>
+            </div>
+        </div>
+    </div>    
+    
+    <div class="mt-3">
+        <span class="text-danger" *ngIf="singUpError">{{singUpError}}</span>
+    </div>
+</form>     

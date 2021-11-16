@@ -3,7 +3,10 @@ import { Usuario } from "../clases/usuario";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from "@angular/router";
-import { LoggerService } from './logger.service';
+import { Especialista } from '../clases/especialista';
+import { Paciente } from '../clases/paciente';
+import { BehaviorSubject } from 'rxjs';
+import { Administrador } from '../clases/administrador';
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +16,21 @@ export class AuthService {
   userData: any; // Save logged in user data
   singUpError: string = '';
   singInError: string = '';
+  isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
-    public logger: LoggerService
   ) {
-    /* Saving user data in localstorage when
-    logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        const userData = localStorage.getItem('user')
-        if (userData) {
-          JSON.parse(userData);
-        }
+      if (user && this.isLoggedIn) {
+        user.reload();
+        console.log(user.toJSON())
+        this.GetUserData((user.toJSON() as Usuario).uid);
       } else {
-        localStorage.setItem('user', "");
-        JSON.parse("");
+        this.isLoading.next(false)
       }
     })
   }
@@ -42,24 +39,22 @@ export class AuthService {
   SignIn(email: any, password: any) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result: any) => {
+        this.GetUserData(result.user.uid);
         this.ngZone.run(() => {
           this.router.navigate(['']);
         });
-        this.SetUserData(result.user, 'sign in');
       }).catch((error: any) => {
         this.singInError = error
       })
   }
 
   // Sign up with email/password
-  SignUp(email: any, password: any, isAdmin =false) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password)
-      .then((result: any) => {
-        /* Call the SendVerificaitonMail() function when new user sign
-        up and returns promise */
-        this.SetUserData(result.user, 'creation', isAdmin);
-        alert('Account creation succeed')
-        this.router.navigate(['']);
+  SignUp(usuario: Especialista | Paciente | Administrador) {
+    return this.afAuth.createUserWithEmailAndPassword(usuario.email, usuario.password || '')
+      .then(async (result: any) => {
+        this.SetUserData(result.user.toJSON(), usuario);
+        (await this.afAuth.currentUser)?.sendEmailVerification().then(res => console.log(res))
+        //this.router.navigate(['']);
       })
   }
 
@@ -67,58 +62,72 @@ export class AuthService {
   get isLoggedIn(): boolean {
     const userData = localStorage.getItem('user')
     if (!userData) return false
-    const user = JSON.parse(userData);
-    return user !== null;
+    const user: Usuario = JSON.parse(userData);
+    return !!user
   }
-  get getUser(): Usuario {
+
+  get isValid(): boolean {
     const userData = localStorage.getItem('user')
-    const user = JSON.parse(userData || "");
-    return user;
+    if (!userData) return false
+    const user: Usuario = JSON.parse(userData);
+    return user.emailVerified && user.approved
   }
-  // Auth logic to run auth providers
-  AuthLogin(provider: any) {
-    return this.afAuth.signInWithPopup(provider)
-      .then((result: any) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['']);
-        })
-        this.SetUserData(result.user, 'logged in');
-      }).catch((error: any) => {
-        this.singInError = error
-      })
+
+  get isValidAdmin(): boolean {
+    const userData = localStorage.getItem('user')
+    if (!userData) return false
+    const user: Administrador = JSON.parse(userData);
+    return user.role == 'admin'
+  }
+
+  get getUser(){
+    const userData = localStorage.getItem('user')
+    if(userData){
+      const user = JSON.parse(userData || "");
+      return user;
+    }
   }
 
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user: any, eventType: string, isAdmin =false) {
-    const userData: Usuario = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      isAdmin
+  SetUserData(user: Usuario, userData: Usuario) {
+    const userFormado = {...user, ...userData};
+    console.log(userFormado)
+    this.isLoading.next(true)
+    if (userData){
+      this.afs.collection('users')
+      .doc(user.uid).set(JSON.parse(JSON.stringify(userFormado))).then(
+        (val: any) => {
+          localStorage.setItem('user', JSON.stringify(userFormado));
+          this.isLoading.next(false)
+        }
+      );
     }
-    const currentdate = new Date();
-    const datetime = currentdate.getDate() + "/"
-      + (currentdate.getMonth() + 1) + "/"
-      + currentdate.getFullYear() + " @ "
-      + currentdate.getHours() + ":"
-      + currentdate.getMinutes() + ":"
-      + currentdate.getSeconds();
+   }
 
-    this.logger.CreateLog({
-      activity: `User ${eventType}`,
-      user: userData,
-      date: datetime
-    })
+  GetUserData(userUid:string){
+      console.log(userUid)
+      this.afs.collection('users')
+      .doc(userUid).valueChanges().subscribe(
+        (val: any) => {
+          console.log(val)
+          localStorage.setItem('user', JSON.stringify(val));
+          this.isLoading.next(false)
+        }
+      );
+  }
 
-    localStorage.setItem('user', JSON.stringify(userData));
+  MakeAdmin() {
+    const user = this.getUser
+    this.afs.collection('users')
+    .doc(user.uid).set({...this.getUser, validated: true, role:'admin'})
+    .then(() => this.GetUserData(user.uid));
   }
 
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {
-      this.SetUserData(JSON.parse(localStorage.getItem('user') || ''), 'sign out');
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     })

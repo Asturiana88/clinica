@@ -1,0 +1,51 @@
+<h2 class="text-primarty my-4"> Registrar paciente </h2>
+<form id="loginform" class="form-horizontal" role="form">
+    <div style="margin-bottom: 25px" class="input-group">
+        <input type="text" class="form-control" name="nombre"  [(ngModel)]="paciente.nombre" placeholder="Nombre">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input type="text" class="form-control" name="apellido"  [(ngModel)]="paciente.apellido" placeholder="Apellido">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="number" name="dni"  [(ngModel)]="paciente.dni" placeholder="DNI">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="number" name="edad"  [(ngModel)]="paciente.edad" placeholder="Edad">                                        
+    </div>
+    
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="email" name="email"  [(ngModel)]="paciente.email" placeholder="Email">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="text" name="fotoPerfil"  [(ngModel)]="paciente.fotoPerfil" placeholder="Foto de perfil">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="text" name="fotoPerfil2"  [(ngModel)]="paciente.fotoPerfil2" placeholder="Foto de perfil 2">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="text" name="obraSocial"  [(ngModel)]="paciente.obraSocial" placeholder="Obra social">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="password" name="password"  [(ngModel)]="paciente.password" placeholder="Password">                                        
+    </div>
+
+    <div class="input-group">
+        <div style="margin-top:10px" class="form-group">
+            <div class="col-sm-12 controls">
+                <button (click)="registrarse()" class="btn btn-success"> Registrarse </button>
+            </div>
+        </div>
+    </div>    
+    
+    <div class="mt-3">
+        <span class="text-danger" *ngIf="singUpError">{{singUpError}}</span>
+    </div>
+</form>     
+
