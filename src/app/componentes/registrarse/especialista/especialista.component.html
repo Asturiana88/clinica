@@ -28,14 +28,15 @@
         <h3>Especialidad</h3>
         <div *ngFor="let especialidad of especialidadesData">
             <label class="d-flex align-items-center">
-                <input class="m-3" type="checkbox" [checked]="false" (click)="handleClick(especialidad.especialidad)">                                        
-                {{especialidad.especialidad}}
+                <input class="m-3" type="checkbox" [checked]="false" (click)="handleClick(especialidad)">                                        
+                {{especialidad.nombre}}
             </label>
         </div>
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="text" name="especialidad" [(ngModel)]="nuevaEspecialidad" placeholder="Nueva especialidad">                                        
+        <input class="form-control" type="text" name="especialidad" [(ngModel)]="nuevaEspecialidad.nombre" placeholder="Nueva especialidad">                                        
+        <input class="form-control" type="number" name="especialidadDuracion" [(ngModel)]="nuevaEspecialidad.duracionTurno" placeholder="Duracion de turno">                                        
         <button class="btn btn-secondary" (click)="crearEspecialidad()">Agregar</button>
     </div>
 

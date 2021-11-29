@@ -1,7 +1,8 @@
+import { Especialidad } from "./especialidad";
 import { Usuario } from "./usuario";
 
 export class Especialista extends Usuario {
-    especialidad !: string[];
+    especialidad !: Especialidad[];
     admin = false;
     rol:string = 'especialista'
 }

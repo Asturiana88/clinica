@@ -9,12 +9,12 @@ import { AuthService } from 'src/app/servicios/autenticacion.service';
 export class NavbarComponent implements OnInit {
 
   authService: AuthService;
+  isLoading = this.auth.isLoading
 
   constructor(private auth: AuthService) {
     this.authService = auth
   }
 
   ngOnInit(): void {
-    console.log(this.authService.getUser)
   }
 }

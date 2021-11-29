@@ -1,9 +1,15 @@
 <nav class="site-header navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container d-flex flex-column flex-md-row justify-content-between navbar-nav">
         <a class="nav-item nav-link py-2" routerLink="/">Home</a>
-        <a class="nav-item nav-link py-2" (click)="authService.MakeAdmin()">makeAdmin</a>
-        <a class="nav-item nav-link py-2" *ngIf="authService.isValidAdmin"
-            routerLink="login">IsAdmin</a>
+
+        <a class="nav-item nav-link py-2" routerLink="user-list" *ngIf="authService.isValidAdmin">Lista de Usuarios</a>
+        <a class="nav-item nav-link py-2" routerLink="register-admin" *ngIf="authService.isValidAdmin">Crear Admin</a>
+
+        <a class="nav-item nav-link py-2" routerLink="admin-turnos" *ngIf="authService.isValidAdmin">Turnos</a>
+        <a class="nav-item nav-link py-2" routerLink="paciente-turnos" *ngIf="authService.getUser?.rol == 'paciente'">Turnos</a>
+        <a class="nav-item nav-link py-2" routerLink="especialista-turnos" *ngIf="authService.getUser?.rol == 'especialista'">Turnos</a>
+
+        <a class="nav-item nav-link py-2" routerLink="solicitar-turno" *ngIf="authService.isValidAdmin || authService.getUser?.rol == 'paciente'">Solicitar Turno</a>
 
         <a class="nav-item nav-link py-2" *ngIf="!authService.isLoggedIn"
             routerLink="login">Login</a>
@@ -11,7 +17,8 @@
         <a class="nav-item nav-link py-2" *ngIf="!authService.isLoggedIn"
             routerLink="register">Registrarse</a>
 
-        <a class="pointer nav-item nav-link py-2" *ngIf="authService.isLoggedIn"
-            (click)="authService.SignOut()">Desloguearse</a>
+        <span class="nav-item nav-link py-2" *ngIf="authService.isLoggedIn"
+            (click)="authService.SignOut()">Desloguearse</span>
+
     </div>
 </nav>

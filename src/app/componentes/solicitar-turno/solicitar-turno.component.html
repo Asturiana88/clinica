@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-12">
+        <h2>Solicitar turno</h2>
+    </div>
+    <div class="col-6 my-3">
+        <h5>Especialidad</h5>
+        <div class="form-check" *ngFor="let option of especialidades | async">
+            <input (change)="getHorarios()"  class="form-check-input" [(ngModel)]='especialidad' type="radio" [value]="option" name="especialidad" [id]="option">
+            <label class="form-check-label" [for]="option">
+            {{option.nombre}}
+            </label>
+        </div>
+
+        <ng-container *ngIf="especialidad">
+            <h5 class="mt-3">Especialista</h5>
+            <ng-container *ngFor="let option of especialistas">
+                <ng-container *ngIf="option.uid">
+                    <div class="form-check">
+                        <input (change)="getHorarios()"  class="form-check-input" [(ngModel)]='especialista' type="radio" [value]="option" name="especialista" [id]="option.uid">
+                        <label class="form-check-label" [for]="option.uid">
+                        {{option.nombre}}
+                        </label>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="especialista">
+            <h5 class="mt-3">Fecha</h5>
+            <input (change)="getHorasDisponibles()" type="date" [(ngModel)]="fecha">
+        </ng-container>
+
+        <ng-container *ngIf="fecha && horasDisponibles">
+            <h5 class="mt-3">Horarios disponibles</h5>
+            <select name="hora" [(ngModel)]="hora" id="">
+                <option value="" disabled>Seleccionar hora</option>
+                <option *ngFor="let horario of horasDisponibles" [value]="horario">{{horario}}</option>
+            </select>
+        </ng-container>
+        
+        <div>
+            <button *ngIf="hora" class="btn btn-primary mt-3" (click)="solicitarTurno()">
+                Solicitar
+            </button>
+        </div>
+
+    </div>
+</div>

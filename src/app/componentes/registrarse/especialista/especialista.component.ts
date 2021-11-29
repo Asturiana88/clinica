@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Especialidad } from 'src/app/clases/especialidad';
 import { Especialista } from 'src/app/clases/especialista';
 import { AuthService } from 'src/app/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/app/servicios/store-management.service';
@@ -12,15 +13,15 @@ export class EspecialistaComponent implements OnInit {
 
   especialista = new Especialista();
   especialidades = this._store.GetEspecialidades();
-  nuevaEspecialidad = '';
+  nuevaEspecialidad = new Especialidad()
   singUpError?: any;
 
 
-  especialidadesSeleccionadas: string[] = []
+  especialidadesSeleccionadas: Especialidad[] = []
 
-  handleClick(especialidad:string){
-    if (this.especialidadesSeleccionadas.includes(especialidad)){
-      this.especialidadesSeleccionadas = this.especialidadesSeleccionadas.filter(val => val != especialidad)
+  handleClick(especialidad:Especialidad){
+    if (this.especialidadesSeleccionadas.find(i => i.nombre == especialidad.nombre)){
+      this.especialidadesSeleccionadas = this.especialidadesSeleccionadas.filter(val => val.nombre != especialidad.nombre)
     } else {
       this.especialidadesSeleccionadas = [...this.especialidadesSeleccionadas, especialidad]
     }
@@ -32,8 +33,9 @@ export class EspecialistaComponent implements OnInit {
 
   crearEspecialidad(){
     if(this.nuevaEspecialidad){
-      this._store.CreateEspecialidad(this.nuevaEspecialidad)
-      this.nuevaEspecialidad = '';
+      this._store.CreateEspecialidad({...this.nuevaEspecialidad})
+      this.nuevaEspecialidad = new Especialidad()
+      this.especialidadesSeleccionadas = []
     }
   }
 

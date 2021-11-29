@@ -9,4 +9,5 @@ export class Usuario {
     fotoPerfil!: string;
     emailVerified!: boolean;
     approved=false;
+    rol!:string;
 }

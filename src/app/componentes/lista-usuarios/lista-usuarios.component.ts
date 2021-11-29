@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/servicios/autenticacion.service';
+import { StoreManagementService } from 'src/app/servicios/store-management.service';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListaUsuariosComponent implements OnInit {
 
-  constructor() { }
+  usuarios = this.storeService.GetUsuarios()
+  auth = this.authService
+
+  constructor(private storeService: StoreManagementService, private authService: AuthService) { }
 
   ngOnInit(): void {
   }

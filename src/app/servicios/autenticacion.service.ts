@@ -25,9 +25,7 @@ export class AuthService {
     public ngZone: NgZone, // NgZone service to remove outside scope warning
   ) {
     this.afAuth.authState.subscribe(user => {
-      if (user && this.isLoggedIn) {
-        user.reload();
-        console.log(user.toJSON())
+      if (user) {
         this.GetUserData((user.toJSON() as Usuario).uid);
       } else {
         this.isLoading.next(false)
@@ -38,8 +36,9 @@ export class AuthService {
   // Sign in with email/password
   SignIn(email: any, password: any) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
-      .then((result: any) => {
-        this.GetUserData(result.user.uid);
+      .then(async (result: any) => {
+        this.singout = false
+        await this.GetUserData(result.user.uid);
         this.ngZone.run(() => {
           this.router.navigate(['']);
         });
@@ -54,7 +53,7 @@ export class AuthService {
       .then(async (result: any) => {
         this.SetUserData(result.user.toJSON(), usuario);
         (await this.afAuth.currentUser)?.sendEmailVerification().then(res => console.log(res))
-        //this.router.navigate(['']);
+        this.router.navigate(['']);
       })
   }
 
@@ -77,7 +76,7 @@ export class AuthService {
     const userData = localStorage.getItem('user')
     if (!userData) return false
     const user: Administrador = JSON.parse(userData);
-    return user.role == 'admin'
+    return user.rol == 'admin'
   }
 
   get getUser(){
@@ -92,42 +91,66 @@ export class AuthService {
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   SetUserData(user: Usuario, userData: Usuario) {
-    const userFormado = {...user, ...userData};
-    console.log(userFormado)
+    const userFormado = JSON.parse(JSON.stringify({...user, ...userData}));
+
     this.isLoading.next(true)
-    if (userData){
-      this.afs.collection('users')
-      .doc(user.uid).set(JSON.parse(JSON.stringify(userFormado))).then(
-        (val: any) => {
-          localStorage.setItem('user', JSON.stringify(userFormado));
-          this.isLoading.next(false)
+    const ref = this.afs.collection('users').doc(user.uid)
+    ref.set(userFormado)
+    .then(
+      (val: any) => {
+        localStorage.setItem('user', JSON.stringify(userFormado));
+        this.isLoading.next(false)
+        if(userFormado.rol == 'especialista' && userFormado.approved == false){
+          alert("Especialista debe ser aprobado por un admin para poder iniciar secion")
+          this.SignOut()
         }
-      );
-    }
+      }
+    ).catch(err => console.log(err));
    }
 
-  GetUserData(userUid:string){
-      console.log(userUid)
-      this.afs.collection('users')
+   singout = false
+
+  async GetUserData(userUid:string){
+      this.isLoading.next(true)
+      return await this.afs.collection('users')
       .doc(userUid).valueChanges().subscribe(
         (val: any) => {
-          console.log(val)
-          localStorage.setItem('user', JSON.stringify(val));
+          if (!this.singout) {
+            this.isLoading.next(false)
+
+            if(!val) return;
+            localStorage.setItem('user', JSON.stringify(val));
+            if(val.rol == 'especialista' && (!val.approved || !val.emailVerified)){
+              if(!val.approved){
+                alert("Especialista debe ser aprobado por un admin para poder iniciar sesion")
+              }
+              else if(!val.emailVerified){
+                alert("Especialista debe validar email")
+              }
+              this.SignOut()
+            }
+          }
           this.isLoading.next(false)
         }
       );
   }
 
-  MakeAdmin() {
-    const user = this.getUser
+  Validar(uid:string) {
     this.afs.collection('users')
-    .doc(user.uid).set({...this.getUser, validated: true, role:'admin'})
-    .then(() => this.GetUserData(user.uid));
+    .doc(uid).update({approved:true})
+    .then((res) => console.log(res));
+  }
+
+  RemoverAcceso(uid:string) {
+    this.afs.collection('users')
+    .doc(uid).update({approved:false})
+    .then((res) => console.log(res));
   }
 
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {
+      this.singout = true
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     })
