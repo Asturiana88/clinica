@@ -5,6 +5,7 @@ import { EspecialistaTurnosRoutingModule } from './especialista-turnos-routing.m
 import { EspecialistaTurnosComponent } from './especialista-turnos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'src/lib/shared/modal/modal.module';
+import { PipesModule } from 'src/lib/pipes';
 
 @NgModule({
   declarations: [EspecialistaTurnosComponent],
@@ -13,6 +14,7 @@ import { ModalModule } from 'src/lib/shared/modal/modal.module';
     FormsModule,
     ReactiveFormsModule,
     ModalModule,
+    PipesModule,
     EspecialistaTurnosRoutingModule,
   ],
 })

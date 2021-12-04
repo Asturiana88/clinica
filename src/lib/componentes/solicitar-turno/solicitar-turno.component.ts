@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Especialidad } from 'src/lib/clases/especialidad';
 import { Especialista } from 'src/lib/clases/especialista';
+import { Paciente } from 'src/lib/clases/paciente';
+import { Usuario } from 'src/lib/clases/usuario';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
 
@@ -10,6 +12,8 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
   styleUrls: ['./solicitar-turno.component.scss'],
 })
 export class SolicitarTurnoComponent implements OnInit {
+  pacientes?: Paciente[];
+  paciente?: Paciente;
   especialidad!: Especialidad;
   especialista!: Especialista;
   fecha!: string;
@@ -39,13 +43,15 @@ export class SolicitarTurnoComponent implements OnInit {
   ) {
     this.storeService.GetUsuarios().subscribe((usrs) => {
       this.especialistas = usrs.filter(
-        (usr) => usr.rol == 'especialista'
+        (usr) => usr.rol === 'especialista'
       ) as Especialista[];
     });
   }
 
   getHorarios() {
-    if (!this.fecha || !this.especialidad.nombre) return;
+    if (!this.fecha || !this.especialidad.nombre) {
+      return;
+    }
 
     this.getHorasDisponibles();
     const turnos = this.storeService.GetTurnos({
@@ -54,16 +60,25 @@ export class SolicitarTurnoComponent implements OnInit {
       fecha: this.fecha,
     });
     this.horasDisponibles = this.horas.filter(
-      (hora) => !turnos || !turnos.find((turno) => turno.hora == hora)
+      (hora) => !turnos || !turnos.find((turno) => turno.hora === hora)
     );
     this.hora = '';
   }
 
   solicitarTurno() {
+    let paciente = this.authService.getUser;
+
+    if (this.authService.isValidAdmin) {
+      paciente = this.paciente;
+      if (!paciente) {
+        return;
+      }
+    }
+
     this.storeService.CreateTurno({
+      paciente,
       especialidad: this.especialidad,
       especialista: this.especialista,
-      paciente: this.authService.getUser,
       estado: 'pendiente',
       fecha: this.fecha,
       hora: this.hora,
@@ -71,47 +86,43 @@ export class SolicitarTurnoComponent implements OnInit {
   }
 
   formatNumb(num: number) {
-    if (num < 10) return `0${num}`;
+    if (num < 10) {
+      return `0${num}`;
+    }
     return num;
   }
 
   addDays(date: Date, days: number) {
-    var result = new Date(date);
+    const result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
   }
 
   getHorasDisponibles() {
     this.horas = [];
-
-    //const today = new Date()
     const date = new Date(this.fecha);
-    //const maxDate = this.addDays(today, 15)
-
-    //if (!(today < date) || !(date < maxDate)) return;
-    // lunes a viernes de 8 a 19hs --> base 11
-    // sabados de 8 a 14hs --> base 6
-
     // dia de semana
     let base = 11;
-    if (date.getDate() == 0) return;
-    if (date.getDay() == 6) {
+    if (date.getDate() === 0) {
+      return;
+    }
+    if (date.getDay() === 6) {
       // sabado
       base = 6;
     }
 
     const especialidad = this.especialista.especialidad.find(
-      (esp) => esp.nombre == this.especialidad.nombre
+      (esp) => esp.nombre === this.especialidad.nombre
     );
 
-    if (base == 6) {
-      //sabado
+    if (base === 6) {
+      // sabado
       if (especialidad?.disponibilidadSabado?.length) {
         this.horas = especialidad.disponibilidadSabado.sort();
         return;
       }
     } else {
-      //semana
+      // semana
       if (especialidad?.disponibilidadSemana?.length) {
         this.horas = especialidad.disponibilidadSemana.sort();
         return;
@@ -135,6 +146,17 @@ export class SolicitarTurnoComponent implements OnInit {
     const today = new Date();
     for (let index = 0; index < 15; index++) {
       this.dias.push(this.addDays(today, index));
+    }
+
+    if (this.authService.isValidAdmin) {
+      console.log('asdasd');
+      this.storeService.GetUsuarios().subscribe((users: Usuario[]) => {
+        this.pacientes = users.filter(
+          (user: Usuario) => user.rol === 'paciente'
+        ) as Paciente[];
+        console.log(this.pacientes);
+        console.log(users);
+      });
     }
   }
 }

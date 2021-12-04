@@ -17,7 +17,7 @@
                     <td> {{turno.hora}} </td>
                     <td> {{turno.especialidad.nombre}} </td>
                     <td> {{turno.especialista.nombre}} </td>
-                    <td> {{turno.estado}} </td>
+                    <td [innerHTML]="turno.estado | estadoTurno | safeHtml">  </td>
                     <td>
                         <ng-container *ngIf="turno.estado == 'pendiente' || turno.estado == 'aceptado'">
                             <button (click)="cancelarTurno(turno)" class="btn btn-danger">Cancelar</button>
@@ -26,10 +26,10 @@
                             <button class="btn btn-info" (click)="handleOpenModal(turno, 'resena')">Ver comentario</button>
                         </ng-container>
                         <ng-container *ngIf="turno.encuesta">
-                            <button class="btn btn-info">Ver encuesta</button>
+                            <button class="btn btn-info mx-2" (click)="handleOpenModal(turno, 'encuestaVer')">Ver encuesta</button>
                         </ng-container>
                         <ng-container *ngIf="turno.resena && turno.estado == 'finalizado' && !turno.encuesta">
-                            <button class="btn btn-warning">Encuesta</button>
+                            <button class="btn btn-warning mx-2" (click)="handleOpenModal(turno, 'encuesta')">Encuesta</button>
                         </ng-container>
                         <ng-container *ngIf="turno.estado == 'finalizado' && !turno.calificacion">
                             <button class="btn btn-primary" (click)="handleOpenModal(turno, 'calificar')">Dar Calificacion</button>
@@ -86,10 +86,27 @@
     </app-modal>
 </div>
 
+<div *ngIf="modal.encuestaVer">
+    <app-modal (onClose)="handleCloseModals()">
+        <div class="p-5 pt-2">
+            <h2>Encuesta</h2>
+            <h5 class="mt-4"><i>"{{turnoSelected?.encuesta}}"</i></h5>
+        </div>
+    </app-modal>
+</div>
+
 <div *ngIf="modal.calificar && turnoSelected">
     <app-modal (onClose)="handleCloseModals()">
         <div class="p-5 pt-2">
             <app-calificacion [turno]="turnoSelected" (callbackFunc)="handleCloseModals()"></app-calificacion>
+        </div>
+    </app-modal>
+</div>
+
+<div *ngIf="modal.encuesta && turnoSelected">
+    <app-modal (onClose)="handleCloseModals()">
+        <div class="p-5 pt-2">
+            <app-encueta [turno]="turnoSelected" (callbackFunc)="handleCloseModals()"></app-encueta>
         </div>
     </app-modal>
 </div>

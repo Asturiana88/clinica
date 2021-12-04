@@ -9,7 +9,7 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 })
 export class EncuetaComponent implements OnInit {
   @Input() turno!: Turno;
-  @Output() callback = new EventEmitter<any>();
+  @Output() callbackFunc = new EventEmitter<any>();
 
   encuesta!: string;
   constructor(private store: StoreManagementService) {}
@@ -22,7 +22,9 @@ export class EncuetaComponent implements OnInit {
     }
     this.store.UpdateTurno(this.turno.id, {
       ...this.turno,
-      calificacion: this.encuesta,
+      encuesta: this.encuesta,
     });
+
+    this.callbackFunc.emit(false);
   }
 }

@@ -7,14 +7,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'src/lib/shared/modal/modal.module';
 import { EncuetaComponent } from './encueta/encueta.component';
 import { CalificacionComponent } from './calificacion/calificacion.component';
+import { PipesModule } from 'src/lib/pipes';
 
 @NgModule({
-  declarations: [PacienteTurnosComponent, EncuetaComponent, CalificacionComponent],
+  declarations: [
+    PacienteTurnosComponent,
+    EncuetaComponent,
+    CalificacionComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ModalModule,
+    PipesModule,
     PacienteTurnosRoutingModule,
   ],
 })

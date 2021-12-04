@@ -91,9 +91,13 @@ export class StoreManagementService {
 
   CreateTurno(turno: Turno) {
     const collection = this.bd.collection<Turno>(TURNOS_PATH);
-    return collection
-      .add(turno)
-      .then((res) => this.router.navigate(['paciente-turnos']));
+    return collection.add(turno).then((res) => {
+      if (this.authService.isValidAdmin) {
+        this.router.navigate(['admin-turnos']);
+      } else {
+        this.router.navigate(['paciente-turnos']);
+      }
+    });
   }
 
   GetUsuarios() {

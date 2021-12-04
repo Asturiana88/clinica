@@ -35,7 +35,6 @@ export class AuthService {
     });
   }
 
-  // Sign in with email/password
   async SignIn(email: string, password: string) {
     this.isLoading.next(true);
     if (!email || !password) {
@@ -56,18 +55,56 @@ export class AuthService {
     this.isLoading.next(false);
   }
 
-  // Sign up with email/password
   SignUp(usuario: Especialista | Paciente | Administrador) {
     return this.afAuth
       .createUserWithEmailAndPassword(usuario.email, usuario.password || '')
       .then(async (result: any) => {
         this.update = false;
-        // await this.SetUserData(result.user.toJSON(), usuario);
-        (await this.afAuth.currentUser)
-          ?.sendEmailVerification()
-          .then((res) => console.log(res));
+        (await this.afAuth.currentUser)?.sendEmailVerification();
         this.router.navigate(['']);
       });
+  }
+
+  async GetUserData(userUid: string) {
+    this.isLoading.next(true);
+    const user = await this.afs.collection('users').doc(userUid).ref.get();
+    const data = user.data() as Usuario;
+    if (data) {
+      if (!this.singout) {
+        this.isLoading.next(false);
+        localStorage.setItem('user', JSON.stringify(data));
+        if (
+          data.rol === 'especialista' &&
+          (!data.approved || !data.emailVerified)
+        ) {
+          if (!data.approved) {
+            alert(
+              'Especialista debe ser aprobado por un admin para poder iniciar sesion'
+            );
+          } else if (!data.emailVerified) {
+            alert('Especialista debe validar email');
+          }
+          this.SignOut();
+        }
+      }
+      this.isLoading.next(false);
+    }
+  }
+
+  Validar(uid: string) {
+    this.afs.collection('users').doc(uid).update({ approved: true });
+  }
+
+  RemoverAcceso(uid: string) {
+    this.afs.collection('users').doc(uid).update({ approved: false });
+  }
+
+  SignOut() {
+    return this.afAuth.signOut().then(() => {
+      this.singout = true;
+      localStorage.removeItem('user');
+      this.router.navigate(['login']);
+    });
   }
 
   // Returns true when user is looged in and email is verified
@@ -104,88 +141,5 @@ export class AuthService {
       const user = JSON.parse(userData || '');
       return user;
     }
-  }
-
-  /* Setting up user data when sign in with username/password,
-  sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  async SetUserData(user: Usuario, userData: Usuario) {
-    const userFormado = JSON.parse(JSON.stringify({ ...user, ...userData }));
-
-    this.isLoading.next(true);
-    const ref = this.afs.collection('users').doc(user.uid);
-    await ref
-      .set(userFormado)
-      .then((val: any) => {
-        localStorage.setItem('user', JSON.stringify(userFormado));
-        this.isLoading.next(false);
-        if (
-          userFormado.rol === 'especialista' &&
-          userFormado.approved === false
-        ) {
-          alert(
-            'Especialista debe ser aprobado por un admin para poder iniciar secion'
-          );
-          this.SignOut();
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-
-  async GetUserData(userUid: string) {
-    this.isLoading.next(true);
-    return await this.afs
-      .collection('users')
-      .doc(userUid)
-      .valueChanges()
-      .subscribe((val: any) => {
-        if (!this.singout) {
-          this.isLoading.next(false);
-
-          if (!val) {
-            return;
-          }
-          localStorage.setItem('user', JSON.stringify(val));
-          if (
-            val.rol === 'especialista' &&
-            (!val.approved || !val.emailVerified)
-          ) {
-            if (!val.approved) {
-              alert(
-                'Especialista debe ser aprobado por un admin para poder iniciar sesion'
-              );
-            } else if (!val.emailVerified) {
-              alert('Especialista debe validar email');
-            }
-            this.SignOut();
-          }
-        }
-        this.isLoading.next(false);
-      });
-  }
-
-  Validar(uid: string) {
-    this.afs
-      .collection('users')
-      .doc(uid)
-      .update({ approved: true })
-      .then((res) => console.log(res));
-  }
-
-  RemoverAcceso(uid: string) {
-    this.afs
-      .collection('users')
-      .doc(uid)
-      .update({ approved: false })
-      .then((res) => console.log(res));
-  }
-
-  // Sign out
-  SignOut() {
-    return this.afAuth.signOut().then(() => {
-      this.singout = true;
-      localStorage.removeItem('user');
-      this.router.navigate(['login']);
-    });
   }
 }

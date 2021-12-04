@@ -17,7 +17,7 @@
                     <td> {{turno.hora}} </td>
                     <td> {{turno.especialidad.nombre}} </td>
                     <td> {{turno.paciente.nombre}} </td>
-                    <td> {{turno.estado}} </td>
+                    <td [innerHTML]="turno.estado | estadoTurno | safeHtml"> </td>
                     <td>
                         <ng-container *ngIf="turno.estado == 'aceptado'">
                             <button (click)="handleOpenModal(turno, 'cancelado')" class="btn btn-danger">Cancelar</button>
@@ -35,7 +35,10 @@
                             <button (click)="updateEstado(turno, 'aceptado')" class="btn btn-success mx-2">Aceptar</button>
                         </ng-container>
                         <ng-container *ngIf="turno.encuesta">
-                            <button class="btn btn-warning mx-2">Ver encuesta</button>
+                            <button class="btn btn-warning mx-2"  (click)="handleOpenModal(turno, 'encuestaVer')">Ver encuesta</button>
+                        </ng-container>
+                        <ng-container *ngIf="turno.calificacion">
+                            <button class="btn btn-light"  (click)="handleOpenModal(turno, 'calificacion')">Ver calificacion</button>
                         </ng-container>
                         <!-- <ng-container *ngIf="turno.resena && turno.estado == 'finalizado' && !turno.encuesta">
                             <button class="btn btn-warning">Encuesta</button>
@@ -74,6 +77,24 @@
             </div>
         </ng-container>
     </div>
+</div>
+
+<div *ngIf="modal.calificacion">
+    <app-modal (onClose)="closeModal()">
+        <div class="p-5 pt-0">
+            <h3>Calificacion paciente</h3>
+            <h5 class="mt-4">{{turnoSelected?.calificacion}}</h5>
+        </div>
+    </app-modal>
+</div>
+
+<div *ngIf="modal.encuestaVer">
+    <app-modal (onClose)="closeModal()">
+        <div class="p-5 pt-0">
+            <h3>Encuesta paciente</h3>
+            <h5 class="mt-4">{{turnoSelected?.encuesta}}</h5>
+        </div>
+    </app-modal>
 </div>
 
 <div *ngIf="modal.finalizar">
