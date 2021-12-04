@@ -20,6 +20,23 @@ export class PacienteTurnosComponent implements OnInit {
 
   turnos!: any[];
 
+  modal: { [key: string]: boolean } = {
+    resena: false,
+  };
+
+  turnoSelected?: Turno;
+
+  handleOpenModal(turno: Turno, modal: string) {
+    this.turnoSelected = turno;
+    this.modal[modal] = true;
+  }
+
+  handleCloseModals() {
+    this.updateData();
+    this.turnoSelected = undefined;
+    this.modal = {};
+  }
+
   constructor(
     private storeService: StoreManagementService,
     private authService: AuthService

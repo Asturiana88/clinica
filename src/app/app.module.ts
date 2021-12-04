@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from '../lib/shared/navbar/navbar.component';
 import { HomeComponent } from '../lib/shared/home/home.component';
 import { LoaderComponent } from '../lib/shared/loader/loader.component';
-import { AdminComponent } from '../lib/shared/registrarse/admin/admin.component';
+import { AdminComponent } from '../lib/componentes/admin/register/admin.component';
 import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({

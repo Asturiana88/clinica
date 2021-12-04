@@ -4,7 +4,7 @@ import { AdminService } from '../lib/canactivate/admin.service';
 import { EspecialistaService } from '../lib/canactivate/especialista.service';
 import { PacienteService } from '../lib/canactivate/paciente.service';
 import { HomeComponent } from '../lib/shared/home/home.component';
-import { AdminComponent } from '../lib/shared/registrarse/admin/admin.component';
+import { AdminComponent } from '../lib/componentes/admin/register/admin.component';
 
 const routes: Routes = [
   // Admin

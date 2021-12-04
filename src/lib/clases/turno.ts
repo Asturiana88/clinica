@@ -8,7 +8,7 @@ export class Turno {
   paciente!: Paciente;
   resena?: string;
   comentario?: string;
-  calificacion?: number;
+  calificacion?: string;
   estado!: 'pendiente' | 'aceptado' | 'rechazado' | 'cancelado' | 'finalizado';
   encuesta?: any;
   id?: string;

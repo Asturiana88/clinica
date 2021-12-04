@@ -1,3 +1,4 @@
+// tslint:disable-line: typedef
 import { Component, OnInit } from '@angular/core';
 import { Especialidad } from 'src/lib/clases/especialidad';
 import { Turno } from 'src/lib/clases/turno';
@@ -15,6 +16,24 @@ export class EspecialistaTurnosComponent implements OnInit {
   pacienteFiltro!: string;
   especialidad!: Especialidad;
   especialidades = this.storeService.GetEspecialidades();
+
+  resena!: string;
+  modal: { [key: string]: boolean } = {
+    resena: false,
+  };
+
+  turnoSelected?: Turno;
+
+  handleOpenModal(turno: Turno, modal: string) {
+    this.turnoSelected = turno;
+    this.modal[modal] = true;
+  }
+
+  handleCloseModals() {
+    this.updateData();
+    this.turnoSelected = undefined;
+    this.modal = {};
+  }
 
   constructor(
     private storeService: StoreManagementService,
@@ -42,31 +61,16 @@ export class EspecialistaTurnosComponent implements OnInit {
     this.handlePacienteFiltro();
   }
 
-  cancelarTurno(turno: Turno) {
+  turnoUpdateModal(
+    estado: 'cancelado' | 'pendiente' | 'aceptado' | 'rechazado' | 'finalizado'
+  ) {
+    const turno = this.turnoSelected;
+    if (!turno || !this.resena) {
+      return;
+    }
     this.storeService.UpdateTurno(turno.id || '', {
       ...turno,
-      estado: 'cancelado',
-    });
-    this.updateData();
-  }
-
-  modalOpen = false;
-  modalOpenView = false;
-  resena = '';
-  turnoSeleccionado?: Turno;
-
-  turnoUpdatePopup(turno: Turno) {
-    this.modalOpen = true;
-    this.resena = '';
-    this.turnoSeleccionado = turno;
-  }
-
-  turnoUpdatePopupConfirm() {
-    const turno = this.turnoSeleccionado;
-    if (!turno) return;
-    this.storeService.UpdateTurno(turno.id || '', {
-      ...turno,
-      estado: 'rechazado',
+      estado,
       resena: this.resena,
     });
     this.updateData();
@@ -74,14 +78,9 @@ export class EspecialistaTurnosComponent implements OnInit {
   }
 
   closeModal() {
-    this.modalOpen = false;
-    this.modalOpenView = false;
-    this.turnoSeleccionado = undefined;
-  }
-
-  verComentario(turno: Turno) {
-    this.modalOpenView = true;
-    this.turnoSeleccionado = turno;
+    this.modal = {};
+    this.resena = '';
+    this.turnoSelected = undefined;
   }
 
   updateEstado(

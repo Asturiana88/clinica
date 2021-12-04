@@ -14,17 +14,17 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  customLogin(rol: string) {
-    if (rol == 'admin') {
+  customLogin(rol: string): void {
+    if (rol === 'admin') {
       this.auth.SignIn('julietaorce@gmail.com', 'test123');
-    } else if (rol == 'especialista') {
+    } else if (rol === 'especialista') {
       this.auth.SignIn('shreck@especialista.com', 'test123');
     } else {
       this.auth.SignIn('paciente@gmail.com', 'test123');
     }
   }
 
-  login() {
+  login(): void {
     this.auth.SignIn(this.email, this.password);
   }
 }

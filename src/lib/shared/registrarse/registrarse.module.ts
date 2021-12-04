@@ -7,20 +7,18 @@ import { PacienteComponent } from './paciente/paciente.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecaptchaModule } from 'ng-recaptcha';
 
-
-
 @NgModule({
   declarations: [
     RegistrarseComponent,
     EspecialistaComponent,
-    PacienteComponent
+    PacienteComponent,
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     RegisterRoutingModule,
     RecaptchaModule,
-    CommonModule
-  ]
+    CommonModule,
+  ],
 })
-export class RegistrarseModule { }
+export class RegistrarseModule {}

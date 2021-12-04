@@ -12,6 +12,7 @@ export class AdminComponent implements OnInit {
   admin = new Administrador();
   singUpError?: any;
   loadingImge = false;
+  captchaSolved = false;
 
   constructor(
     private authService: AuthService,
@@ -20,12 +21,11 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  captchaSolved = false;
-  resolved(e: any) {
+  resolved(e: any): any {
     this.captchaSolved = true;
   }
 
-  registrarse() {
+  registrarse(): any {
     if (!this.captchaSolved) {
       this.singUpError = 'Completar el captcha para continuar';
       return;
@@ -35,8 +35,10 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  handleImage(event: any) {
-    if (!event?.target?.files[0]) return;
+  handleImage(event: any): any {
+    if (!event?.target?.files[0]) {
+      return;
+    }
     this.loadingImge = true;
     const randomId = Math.random().toString(36).substring(2);
     this._store

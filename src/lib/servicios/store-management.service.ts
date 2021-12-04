@@ -24,6 +24,8 @@ export class StoreManagementService {
     private afStorage: AngularFireStorage
   ) {}
 
+  uploadProgress = 0;
+
   GetEspecialidades() {
     const collection = this.bd.collection<Especialidad>(ESPECIALIDAD_PATH);
     return collection.valueChanges();
@@ -47,22 +49,24 @@ export class StoreManagementService {
 
         let returnVal = true;
         if (fecha && returnVal) {
-          returnVal = data.fecha == fecha;
+          returnVal = data.fecha === fecha;
         }
         if (hora && returnVal) {
-          returnVal = data.hora == hora;
+          returnVal = data.hora === hora;
         }
         if (paciente && returnVal) {
-          returnVal = data.paciente.uid == paciente.uid;
+          returnVal = data.paciente.uid === paciente.uid;
         }
         if (especialista && returnVal) {
-          returnVal = data.especialista.uid == especialista.uid;
+          returnVal = data.especialista.uid === especialista.uid;
         }
         if (especialidad && returnVal) {
-          returnVal = data.especialidad.nombre == especialidad.nombre;
+          returnVal = data.especialidad.nombre === especialidad.nombre;
         }
 
-        if (returnVal) turnos.push({ id, ...data });
+        if (returnVal) {
+          turnos.push({ id, ...data });
+        }
       });
     });
 
@@ -104,7 +108,6 @@ export class StoreManagementService {
     return collection.add(especialidad);
   }
 
-  uploadProgress = 0;
   async UploadImage(file: any, name: string) {
     const ref = this.afStorage.ref(name);
     return ref.put(file);

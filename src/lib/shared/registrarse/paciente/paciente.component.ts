@@ -22,11 +22,11 @@ export class PacienteComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  resolved(e: any) {
+  resolved(e: any): void {
     this.captchaSolved = true;
   }
 
-  registrarse() {
+  registrarse(): void {
     if (this.captchaSolved) {
       this.authService.SignUp(this.paciente).catch((error: any) => {
         this.singUpError = error;
@@ -36,8 +36,11 @@ export class PacienteComponent implements OnInit {
     }
   }
 
-  handleImage1(event: any) {
-    if (!event?.target?.files[0]) return;
+  handleImage1(event: any): void {
+    if (!event?.target?.files[0]) {
+      return;
+    }
+
     this.loadingImge = true;
     const randomId = Math.random().toString(36).substring(2);
     this.storeService
@@ -48,8 +51,10 @@ export class PacienteComponent implements OnInit {
       });
   }
 
-  handleImage2(event: any) {
-    if (!event?.target?.files[0]) return;
+  handleImage2(event: any): void {
+    if (!event?.target?.files[0]) {
+      return;
+    }
     this.loadingImge2 = true;
     const randomId = Math.random().toString(36).substring(2);
     this.storeService

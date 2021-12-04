@@ -23,7 +23,7 @@
                             <button (click)="cancelarTurno(turno)" class="btn btn-danger">Cancelar</button>
                         </ng-container>
                         <ng-container *ngIf="turno.resena">
-                            <button class="btn btn-info">Ver comentario</button>
+                            <button class="btn btn-info" (click)="handleOpenModal(turno, 'resena')">Ver comentario</button>
                         </ng-container>
                         <ng-container *ngIf="turno.encuesta">
                             <button class="btn btn-info">Ver encuesta</button>
@@ -31,8 +31,8 @@
                         <ng-container *ngIf="turno.resena && turno.estado == 'finalizado' && !turno.encuesta">
                             <button class="btn btn-warning">Encuesta</button>
                         </ng-container>
-                        <ng-container *ngIf="turno.estado == 'finalizado' && turno.encuesta && !turno.calificacion">
-                            <button class="btn btn-primary">Dar Calificacion</button>
+                        <ng-container *ngIf="turno.estado == 'finalizado' && !turno.calificacion">
+                            <button class="btn btn-primary" (click)="handleOpenModal(turno, 'calificar')">Dar Calificacion</button>
                         </ng-container>
                     </td>
                 </tr>
@@ -75,4 +75,21 @@
             </ng-container>
         </ng-container>
     </div>
+</div>
+
+<div *ngIf="modal.resena">
+    <app-modal (onClose)="handleCloseModals()">
+        <div class="p-5 pt-2">
+            <h2>Reseña</h2>
+            <h5 class="mt-4"><i>"{{turnoSelected?.resena}}"</i></h5>
+        </div>
+    </app-modal>
+</div>
+
+<div *ngIf="modal.calificar && turnoSelected">
+    <app-modal (onClose)="handleCloseModals()">
+        <div class="p-5 pt-2">
+            <app-calificacion [turno]="turnoSelected" (callbackFunc)="handleCloseModals()"></app-calificacion>
+        </div>
+    </app-modal>
 </div>

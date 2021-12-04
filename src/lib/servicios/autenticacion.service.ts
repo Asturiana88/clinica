@@ -13,8 +13,9 @@ import { Administrador } from '../clases/administrador';
 })
 export class AuthService {
   userData: any; // Save logged in user data
-  singUpError: string = '';
-  singInError: string = '';
+  singUpError = '';
+  singInError = '';
+  singout = false;
   isLoading = new BehaviorSubject<boolean>(true);
 
   update = true;
@@ -35,18 +36,24 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  SignIn(email: any, password: any) {
-    return this.afAuth
-      .signInWithEmailAndPassword(email, password)
-      .then(async (result: any) => {
-        this.singout = false;
-        this.ngZone.run(() => {
-          this.router.navigate(['']);
+  async SignIn(email: string, password: string) {
+    this.isLoading.next(true);
+    if (!email || !password) {
+      this.SignOut();
+    } else {
+      await this.afAuth
+        .signInWithEmailAndPassword(email, password)
+        .then(async (result: any) => {
+          this.singout = false;
+          this.ngZone.run(() => {
+            this.router.navigate(['']);
+          });
+        })
+        .catch((error: any) => {
+          this.singInError = error;
         });
-      })
-      .catch((error: any) => {
-        this.singInError = error;
-      });
+    }
+    this.isLoading.next(false);
   }
 
   // Sign up with email/password
@@ -66,23 +73,29 @@ export class AuthService {
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const userData = localStorage.getItem('user');
-    if (!userData) return false;
+    if (!userData) {
+      return false;
+    }
     const user: Usuario = JSON.parse(userData);
     return !!user;
   }
 
   get isValid(): boolean {
     const userData = localStorage.getItem('user');
-    if (!userData) return false;
+    if (!userData) {
+      return false;
+    }
     const user: Usuario = JSON.parse(userData);
     return user.emailVerified && user.approved;
   }
 
   get isValidAdmin(): boolean {
     const userData = localStorage.getItem('user');
-    if (!userData) return false;
+    if (!userData) {
+      return false;
+    }
     const user: Administrador = JSON.parse(userData);
-    return user.rol == 'admin';
+    return user.rol === 'admin';
   }
 
   get getUser() {
@@ -107,8 +120,8 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(userFormado));
         this.isLoading.next(false);
         if (
-          userFormado.rol == 'especialista' &&
-          userFormado.approved == false
+          userFormado.rol === 'especialista' &&
+          userFormado.approved === false
         ) {
           alert(
             'Especialista debe ser aprobado por un admin para poder iniciar secion'
@@ -118,8 +131,6 @@ export class AuthService {
       })
       .catch((err) => console.log(err));
   }
-
-  singout = false;
 
   async GetUserData(userUid: string) {
     this.isLoading.next(true);
@@ -131,10 +142,12 @@ export class AuthService {
         if (!this.singout) {
           this.isLoading.next(false);
 
-          if (!val) return;
+          if (!val) {
+            return;
+          }
           localStorage.setItem('user', JSON.stringify(val));
           if (
-            val.rol == 'especialista' &&
+            val.rol === 'especialista' &&
             (!val.approved || !val.emailVerified)
           ) {
             if (!val.approved) {
