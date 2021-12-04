@@ -3,13 +3,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { environment } from './../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/compat/firestore";
+import {
+  AngularFirestore,
+  AngularFirestoreModule,
+} from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
-import { HomeComponent } from './componentes/home/home.component';
-import { LoaderComponent } from './shared/loader/loader.component';
-import { AdminComponent } from './componentes/registrarse/admin/admin.component';
+import { NavbarComponent } from '../lib/shared/navbar/navbar.component';
+import { HomeComponent } from '../lib/shared/home/home.component';
+import { LoaderComponent } from '../lib/shared/loader/loader.component';
+import { AdminComponent } from '../lib/shared/registrarse/admin/admin.component';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -24,10 +29,12 @@ import { AdminComponent } from './componentes/registrarse/admin/admin.component'
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireStorageModule,
     FormsModule,
-    ReactiveFormsModule
+    RecaptchaModule,
+    ReactiveFormsModule,
   ],
   providers: [AngularFirestore],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,0 +1,60 @@
+<h2 class="text-primarty my-4"> Registrar paciente </h2>
+
+<form id="pacienteSingup" (submit)="registrarse()"  class="form-horizontal" role="form">
+    <div style="margin-bottom: 25px" class="input-group">
+        <input type="text" class="form-control" name="nombre"  [(ngModel)]="paciente.nombre" placeholder="Nombre">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input type="text" class="form-control" name="apellido"  [(ngModel)]="paciente.apellido" placeholder="Apellido">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="number" name="dni"  [(ngModel)]="paciente.dni" placeholder="DNI">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="number" name="edad"  [(ngModel)]="paciente.edad" placeholder="Edad">                                        
+    </div>
+    
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="email" name="email"  [(ngModel)]="paciente.email" placeholder="Email">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="file" style="margin-right: 15px">Foto perfil:</label>
+        <input [disabled]="loadingImge" type="file" (change)="handleImage1($event)" accept=".png,.jpg" />
+        <div *ngIf="loadingImge" class="loader"> </div>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="file" style="margin-right: 15px">Foto perfil 2:</label>
+        <input [disabled]="loadingImge2" type="file" (change)="handleImage2($event)" accept=".png,.jpg" />
+        <div *ngIf="loadingImge2" class="loader"> </div>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="text" name="obraSocial"  [(ngModel)]="paciente.obraSocial" placeholder="Obra social">                                        
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <input class="form-control" type="password" name="password"  [(ngModel)]="paciente.password" placeholder="Password">                                        
+    </div>
+
+    <div id="pacienteCaptcha"></div>
+    <br>
+
+    <re-captcha (resolved)="resolved($event)" siteKey="6LcCcHAdAAAAAJe3md0bC_Y0Eg6yv-eARP9k9PPB" ></re-captcha>
+
+    <div class="input-group">
+        <div style="margin-top:10px" class="form-group">
+            <div class="col-sm-12 controls">
+                <button class="btn btn-success" type="submit" data-action='submit'>Registrarse</button>
+            </div>
+        </div>
+    </div>    
+    
+    <div class="mt-3">
+        <span class="text-danger" *ngIf="singUpError">{{singUpError}}</span>
+    </div>
+</form>  
