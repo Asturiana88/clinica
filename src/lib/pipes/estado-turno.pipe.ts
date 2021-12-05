@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+// Le da formato a los estados de los turnos
 @Pipe({
   name: 'estadoTurno',
 })

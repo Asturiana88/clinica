@@ -9,6 +9,7 @@ import { PipesModule } from 'src/lib/pipes';
 import { HistoriaClinicaFormComponent } from './historia-clinica-form/historia-clinica-form.component';
 import { DirectivesModule } from 'src/lib/directivas';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.module';
 
 @NgModule({
   declarations: [EspecialistaTurnosComponent, HistoriaClinicaFormComponent],
@@ -19,6 +20,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
     ModalModule,
     PipesModule,
     DirectivesModule,
+    TurnoFiltrosModule,
     RecaptchaModule,
     EspecialistaTurnosRoutingModule,
   ],

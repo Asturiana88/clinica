@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-12">
+        <h3 (click)="mostrarFiltros = !mostrarFiltros" [class.open]="mostrarFiltros">Filtros</h3>
+    </div>
+</div>
+<div class="row body" [class.open]="mostrarFiltros">
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.fecha" type="text" class="form-control" placeholder="Fecha">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.hora" type="text" class="form-control" placeholder="Hora">
+    </div>
+    <div class="col-3 mt-2" appDisplayIf [visibleForRole]='["admin", "especialista"]'>
+        <input [(ngModel)]="filtros.paciente" type="text" class="form-control" placeholder="Paciente">
+    </div>
+    <div class="col-3 mt-2" appDisplayIf [visibleForRole]='["admin", "paciente"]'>
+        <input [(ngModel)]="filtros.especialista" type="text" class="form-control" placeholder="Especialista">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.especialidad" type="text" class="form-control" placeholder="Especialidad">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.comentario" type="text" class="form-control" placeholder="Comentario">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.encuesta" type="text" class="form-control" placeholder="Encuesta">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.resena" type="text" class="form-control" placeholder="Resena">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.calificacion" type="text" class="form-control" placeholder="Calificacion">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.estado" type="text" class="form-control" placeholder="Estado">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.altura" type="text" class="form-control" placeholder="Altura">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.temperatura" type="text" class="form-control" placeholder="Temperatura">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.presion" type="text" class="form-control" placeholder="Presion">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.peso" type="text" class="form-control" placeholder="Peso">
+    </div>
+    <div class="col-3 mt-2">
+        <input [(ngModel)]="filtros.valorDinamico" type="text" class="form-control" placeholder="Valor de campo dinamico">
+    </div>
+
+    <div class="col-12 my-3">
+        <button class="btn btn-warning" (click)="borrarFiltros()">Borrar filtros</button>
+
+        <button class="btn btn-info mx-3" (click)="filtrar()">Buscar</button>
+    </div>
+
+</div>

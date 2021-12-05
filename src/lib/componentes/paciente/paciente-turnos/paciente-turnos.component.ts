@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Especialidad } from 'src/lib/clases/especialidad';
 import { Especialista } from 'src/lib/clases/especialista';
+import { Filtro } from 'src/lib/clases/filtro';
 import { Turno } from 'src/lib/clases/turno';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
@@ -19,6 +20,8 @@ export class PacienteTurnosComponent implements OnInit {
   especialidad!: Especialidad;
 
   turnos!: any[];
+
+  filtros: Filtro = {};
 
   modal: { [key: string]: boolean } = {
     resena: false,
@@ -42,11 +45,13 @@ export class PacienteTurnosComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  updateData() {
+  updateData(filtros?: Filtro) {
+    if (filtros) {
+      this.filtros = filtros;
+    }
     this.turnos = this.storeService.GetTurnos({
+      ...this.filtros,
       paciente: this.authService.getUser,
-      especialista: this.especialista,
-      especialidad: this.especialidad,
     });
   }
 

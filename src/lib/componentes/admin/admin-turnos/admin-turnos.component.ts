@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Especialidad } from 'src/lib/clases/especialidad';
+import { Filtro } from 'src/lib/clases/filtro';
 import { Turno } from 'src/lib/clases/turno';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
@@ -21,6 +22,8 @@ export class AdminTurnosComponent implements OnInit {
   modal: { [key: string]: boolean } = {
     resena: false,
   };
+
+  filtros: Filtro = {};
 
   turnoSelected?: Turno;
 
@@ -64,9 +67,12 @@ export class AdminTurnosComponent implements OnInit {
     }
   }
 
-  updateData() {
+  updateData(filtros?: Filtro) {
+    if (filtros) {
+      this.filtros = filtros;
+    }
     this.turnos = this.storeService.GetTurnos({
-      especialidad: this.especialidad,
+      ...this.filtros,
     });
 
     this.handlePacienteFiltro();

@@ -16,6 +16,8 @@ import { LoaderComponent } from '../lib/shared/loader/loader.component';
 import { AdminComponent } from '../lib/componentes/admin/register/admin.component';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { DirectivesModule } from 'src/lib/directivas';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { DirectivesModule } from 'src/lib/directivas';
     AngularFireStorageModule,
     FormsModule,
     RecaptchaModule,
+    BrowserAnimationsModule,
     DirectivesModule,
+    TurnoFiltrosModule,
     ReactiveFormsModule,
   ],
   providers: [AngularFirestore],

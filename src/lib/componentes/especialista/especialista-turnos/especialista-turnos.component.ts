@@ -1,6 +1,7 @@
 // tslint:disable-line: typedef
 import { Component, OnInit } from '@angular/core';
 import { Especialidad } from 'src/lib/clases/especialidad';
+import { Filtro } from 'src/lib/clases/filtro';
 import { Turno } from 'src/lib/clases/turno';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
@@ -23,6 +24,8 @@ export class EspecialistaTurnosComponent implements OnInit {
   };
 
   turnoSelected?: Turno;
+
+  filtros: Filtro = {};
 
   handleOpenModal(turno: Turno, modal: string) {
     this.turnoSelected = turno;
@@ -52,10 +55,14 @@ export class EspecialistaTurnosComponent implements OnInit {
     }
   }
 
-  updateData() {
+  updateData(filtros?: Filtro) {
+    if (filtros) {
+      this.filtros = filtros;
+    }
+
     this.turnos = this.storeService.GetTurnos({
       especialista: this.authService.getUser,
-      especialidad: this.especialidad,
+      ...this.filtros,
     });
 
     this.handlePacienteFiltro();

@@ -8,6 +8,7 @@ import { ModalModule } from 'src/lib/shared/modal/modal.module';
 import { EncuetaComponent } from './encueta/encueta.component';
 import { CalificacionComponent } from './calificacion/calificacion.component';
 import { PipesModule } from 'src/lib/pipes';
+import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { PipesModule } from 'src/lib/pipes';
     ReactiveFormsModule,
     ModalModule,
     PipesModule,
+    TurnoFiltrosModule,
     PacienteTurnosRoutingModule,
   ],
 })

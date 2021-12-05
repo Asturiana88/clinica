@@ -6,6 +6,7 @@ import { AdminTurnosComponent } from './admin-turnos.component';
 import { ModalModule } from 'src/lib/shared/modal/modal.module';
 import { PipesModule } from 'src/lib/pipes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.module';
 
 @NgModule({
   declarations: [AdminTurnosComponent],
@@ -15,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
+    TurnoFiltrosModule,
     PipesModule,
     AdminTurnosRoutingModule,
   ],

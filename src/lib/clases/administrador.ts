@@ -1,6 +1,6 @@
-import { Usuario } from "./usuario";
+import { Usuario } from './usuario';
 
 export class Administrador extends Usuario {
-    rol: string = 'admin'
-    approved = true;
+  rol = 'admin';
+  approved = true;
 }
