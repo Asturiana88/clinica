@@ -1,5 +1,6 @@
 import { Especialidad } from './especialidad';
 import { Especialista } from './especialista';
+import { HistoriaClinica } from './historia-clinica';
 import { Paciente } from './paciente';
 
 export class Turno {
@@ -14,4 +15,5 @@ export class Turno {
   id?: string;
   fecha!: string;
   hora!: string;
+  historiaClinica?: HistoriaClinica;
 }

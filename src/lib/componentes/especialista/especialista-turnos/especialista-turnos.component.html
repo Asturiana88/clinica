@@ -97,14 +97,9 @@
     </app-modal>
 </div>
 
-<div *ngIf="modal.finalizar">
+<div *ngIf="modal.finalizar && turnoSelected">
     <app-modal (onClose)="closeModal()">
-        <h3>Desea agregar un comentario?</h3>
-        <input type="text" name="resena" [(ngModel)]="resena" class="mt-3">
-
-        <button class="btn btn-success mt-4" (click)="turnoUpdateModal('finalizado')">
-            Finalizar turno
-        </button>
+        <app-historia-clinica-form (callbackFunc)="updateData()" [turno]="turnoSelected"></app-historia-clinica-form>
     </app-modal>
 </div>
 

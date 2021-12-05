@@ -33,6 +33,7 @@
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "typescript": "~4.2.0",
+    "uuid": "^8.3.2",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "@types/ramda": "^0.27.45",
+    "@types/uuid": "^8.3.3",
     "codelyzer": "^6.0.0",
     "firebase-tools": "^9.0.0",
     "fuzzy": "^0.1.3",

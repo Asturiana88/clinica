@@ -59,6 +59,7 @@ export class EspecialistaTurnosComponent implements OnInit {
     });
 
     this.handlePacienteFiltro();
+    this.closeModal();
   }
 
   turnoUpdateModal(

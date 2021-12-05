@@ -13,6 +13,7 @@ export class AdminComponent implements OnInit {
   singUpError?: any;
   loadingImge = false;
   captchaSolved = false;
+  that = this;
 
   constructor(
     private authService: AuthService,
@@ -25,13 +26,18 @@ export class AdminComponent implements OnInit {
     this.captchaSolved = true;
   }
 
-  registrarse(): any {
-    if (!this.captchaSolved) {
-      this.singUpError = 'Completar el captcha para continuar';
+  registrarse(that: AdminComponent): any {
+    // Si usamos this no funciona dentro de la directiva
+    if (!that.captchaSolved) {
+      that.singUpError = 'Completar el captcha para continuar';
       return;
     }
-    this.authService.SignUp(this.admin).catch((error: any) => {
-      this.singUpError = error;
+    if (!that.admin.fotoPerfil) {
+      that.singUpError = 'La foto de perfil es requerida';
+      return;
+    }
+    that.authService.SignUp(that.admin).catch((error: any) => {
+      that.singUpError = error;
     });
   }
 

@@ -14,6 +14,7 @@ export class PacienteComponent implements OnInit {
   loadingImge = false;
   loadingImge2 = false;
   captchaSolved = false;
+  that = this;
 
   constructor(
     private authService: AuthService,
@@ -26,13 +27,17 @@ export class PacienteComponent implements OnInit {
     this.captchaSolved = true;
   }
 
-  registrarse(): void {
-    if (this.captchaSolved) {
-      this.authService.SignUp(this.paciente).catch((error: any) => {
-        this.singUpError = error;
-      });
+  registrarse(that: any): void {
+    if (that.captchaSolved) {
+      if (!that.paciente.fotoPerfil || !that.paciente.fotoPerfil2) {
+        that.singUpError = 'Subir las fotos correspondientes';
+      } else {
+        that.authService.SignUp(that.paciente).catch((error: any) => {
+          that.singUpError = error;
+        });
+      }
     } else {
-      this.singUpError = 'Completar el captcha para continuar';
+      that.singUpError = 'Completar el captcha para continuar';
     }
   }
 

@@ -74,6 +74,7 @@ export class StoreManagementService {
   }
 
   UpdateTurno(id: string, data: Turno) {
+    console.log(data);
     const collection = this.bd.collection<Turno>(TURNOS_PATH);
     return collection.doc(id).update(data);
   }

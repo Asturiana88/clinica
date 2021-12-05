@@ -1,0 +1,58 @@
+<div class="p-5 pt-0">
+    <h5> Historia Clinica </h5>
+
+    <form appFormValidations [that]="that" [submit]="finalizar" [inputs]="inputs">
+        <div class="my-3">
+            <input [(ngModel)]="historia.temperatura" type="number" name="temperatura" placeholder="Temperatura">
+        </div>
+        <div class="my-3">
+            <input [(ngModel)]="historia.altura" type="number" name="altura" placeholder="Altura">
+        </div>
+        <div class="my-3">
+            <input [(ngModel)]="historia.peso" type="number" name="peso" placeholder="Peso">
+        </div>
+        <div class="my-3">
+            <input [(ngModel)]="historia.presion" type="number" name="presion" placeholder="Presion">
+        </div>
+
+        <hr>
+
+        <h6>Datos adicionales</h6>
+
+        <div class="my-3" *ngFor="let dato of datosOpcionales">
+            <span style="cursor: pointer;" class="text-danger" (click)="eliminarDatoOpcional(dato)">X</span>
+            <span class="mx-3" [innerHTML]="dato | formatDynamicValue | safeHtml"></span>
+        </div>
+
+        <div class="mt-2" *ngIf="!datosOpcionales || datosOpcionales.length < 3">
+            <input type="text" [(ngModel)]="datoOpcionalNombre" name="datoOpcionalNombre" placeholder="Nombre dato">
+            <input type="text" class="mx-3" name="datoOpcionalValor" [(ngModel)]="datoOpcionalValor" placeholder="Valor">
+
+            <div class="btn btn-info mt-3" (click)="agregarDatoOpcional()">Agregar dato</div>
+        </div>
+
+        <hr>
+
+        <h6>Comentario</h6>
+        <div>
+            <i class="my-3">Opcional</i>
+            <br>
+            <textarea [(ngModel)]="comentario" name="comentario" class="w-100"></textarea>
+        </div>
+
+        <div id="pacienteCaptcha"></div>
+        <br>
+
+        <re-captcha (resolved)="resolved($event)" siteKey="6LcCcHAdAAAAAJe3md0bC_Y0Eg6yv-eARP9k9PPB" ></re-captcha>
+
+
+        <button class="btn btn-primary mt-4" type="submit">
+            Submit
+        </button>    
+
+        <div class="my-3">
+            <span class="text-danger" *ngIf="submitError">{{submitError}}</span>
+        </div>
+
+    </form>
+</div>

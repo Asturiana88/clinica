@@ -5,16 +5,13 @@ import { SolicitarTurnoRoutingModule } from './solicitar-turno-routing.module';
 import { SolicitarTurnoComponent } from './solicitar-turno.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 @NgModule({
-  declarations: [
-    SolicitarTurnoComponent
-  ],
+  declarations: [SolicitarTurnoComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SolicitarTurnoRoutingModule
-  ]
+    SolicitarTurnoRoutingModule,
+  ],
 })
-export class SolicitarTurnoModule { }
+export class SolicitarTurnoModule {}

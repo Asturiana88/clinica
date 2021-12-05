@@ -1,24 +1,24 @@
 <h2 class="text-primarty my-4"> Registrar paciente </h2>
 
-<form id="pacienteSingup" (submit)="registrarse()"  class="form-horizontal" role="form">
+<form id="pacienteSingup" appFormValidations [that]="that" [submit]="registrarse" class="form-horizontal" role="form">
     <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control" name="nombre"  [(ngModel)]="paciente.nombre" placeholder="Nombre">                                        
+        <input type="text" class="form-control  required" name="nombre"  [(ngModel)]="paciente.nombre" placeholder="Nombre">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control" name="apellido"  [(ngModel)]="paciente.apellido" placeholder="Apellido">                                        
+        <input type="text" class="form-control required" name="apellido"  [(ngModel)]="paciente.apellido" placeholder="Apellido">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="number" name="dni"  [(ngModel)]="paciente.dni" placeholder="DNI">                                        
+        <input class="form-control required" type="number" name="dni"  [(ngModel)]="paciente.dni" placeholder="DNI">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="number" name="edad"  [(ngModel)]="paciente.edad" placeholder="Edad">                                        
+        <input class="form-control required" type="number" name="edad"  [(ngModel)]="paciente.edad" placeholder="Edad">                                        
     </div>
     
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="email" name="email"  [(ngModel)]="paciente.email" placeholder="Email">                                        
+        <input class="form-control required" type="email" name="email"  [(ngModel)]="paciente.email" placeholder="Email">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
@@ -34,11 +34,11 @@
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="text" name="obraSocial"  [(ngModel)]="paciente.obraSocial" placeholder="Obra social">                                        
+        <input class="form-control required" type="text" name="obraSocial"  [(ngModel)]="paciente.obraSocial" placeholder="Obra social">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="password" name="password"  [(ngModel)]="paciente.password" placeholder="Password">                                        
+        <input class="form-control required" type="password" name="password"  [(ngModel)]="paciente.password" placeholder="Password">                                        
     </div>
 
     <div id="pacienteCaptcha"></div>

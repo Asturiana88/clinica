@@ -19,6 +19,8 @@ export class SolicitarTurnoComponent implements OnInit {
   fecha!: string;
   hora!: string;
 
+  that = this;
+
   nombreDias = [
     'Domingo',
     'Lunes',
@@ -65,23 +67,27 @@ export class SolicitarTurnoComponent implements OnInit {
     this.hora = '';
   }
 
-  solicitarTurno() {
-    let paciente = this.authService.getUser;
+  solicitarTurno(that?: any) {
+    let thisObj = this;
+    if (that) {
+      thisObj = that;
+    }
+    let paciente = thisObj.authService.getUser;
 
-    if (this.authService.isValidAdmin) {
-      paciente = this.paciente;
+    if (thisObj.authService.isValidAdmin) {
+      paciente = thisObj.paciente;
       if (!paciente) {
         return;
       }
     }
 
-    this.storeService.CreateTurno({
+    thisObj.storeService.CreateTurno({
       paciente,
-      especialidad: this.especialidad,
-      especialista: this.especialista,
+      especialidad: thisObj.especialidad,
+      especialista: thisObj.especialista,
       estado: 'pendiente',
-      fecha: this.fecha,
-      hora: this.hora,
+      fecha: thisObj.fecha,
+      hora: thisObj.hora,
     });
   }
 

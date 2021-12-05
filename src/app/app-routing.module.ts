@@ -68,7 +68,7 @@ const routes: Routes = [
   {
     path: 'solicitar-turno',
     loadChildren: () =>
-      import('../lib/componentes/solicitar-turno/solicitar-turno.module').then(
+      import('../lib/shared/solicitar-turno/solicitar-turno.module').then(
         (m) => m.SolicitarTurnoModule
       ),
     canActivate: [PacienteService],

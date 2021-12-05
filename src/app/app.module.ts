@@ -15,6 +15,7 @@ import { HomeComponent } from '../lib/shared/home/home.component';
 import { LoaderComponent } from '../lib/shared/loader/loader.component';
 import { AdminComponent } from '../lib/componentes/admin/register/admin.component';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { DirectivesModule } from 'src/lib/directivas';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
     AngularFireStorageModule,
     FormsModule,
     RecaptchaModule,
+    DirectivesModule,
     ReactiveFormsModule,
   ],
   providers: [AngularFirestore],

@@ -11,18 +11,22 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 })
 export class EspecialistaComponent implements OnInit {
   especialista = new Especialista();
-  especialidades = this._store.GetEspecialidades();
+  especialidades = this.store.GetEspecialidades();
   nuevaEspecialidad = new Especialidad();
   singUpError?: any;
   loadingImge = false;
 
+  that = this;
   especialidadesSeleccionadas: Especialidad[] = [];
+  captchaSolved = false;
 
   handleImage(event: any) {
-    if (!event?.target?.files[0]) return;
+    if (!event?.target?.files[0]) {
+      return;
+    }
     this.loadingImge = true;
     const randomId = Math.random().toString(36).substring(2);
-    this._store
+    this.store
       .UploadImage(event.target.files[0], randomId)
       .then(async (res) => {
         this.especialista.fotoPerfil = await res.ref.getDownloadURL();
@@ -33,12 +37,12 @@ export class EspecialistaComponent implements OnInit {
   handleClick(especialidad: Especialidad) {
     if (
       this.especialidadesSeleccionadas.find(
-        (i) => i.nombre == especialidad.nombre
+        (i) => i.nombre === especialidad.nombre
       )
     ) {
       this.especialidadesSeleccionadas =
         this.especialidadesSeleccionadas.filter(
-          (val) => val.nombre != especialidad.nombre
+          (val) => val.nombre !== especialidad.nombre
         );
     } else {
       this.especialidadesSeleccionadas = [
@@ -50,7 +54,7 @@ export class EspecialistaComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private _store: StoreManagementService
+    private store: StoreManagementService
   ) {}
 
   crearEspecialidad() {
@@ -58,7 +62,7 @@ export class EspecialistaComponent implements OnInit {
       this.nuevaEspecialidad.nombre &&
       this.nuevaEspecialidad.duracionTurno > 30
     ) {
-      this._store.CreateEspecialidad({ ...this.nuevaEspecialidad });
+      this.store.CreateEspecialidad({ ...this.nuevaEspecialidad });
       this.nuevaEspecialidad = new Especialidad();
       this.especialidadesSeleccionadas = [];
     }
@@ -66,15 +70,23 @@ export class EspecialistaComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  captchaSolved = false;
-  registrarse() {
-    if (this.captchaSolved) {
-      this.especialista.especialidad = this.especialidadesSeleccionadas;
-      this.authService.SignUp(this.especialista).catch((error: any) => {
-        this.singUpError = error;
-      });
+  registrarse(that: EspecialistaComponent) {
+    if (that.captchaSolved) {
+      if (
+        !that.especialidadesSeleccionadas ||
+        !that.especialidadesSeleccionadas.length
+      ) {
+        that.singUpError = 'Al menos debe seleccionar una especialidad';
+      } else if (!that.especialista.fotoPerfil) {
+        that.singUpError = 'Foto del especialista es requerida';
+      } else {
+        that.especialista.especialidad = that.especialidadesSeleccionadas;
+        that.authService.SignUp(that.especialista).catch((error: any) => {
+          that.singUpError = error;
+        });
+      }
     } else {
-      this.singUpError = 'Completar el captcha para continuar';
+      that.singUpError = 'Completar el captcha para continuar';
     }
   }
 

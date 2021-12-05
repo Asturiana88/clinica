@@ -1,23 +1,23 @@
 <h2 class="text-primarty my-4"> Registrar admin </h2>
-<form id="loginform" class="form-horizontal" role="form">
+<form appFormValidations [that]="that" [submit]="registrarse">
     <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control" name="nombre"  [(ngModel)]="admin.nombre" placeholder="Nombre">                                        
+        <input type="text" class="form-control required" name="nombre"  [(ngModel)]="admin.nombre" placeholder="Nombre">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control" name="apellido"  [(ngModel)]="admin.apellido" placeholder="Apellido">                                        
+        <input type="text" class="form-control required" name="apellido"  [(ngModel)]="admin.apellido" placeholder="Apellido">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="number" name="dni"  [(ngModel)]="admin.dni" placeholder="DNI">                                        
+        <input class="form-control required" type="number" name="dni"  [(ngModel)]="admin.dni" placeholder="DNI">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="number" name="edad"  [(ngModel)]="admin.edad" placeholder="Edad">                                        
+        <input class="form-control required" type="number" name="edad"  [(ngModel)]="admin.edad" placeholder="Edad">                                        
     </div>
     
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="email" name="email"  [(ngModel)]="admin.email" placeholder="Email">                                        
+        <input class="form-control required" type="email" name="email"  [(ngModel)]="admin.email" placeholder="Email">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
@@ -27,7 +27,7 @@
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control" type="password" name="password"  [(ngModel)]="admin.password" placeholder="Password">                                        
+        <input class="form-control required" type="password" name="password"  [(ngModel)]="admin.password" placeholder="Password">                                        
     </div>
 
     <div id="pacienteCaptcha"></div>
@@ -38,7 +38,7 @@
     <div class="input-group">
         <div style="margin-top:10px" class="form-group">
             <div class="col-sm-12 controls">
-                <button (click)="registrarse()" class="btn btn-success"> Registrarse </button>
+                <button type="submit" class="btn btn-success"> Registrarse </button>
             </div>
         </div>
     </div>    
