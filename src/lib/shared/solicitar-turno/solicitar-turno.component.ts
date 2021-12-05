@@ -155,13 +155,10 @@ export class SolicitarTurnoComponent implements OnInit {
     }
 
     if (this.authService.isValidAdmin) {
-      console.log('asdasd');
       this.storeService.GetUsuarios().subscribe((users: Usuario[]) => {
         this.pacientes = users.filter(
           (user: Usuario) => user.rol === 'paciente'
         ) as Paciente[];
-        console.log(this.pacientes);
-        console.log(users);
       });
     }
   }

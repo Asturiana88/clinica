@@ -1,0 +1,35 @@
+<h1>Pacientes atendidos</h1>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Obra social</th>
+                    <th>Foto</th>
+                    <th>Historia clinica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let paciente of pacientes">
+                    <td>{{paciente.nombre}}</td>
+                    <td>{{paciente.apellido}}</td>
+                    <td>{{paciente.dni}}</td>
+                    <td>{{paciente.obraSocial}}</td>
+                    <td><img src="{{paciente.fotoPerfil}}" height="50px" alt=""></td>
+                    <td> <button class="btn-info" (click)="openModal(paciente)"> Ver historia clinica</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div *ngIf="modalOpen">
+    <app-modal (onClose)="closeModal()">
+        <app-historia-clinica [paciente]="pacienteSeleccionado"></app-historia-clinica>
+    </app-modal>
+</div>

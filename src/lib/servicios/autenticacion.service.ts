@@ -7,6 +7,7 @@ import { Especialista } from '../clases/especialista';
 import { Paciente } from '../clases/paciente';
 import { BehaviorSubject } from 'rxjs';
 import { Administrador } from '../clases/administrador';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
+    private logger: LoggerService,
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {
@@ -60,6 +62,7 @@ export class AuthService {
       .createUserWithEmailAndPassword(usuario.email, usuario.password || '')
       .then(async (result: any) => {
         this.update = false;
+        this.logger.CrearLogIngreso(usuario);
         (await this.afAuth.currentUser)?.sendEmailVerification();
         this.router.navigate(['']);
       });
@@ -73,6 +76,7 @@ export class AuthService {
       if (!this.singout) {
         this.isLoading.next(false);
         localStorage.setItem('user', JSON.stringify(data));
+        this.logger.CrearLogIngreso(data);
         if (
           data.rol === 'especialista' &&
           (!data.approved || !data.emailVerified)

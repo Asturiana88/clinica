@@ -85,7 +85,6 @@ export class EspecialistaPerfilComponent implements OnInit {
     const currEsp = this.especialista.especialidad.find(
       (e) => e.nombre == this.especialidad.nombre
     );
-    console.log(currEsp);
     this.horariosSeleccionadosSabado = currEsp?.disponibilidadSabado || [];
     this.horariosSeleccionadosSemana = currEsp?.disponibilidadSemana || [];
 

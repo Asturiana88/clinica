@@ -36,10 +36,19 @@
                                     </button>
                                 </ng-template>
                             </ng-container>
+                            <ng-container *ngIf="usuario.rol == 'paciente'">
+                                <td> <button class="btn-info" (click)="openModal(usuario)"> Ver historia clinica</button></td>
+                            </ng-container>
                         </th>
                     </tr>
                 </ng-container>
             </tbody>
         </table>
     </div>
+</div>
+
+<div *ngIf="modalOpen">
+    <app-modal (onClose)="closeModal()">
+        <app-historia-clinica [paciente]="pacienteSeleccionado"></app-historia-clinica>
+    </app-modal>
 </div>

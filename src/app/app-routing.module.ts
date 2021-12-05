@@ -32,6 +32,15 @@ const routes: Routes = [
     canActivate: [AdminService],
     data: { animationState: '3' },
   },
+  {
+    path: 'informes',
+    loadChildren: () =>
+      import('../lib/componentes/admin/informes/informes.module').then(
+        (m) => m.InformesModule
+      ),
+    canActivate: [AdminService],
+    data: { animationState: '14' },
+  },
 
   // Especialista
   {
@@ -42,6 +51,15 @@ const routes: Routes = [
       ).then((m) => m.EspecialistaTurnosModule),
     canActivate: [EspecialistaService],
     data: { animationState: '4' },
+  },
+  {
+    path: 'pacientes-atendidos',
+    loadChildren: () =>
+      import(
+        '../lib/componentes/especialista/pacientes-atendidos/pacientes-atendidos.module'
+      ).then((m) => m.PacientesAtendidosModule),
+    canActivate: [EspecialistaService],
+    data: { animationState: '13' },
   },
   {
     path: 'especialista-perfil',

@@ -8,10 +8,12 @@
         <a class="nav-item nav-link py-2" routerLink="user-list" *ngIf="authService.isValidAdmin">Lista de Usuarios</a>
         <a class="nav-item nav-link py-2" routerLink="register-admin" *ngIf="authService.isValidAdmin">Crear Admin</a>
         <a class="nav-item nav-link py-2" routerLink="admin-turnos" *ngIf="authService.isValidAdmin">Turnos</a>
+        <a class="nav-item nav-link py-2" routerLink="informes" *ngIf="authService.isValidAdmin">Informes</a>
 
         <!-- ESPECIALISTA -->
         <a class="nav-item nav-link py-2" routerLink="especialista-turnos" *ngIf="authService.getUser?.rol == 'especialista'">Turnos</a>
         <a class="nav-item nav-link py-2" routerLink="especialista-perfil" *ngIf="authService.getUser?.rol == 'especialista'">Perfil</a>
+        <a class="nav-item nav-link py-2" routerLink="pacientes-atendidos" *ngIf="authService.getUser?.rol == 'especialista'">Pacientes</a>
 
         <!-- PACIENTE -->
         <a class="nav-item nav-link py-2" routerLink="paciente-perfil" *ngIf="authService.getUser?.rol == 'paciente'">Perfil</a>
