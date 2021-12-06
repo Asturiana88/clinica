@@ -1,11 +1,145 @@
 
-<div style="display: block;" *ngIf="logData?.data.length">
-    <canvas baseChart width="400" height="400"
-    [datasets]="[logData]"
-    [labels]="logLabels"
-    [options]="lineChartOptions"
-    [colors]="lineChartColors"
-    [legend]="true"
-    [chartType]="'line'">
-    </canvas>
+<!--  INGRESOS AL SISTEMA -->
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<div class="row mt-5 p-5 shadow" id='inicio-secion'>
+    <div class="col-6">
+        <h3>Inicios de secion</h3>
+        <div style="display: block;" *ngIf="logData?.data.length">
+            <canvas baseChart width="400" height="400"
+            [datasets]="[logData]"
+            [labels]="logLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="true"
+            [chartType]="'line'"
+            [options]="lineChartOptions"
+            >
+            </canvas>
+        </div>
+    </div>
+    <div class="col-3">
+        <h3 class="mt-2">Rol</h3>
+        <div class="form-group">
+            <input id="all" type="radio" name="rol" value="" [(ngModel)]="filtrosLogger.rol" (change)="getLoggerData()">
+            <label for="all" class="mx-3">Todos</label>
+        </div>
+        <div class="form-group">
+            <input id="paciente" type="radio" name="rol" value="paciente" [(ngModel)]="filtrosLogger.rol"  (change)="getLoggerData()">
+            <label for="paciente" class="mx-3">Pacientes</label>
+        </div>
+        <div class="form-group">
+            <input id="especialista" type="radio" name="rol" value="especialista" [(ngModel)]="filtrosLogger.rol"  (change)="getLoggerData()">
+            <label for="especialista" class="mx-3">Especialistas</label>
+        </div>
+        <div class="form-group">
+            <input id="admin" type="radio" name="rol" value="admin" [(ngModel)]="filtrosLogger.rol"  (change)="getLoggerData()">
+            <label for="admin" class="mx-3">Administradores</label>
+        </div>
+
+        <hr>
+        <div class="mt-4">
+            <h3 class="mt-2">Fecha</h3>
+            <h5>Desde</h5>
+            <select (change)="getLoggerData()" [(ngModel)]="filtrosLogger.desdeFecha">
+                <option value="">Primer fecha disponible</option>
+                <option [value]="fecha" *ngFor="let fecha of logLabels">{{fecha}}</option>
+            </select>
+            <h5 class="mt-3">Hasta</h5>
+            <select (change)="getLoggerData()" [(ngModel)]="filtrosLogger.hastaFecha">
+                <option value="">Hoy</option>
+                <option [value]="fecha" *ngFor="let fecha of logLabels">{{fecha}}</option>
+            </select>
+        </div>
+    </div>
 </div>
+<div class="mt-4">
+    <button class="btn btn-danger" (click)="exportAsPDF('inicio-secion', 'Inicios de sesion')">Descargar PDF</button>
+</div>
+
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<!--  TURNOS -->
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<div class="row mt-5 p-5 shadow" id='turnos'>
+    <div class="col-6">
+        <h3>Turnos</h3>
+        <div style="display: block;" *ngIf="turnoData?.data.length && turnoLabels.length">
+            <canvas baseChart width="400" height="400"
+            [datasets]="[turnoData]"
+            [labels]="turnoLabels"
+            [options]="lineChartOptions"
+            [colors]="bareChartColors"
+            [legend]="true"
+            [chartType]="'bar'"
+            [options]="lineChartOptions"
+            >
+            </canvas>
+        </div>
+    </div>
+    <div class="col-3">
+        <h3 class="mt-2">Turnos por</h3>
+        <div class="form-group">
+            <input id="fecha" type="radio" value="fecha" [(ngModel)]="filtrosTurno.label" name="turnoTipo" (change)="getTurnosData()">
+            <label for="fecha" class="mx-3">Fecha</label>
+        </div>
+        <div class="form-group">
+            <input id="especialidad" type="radio" value="especialidad" [(ngModel)]="filtrosTurno.label" name="turnoTipo" (change)="getTurnosData()">
+            <label for="especialidad" class="mx-3">Especialidad</label>
+        </div>
+        <div class="form-group">
+            <input id="especialistas" type="radio" value="especialista" [(ngModel)]="filtrosTurno.label" name="turnoTipo" (change)="getTurnosData()">
+            <label for="especialistas" class="mx-3">Especialista</label>
+        </div>
+
+        <hr>
+        <div class="mt-4">
+            <h3 class="mt-2">Fecha</h3>
+            <h5>Desde</h5>
+            <select (change)="getTurnosData()" [(ngModel)]="filtrosTurno.desdeFecha">
+                <option value="">Primer fecha disponible</option>
+                <option [value]="fecha" *ngFor="let fecha of turnoFechas">{{fecha}}</option>
+            </select>
+            <h5 class="mt-3">Hasta</h5>
+            <select (change)="getTurnosData()" [(ngModel)]="filtrosTurno.hastaFecha">
+                <option value="">Hoy</option>
+                <option [value]="fecha" *ngFor="let fecha of turnoFechas">{{fecha}}</option>
+            </select>
+        </div>
+
+        <hr>
+        <div class="mt-4">
+            <h3 class="mt-2">Estado</h3>
+            <select (change)="getTurnosData()" [(ngModel)]="filtrosTurno.estado">
+                <option value="">Todos</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="aceptado">Aceptado</option>
+                <option value="cancelado">Cancelado</option>
+                <option value="rechazado">Rechazado</option>
+                <option value="finalizado">Finalizado</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="my-4">
+    <button class="btn btn-danger" (click)="exportAsPDF('turnos', 'Turnos')">Descargar PDF</button>
+</div>
+
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
