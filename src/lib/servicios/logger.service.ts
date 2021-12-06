@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Log } from '../clases/log';
 import { Usuario } from '../clases/usuario';
 import { AuthService } from './autenticacion.service';
 
@@ -11,10 +12,8 @@ export class LoggerService {
   constructor(private bd: AngularFirestore, private authService: AuthService) {}
 
   CrearLogIngreso(user: Usuario) {
-    console.log(user);
     if (user) {
-      console.log(user);
-      this.bd.collection(INGRESO_LOG).add({
+      this.bd.collection<Log>(INGRESO_LOG).add({
         usuario: { ...user },
         fecha: new Date().toISOString(),
       });
@@ -22,6 +21,6 @@ export class LoggerService {
   }
 
   GetLogIngreso() {
-    this.bd.collection(INGRESO_LOG).valueChanges();
+    return this.bd.collection<Log>(INGRESO_LOG).valueChanges();
   }
 }

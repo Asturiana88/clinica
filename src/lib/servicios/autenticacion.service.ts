@@ -58,14 +58,36 @@ export class AuthService {
   }
 
   SignUp(usuario: Especialista | Paciente | Administrador) {
+    this.update = false;
     return this.afAuth
       .createUserWithEmailAndPassword(usuario.email, usuario.password || '')
       .then(async (result: any) => {
-        this.update = false;
+        console.log(result);
+        this.SetUserData(result.user.toJSON(), usuario);
         this.logger.CrearLogIngreso(usuario);
         (await this.afAuth.currentUser)?.sendEmailVerification();
         this.router.navigate(['']);
-      });
+      })
+      .catch((err) => alert(err));
+  }
+
+  /* Setting up user data when sign in with username/password,
+  sign up with username/password and sign in with social auth
+  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+  SetUserData(user: Usuario, userData: Usuario) {
+    const userFormado = { ...user, ...userData };
+    console.log(userFormado);
+    this.isLoading.next(true);
+    if (user) {
+      this.afs
+        .collection('users')
+        .doc(user.uid)
+        .set(JSON.parse(JSON.stringify(userFormado)))
+        .then((val: any) => {
+          localStorage.setItem('user', JSON.stringify(userFormado));
+          this.isLoading.next(false);
+        });
+    }
   }
 
   async GetUserData(userUid: string) {

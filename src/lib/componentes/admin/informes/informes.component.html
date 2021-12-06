@@ -1,1 +1,11 @@
-<p>informes works!</p>
+
+<div style="display: block;" *ngIf="logData?.data.length">
+    <canvas baseChart width="400" height="400"
+    [datasets]="[logData]"
+    [labels]="logLabels"
+    [options]="lineChartOptions"
+    [colors]="lineChartColors"
+    [legend]="true"
+    [chartType]="'line'">
+    </canvas>
+</div>
