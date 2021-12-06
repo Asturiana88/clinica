@@ -20,6 +20,15 @@ export class HistoriaClinicaFormComponent implements OnInit {
   datoOpcionalNombre!: string;
   datoOpcionalValor!: string;
 
+  datoOpcionalRangoNombre!: string;
+  datoOpcionalRangoValor!: string;
+
+  datoOpcionalNumeroNombre!: string;
+  datoOpcionalNumeroValor!: string;
+
+  datoOpcionalSwitchNombre!: string;
+  datoOpcionalSwitchValor!: string;
+
   validarDatos = false;
 
   captchaSolved = false;
@@ -70,6 +79,27 @@ export class HistoriaClinicaFormComponent implements OnInit {
         {}
       );
       thisClass.historia = { ...thisClass.historia, ...datosOpcionales };
+    }
+
+    if (this.datoOpcionalNumeroNombre && this.datoOpcionalNumeroValor) {
+      thisClass.historia = {
+        ...thisClass.historia,
+        [this.datoOpcionalNumeroNombre]: this.datoOpcionalNumeroValor,
+      };
+    }
+
+    if (this.datoOpcionalRangoNombre && this.datoOpcionalRangoValor) {
+      thisClass.historia = {
+        ...thisClass.historia,
+        [this.datoOpcionalRangoNombre]: this.datoOpcionalRangoValor,
+      };
+    }
+
+    if (this.datoOpcionalSwitchNombre && this.datoOpcionalSwitchValor) {
+      thisClass.historia = {
+        ...thisClass.historia,
+        [this.datoOpcionalSwitchNombre]: this.datoOpcionalSwitchValor,
+      };
     }
 
     if (thisClass.turno && thisClass.turno.id) {

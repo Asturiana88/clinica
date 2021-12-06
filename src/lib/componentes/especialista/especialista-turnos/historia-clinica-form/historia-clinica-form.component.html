@@ -17,7 +17,25 @@
 
         <hr>
 
-        <h6>Datos adicionales</h6>
+        <h5>Datos adicionales</h5>
+        <div class="mt-2">
+            <input type="text" [(ngModel)]="datoOpcionalRangoNombre" name="datoOpcionalRangoNombre" placeholder="Nombre dato">
+            <input type="range" min="0" max="100" class="mx-3" name="datoOpcionalRangoValor" [(ngModel)]="datoOpcionalRangoValor" placeholder="Valor">
+            <span class="text-info mx-3">{{datoOpcionalRangoValor}}</span>
+        </div>
+        <div class="mt-2">
+            <input type="text" [(ngModel)]="datoOpcionalNumeroNombre" name="datoOpcionalNumeroNombre" placeholder="Nombre dato">
+            <input type="number" class="mx-3" name="datoOpcionalNumeroValor" [(ngModel)]="datoOpcionalNumeroValor" placeholder="Valor">
+        </div>
+        <div class="mt-2">
+            <input type="text" [(ngModel)]="datoOpcionalSwitchNombre" name="datoOpcionalSwitchNombre" placeholder="Nombre dato">
+            <input type="radio" class="mx-3" id="si" value="Si" name="datoOpcionalSwitchValor" [(ngModel)]="datoOpcionalSwitchValor">
+            <label for="si">Si</label>
+            <input type="radio" id="no" class="mx-3" value="No" name="datoOpcionalSwitchValor" [(ngModel)]="datoOpcionalSwitchValor">
+            <label for="no">No</label>
+        </div>
+
+        <h6 class="mt-4">Otros datos opcionales</h6>
 
         <div class="my-3" *ngFor="let dato of datosOpcionales">
             <span style="cursor: pointer;" class="text-danger" (click)="eliminarDatoOpcional(dato)">X</span>
@@ -28,6 +46,7 @@
             <input type="text" [(ngModel)]="datoOpcionalNombre" name="datoOpcionalNombre" placeholder="Nombre dato">
             <input type="text" class="mx-3" name="datoOpcionalValor" [(ngModel)]="datoOpcionalValor" placeholder="Valor">
 
+            <br>
             <div class="btn btn-info mt-3" (click)="agregarDatoOpcional()">Agregar dato</div>
         </div>
 
