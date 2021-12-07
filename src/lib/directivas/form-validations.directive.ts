@@ -113,7 +113,7 @@ export class FormValidationsDirective implements OnInit {
       .querySelectorAll('input')
       .forEach((element: HTMLInputElement) => {
         const name = element.name;
-        const input = this.inputs.find((el) => el.name === name);
+        const input = this.inputs && this.inputs.find((el) => el.name === name);
         if (input) {
           element.addEventListener('blur', () => {
             this.addErrorElem(element, input.requiredError, input.name);

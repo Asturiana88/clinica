@@ -1,0 +1,20 @@
+
+<div class="row">
+    <div class="col-6">
+        <h1>Captcha Status</h1>
+
+        <ng-container *ngIf="status | async as status">
+            <ng-container *ngIf="status.activo; else desactivado">
+                <h3 class="text-success my-3">Activo</h3>
+                <button class="btn btn-danger" (click)="updateCaptcha(false)">Desactivar captcha</button>
+            </ng-container>
+
+            <ng-template #desactivado>
+                <h3 class="text-warning my-3">Desactivado</h3>
+
+                <button class="btn btn-success" (click)="updateCaptcha(true)">Activar captcha</button>
+            </ng-template>
+        </ng-container>
+
+    </div>
+</div>

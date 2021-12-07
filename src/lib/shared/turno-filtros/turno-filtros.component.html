@@ -2,7 +2,6 @@
     <div class="col-12">
         <h3 (click)="mostrarFiltros = !mostrarFiltros" [class.open]="mostrarFiltros">Filtros</h3>
     </div>
-</div>
 <div class="row body" [class.open]="mostrarFiltros">
     <div class="col-3 mt-2">
         <input [(ngModel)]="filtros.fecha" type="text" class="form-control" placeholder="Fecha">
@@ -56,4 +55,5 @@
         <button class="btn btn-info mx-3" (click)="filtrar()">Buscar</button>
     </div>
 
+</div>
 </div>

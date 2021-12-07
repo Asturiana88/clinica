@@ -12,7 +12,7 @@ const routes: Routes = [
     path: 'register-admin',
     component: AdminComponent,
     canActivate: [AdminService],
-    data: { animationState: '1' },
+    data: { animationState: 'RegistrarAdmin' },
   },
   {
     path: 'admin-turnos',
@@ -21,7 +21,7 @@ const routes: Routes = [
         (m) => m.AdminTurnosModule
       ),
     canActivate: [AdminService],
-    data: { animationState: '2' },
+    data: { animationState: 'TrunosAdmin' },
   },
   {
     path: 'user-list',
@@ -30,7 +30,7 @@ const routes: Routes = [
         '../lib/componentes/admin/lista-usuarios/lista-usuarios.module'
       ).then((m) => m.ListaUsuariosModule),
     canActivate: [AdminService],
-    data: { animationState: '3' },
+    data: { animationState: 'AdminUserList' },
   },
   {
     path: 'informes',
@@ -39,7 +39,16 @@ const routes: Routes = [
         (m) => m.InformesModule
       ),
     canActivate: [AdminService],
-    data: { animationState: '14' },
+    data: { animationState: 'Informes' },
+  },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('../lib/componentes/admin/settings/settings.module').then(
+        (m) => m.SettingsModule
+      ),
+    canActivate: [AdminService],
+    data: { animationState: 'Settings' },
   },
 
   // Especialista
@@ -50,7 +59,7 @@ const routes: Routes = [
         '../lib/componentes/especialista/especialista-turnos/especialista-turnos.module'
       ).then((m) => m.EspecialistaTurnosModule),
     canActivate: [EspecialistaService],
-    data: { animationState: '4' },
+    data: { animationState: 'TrunosEspecialista' },
   },
   {
     path: 'pacientes-atendidos',
@@ -59,7 +68,7 @@ const routes: Routes = [
         '../lib/componentes/especialista/pacientes-atendidos/pacientes-atendidos.module'
       ).then((m) => m.PacientesAtendidosModule),
     canActivate: [EspecialistaService],
-    data: { animationState: '13' },
+    data: { animationState: 'EspecialistaPacientesAtendidos' },
   },
   {
     path: 'especialista-perfil',
@@ -68,7 +77,7 @@ const routes: Routes = [
         '../lib/componentes/especialista/especialista-perfil/especialista-perfil.module'
       ).then((m) => m.EspecialistaPerfilModule),
     canActivate: [EspecialistaService],
-    data: { animationState: '5' },
+    data: { animationState: 'EspecialistaPerfil' },
   },
 
   // Paciente
@@ -79,7 +88,7 @@ const routes: Routes = [
         '../lib/componentes/paciente/paciente-turnos/paciente-turnos.module'
       ).then((m) => m.PacienteTurnosModule),
     canActivate: [PacienteService],
-    data: { animationState: '6' },
+    data: { animationState: 'TurnosPaciente' },
   },
   {
     path: 'paciente-perfil',
@@ -88,7 +97,7 @@ const routes: Routes = [
         '../lib/componentes/paciente/paciente-perfil/paciente-perfil.module'
       ).then((m) => m.PacientePerfilModule),
     canActivate: [PacienteService],
-    data: { animationState: '7' },
+    data: { animationState: 'PacientePerfil' },
   },
   {
     path: 'solicitar-turno',
@@ -97,7 +106,7 @@ const routes: Routes = [
         (m) => m.SolicitarTurnoModule
       ),
     canActivate: [PacienteService],
-    data: { animationState: '8' },
+    data: { animationState: 'SolicitarTurno' },
   },
 
   // All
@@ -105,7 +114,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('../lib/shared/login/login.module').then((m) => m.LoginModule),
-    data: { animationState: '9' },
+    data: { animationState: 'Login' },
   },
   {
     path: 'register',
@@ -113,9 +122,9 @@ const routes: Routes = [
       import('../lib/shared/registrarse/registrarse.module').then(
         (m) => m.RegistrarseModule
       ),
-    data: { animationState: '10' },
+    data: { animationState: 'Registrarse' },
   },
-  { path: '', component: HomeComponent, data: { animationState: '11' } },
+  { path: '', component: HomeComponent, data: { animationState: 'Home' } },
 ];
 
 @NgModule({

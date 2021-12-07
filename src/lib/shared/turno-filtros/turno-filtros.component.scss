@@ -25,6 +25,13 @@ h3::after {
   overflow: hidden;
   max-height: 0;
   transition: all 1s ease-in-out;
+
+  background-color: white;
+
+  padding: 0;
+  margin: 20px 0;
+  border-radius: 20px;
+  box-shadow: none;
 }
 
 .body.open {

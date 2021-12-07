@@ -23,7 +23,7 @@ export class PacienteComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  resolved(e: any): void {
+  resolved(e?: any): void {
     this.captchaSolved = true;
   }
 

@@ -9,7 +9,13 @@ export class Turno {
   paciente!: Paciente;
   resena?: string;
   comentario?: string;
-  calificacion?: string;
+  calificacion?: {
+    comentario: string;
+    puntuacionAtencion: number;
+    solucionoSuProblema: boolean;
+    mediosDeComunicacion: string[];
+    probabilidadDeRecomendacion: number;
+  };
   estado!: 'pendiente' | 'aceptado' | 'rechazado' | 'cancelado' | 'finalizado';
   encuesta?: any;
   id?: string;

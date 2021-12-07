@@ -62,8 +62,7 @@
         <div id="pacienteCaptcha"></div>
         <br>
 
-        <re-captcha (resolved)="resolved($event)" siteKey="6LcCcHAdAAAAAJe3md0bC_Y0Eg6yv-eARP9k9PPB" ></re-captcha>
-
+        <div appCaptcha (resolve)="resolved($event)"></div>
 
         <button class="btn btn-primary mt-4" type="submit">
             Submit

@@ -90,7 +90,7 @@ export class EspecialistaComponent implements OnInit {
     }
   }
 
-  resolved(e: any) {
+  resolved(e?: any) {
     this.captchaSolved = true;
   }
 }

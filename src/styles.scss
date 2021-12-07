@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  background-color: aqua;
+}
+
+.row {
+  background-color: white;
+
+  padding: 50px;
+  margin: 20px 0;
+  border-radius: 20px;
+  box-shadow: 8px 11px 3px black;
+}

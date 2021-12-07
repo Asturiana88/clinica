@@ -45,7 +45,6 @@ export class StoreManagementService {
     temperatura?: string;
     presion?: string;
     valorDinamico?: string;
-    calificacion?: string;
     resena?: string;
     encuesta?: string;
     comentario?: string;
@@ -63,7 +62,6 @@ export class StoreManagementService {
       temperatura,
       presion,
       valorDinamico,
-      calificacion,
       resena,
       encuesta,
       comentario,
@@ -116,11 +114,6 @@ export class StoreManagementService {
               .toLowerCase()
               .includes(valorDinamico.toLowerCase())
           );
-        }
-        if (calificacion && returnVal) {
-          returnVal = !!data.calificacion
-            ?.toLowerCase()
-            .includes(calificacion.toLowerCase());
         }
         if (resena && returnVal) {
           returnVal = !!data.resena

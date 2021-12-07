@@ -41,10 +41,7 @@
         <input class="form-control required" type="password" name="password"  [(ngModel)]="paciente.password" placeholder="Password">                                        
     </div>
 
-    <div id="pacienteCaptcha"></div>
-    <br>
-
-    <re-captcha (resolved)="resolved($event)" siteKey="6LcCcHAdAAAAAJe3md0bC_Y0Eg6yv-eARP9k9PPB" ></re-captcha>
+    <div appCaptcha (resolve)="resolved($event)"></div>
 
     <div class="input-group">
         <div style="margin-top:10px" class="form-group">

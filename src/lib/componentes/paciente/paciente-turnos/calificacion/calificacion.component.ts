@@ -11,8 +11,14 @@ export class CalificacionComponent implements OnInit {
   @Input() turno!: Turno;
   @Output() callbackFunc = new EventEmitter<any>();
 
-  calificacion!: string;
   constructor(private store: StoreManagementService) {}
+  calificacion!: {
+    comentario: string;
+    puntuacionAtencion: number;
+    solucionoSuProblema: boolean;
+    mediosDeComunicacion: string[];
+    probabilidadDeRecomendacion: number;
+  };
 
   ngOnInit(): void {}
 

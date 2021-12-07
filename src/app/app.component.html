@@ -1,7 +1,7 @@
  <ng-container *ngIf="!loading; else loadingTemplate">
   <app-navbar></app-navbar>
   <div class="container">
-    <div class="mt-5" [@triggerName]="prepareRoute(outlet)">
+    <div class="m-5" [@triggerName]="prepareRoute(outlet)">
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
   </div>

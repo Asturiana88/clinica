@@ -3,7 +3,7 @@
         <h1>Clinica Pinpollo</h1>
     </div>
 
-    <div class="col-12 mt-5" *ngIf="usuario; else deslogueado">
+    <div class="col-12 mt-5" *ngIf="usuario">
         <ng-container *ngIf="!usuario.approved">
             <h2 class="text-danger">El usuario no ha sido validado por un administrador</h2>
         </ng-container>
@@ -12,9 +12,7 @@
         </ng-container>
     </div>
 
-    <ng-template  #deslogueado>
-        <div class="col-12">
-            <h3>Usuario no logeado</h3>
-        </div>
-    </ng-template>
+    <div class="col-12 mt-5">
+        <img width="200px" src="/assets/Pimpollo.png" alt="">
+    </div>
 </div>

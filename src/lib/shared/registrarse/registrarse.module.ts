@@ -7,6 +7,7 @@ import { PacienteComponent } from './paciente/paciente.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { DirectivesModule } from 'src/lib/directivas';
+import { CaptchaModule } from '../captcha/captcha.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { DirectivesModule } from 'src/lib/directivas';
     RegisterRoutingModule,
     DirectivesModule,
     RecaptchaModule,
+    CaptchaModule,
     CommonModule,
   ],
 })

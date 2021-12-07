@@ -9,6 +9,7 @@
         <a class="nav-item nav-link py-2" routerLink="register-admin" *ngIf="authService.isValidAdmin">Crear Admin</a>
         <a class="nav-item nav-link py-2" routerLink="admin-turnos" *ngIf="authService.isValidAdmin">Turnos</a>
         <a class="nav-item nav-link py-2" routerLink="informes" *ngIf="authService.isValidAdmin">Informes</a>
+        <a class="nav-item nav-link py-2" routerLink="settings" *ngIf="authService.isValidAdmin">Settings</a>
 
         <!-- ESPECIALISTA -->
         <a class="nav-item nav-link py-2" routerLink="especialista-turnos" *ngIf="authService.getUser?.rol == 'especialista'">Turnos</a>
