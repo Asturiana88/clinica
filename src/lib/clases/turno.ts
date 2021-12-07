@@ -13,7 +13,7 @@ export class Turno {
     comentario: string;
     puntuacionAtencion: number;
     solucionoSuProblema: boolean;
-    mediosDeComunicacion: string[];
+    prefiereSerContactadoPorCelular: boolean;
     probabilidadDeRecomendacion: number;
   };
   estado!: 'pendiente' | 'aceptado' | 'rechazado' | 'cancelado' | 'finalizado';

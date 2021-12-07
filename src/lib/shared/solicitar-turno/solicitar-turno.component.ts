@@ -35,6 +35,7 @@ export class SolicitarTurnoComponent implements OnInit {
   horasDisponibles!: string[];
 
   especialidades = this.storeService.GetEspecialidades();
+  especialistasFilter!: Especialista[];
   especialistas!: Especialista[];
 
   subscription: any;
@@ -47,7 +48,17 @@ export class SolicitarTurnoComponent implements OnInit {
       this.especialistas = usrs.filter(
         (usr) => usr.rol === 'especialista'
       ) as Especialista[];
+      this.especialistasFilter = [...this.especialistas];
     });
+  }
+
+  updateEspecialistas() {
+    this.especialistas = this.especialistasFilter.filter((esp) =>
+      esp.especialidad.find(
+        (espld) => espld.nombre === this.especialidad.nombre
+      )
+    );
+    this.getHorarios();
   }
 
   getHorarios() {
