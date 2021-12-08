@@ -24,8 +24,11 @@
                         <ng-container *ngIf="turno.estado == 'pendiente' || turno.estado == 'aceptado'">
                             <button (click)="handleOpenModal(turno, 'cancelar')" class="btn btn-danger">Cancelar</button>
                         </ng-container>
+                        <ng-container *ngIf="turno.comentario">
+                            <button class="btn btn-info" (click)="handleOpenModal(turno, 'comentario')">Ver Comentario</button>
+                        </ng-container>
                         <ng-container *ngIf="turno.resena">
-                            <button class="btn btn-info" (click)="handleOpenModal(turno, 'resena')">Ver comentario</button>
+                            <button class="btn btn-info" (click)="handleOpenModal(turno, 'resena')">Ver Reseña</button>
                         </ng-container>
                         <ng-container *ngIf="turno.encuesta">
                             <button class="btn btn-info mx-2" (click)="handleOpenModal(turno, 'encuestaVer')">Ver encuesta</button>
@@ -50,6 +53,15 @@
             <input type="text" style="width: 100%;" placeholder="Deja un comentario" [(ngModel)]="comentario">
             <br>
             <button class="btn btn-danger mt-3" (click)="cancelarTurno()"> Cancelar turno </button>
+        </div>
+    </app-modal>
+</div>
+
+<div *ngIf="modal.comentario">
+    <app-modal (onClose)="handleCloseModals()">
+        <div class="p-5 pt-2">
+            <h2>Comentario</h2>
+            <h5 class="mt-4"><i>"{{turnoSelected?.comentario}}"</i></h5>
         </div>
     </app-modal>
 </div>

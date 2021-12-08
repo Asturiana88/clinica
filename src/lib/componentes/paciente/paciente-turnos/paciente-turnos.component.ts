@@ -38,6 +38,7 @@ export class PacienteTurnosComponent implements OnInit {
   handleCloseModals() {
     this.updateData();
     this.turnoSelected = undefined;
+    this.comentario = undefined;
     this.modal = {};
   }
 
@@ -57,12 +58,12 @@ export class PacienteTurnosComponent implements OnInit {
   }
 
   cancelarTurno() {
-    this.handleCloseModals();
     const turno = this.turnoSelected;
     if (!turno || !this.comentario) {
       return;
     }
 
+    this.handleCloseModals();
     this.storeService.UpdateTurno(turno.id || '', {
       ...turno,
       estado: 'cancelado',
