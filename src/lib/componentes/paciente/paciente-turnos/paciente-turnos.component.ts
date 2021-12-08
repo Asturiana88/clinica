@@ -45,11 +45,11 @@ export class PacienteTurnosComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  updateData(filtros?: Filtro) {
+  async updateData(filtros?: Filtro) {
     if (filtros) {
       this.filtros = filtros;
     }
-    this.turnos = this.storeService.GetTurnos({
+    this.turnos = await this.storeService.GetTurnos({
       ...this.filtros,
       paciente: this.authService.getUser,
     });

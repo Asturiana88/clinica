@@ -33,12 +33,12 @@ export class PacientesAtendidosComponent implements OnInit {
     this.getPacientes();
   }
 
-  getPacientes(that?: any) {
+  async getPacientes(that?: any) {
     let thisInstance = this;
     if (that) {
       thisInstance = that;
     }
-    const turnos = thisInstance.store.GetTurnos({
+    const turnos = await thisInstance.store.GetTurnos({
       especialista: thisInstance.auth.getUser,
     });
     setTimeout(() => {

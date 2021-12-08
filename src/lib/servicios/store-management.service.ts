@@ -32,7 +32,7 @@ export class StoreManagementService {
     return collection.valueChanges();
   }
 
-  GetTurnos(props: {
+  async GetTurnos(props: {
     fecha?: string;
     hora?: string;
     paciente?: Paciente | string;
@@ -69,7 +69,7 @@ export class StoreManagementService {
     const collection = this.bd.collection<Turno>(TURNOS_PATH);
     const turnos: Turno[] = [];
 
-    collection.get().forEach((actions) => {
+    await collection.get().forEach((actions) => {
       return actions.docs.map((a) => {
         const data = a.data() as Turno;
         const id = a.id;
@@ -165,7 +165,13 @@ export class StoreManagementService {
       });
     });
 
+    //await this.timeout(800);
+
     return turnos;
+  }
+
+  timeout(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   UpdateTurno(id: string, data: Turno) {

@@ -77,18 +77,20 @@
 <div class="row mt-5 p-5 shadow" id='turnos'>
     <div class="col-6">
         <h3>Turnos</h3>
-        <div style="display: block;" *ngIf="turnoData?.data.length && turnoLabels.length">
-            <canvas baseChart width="400" height="400"
-            [datasets]="[turnoData]"
-            [labels]="turnoLabels"
-            [options]="lineChartOptions"
-            [colors]="bareChartColors"
-            [legend]="true"
-            [chartType]="'bar'"
-            [options]="lineChartOptions"
-            >
-            </canvas>
-        </div>
+        <ng-container *ngIf="turnoData | async as data">
+            <div style="display: block;" *ngIf="data?.data?.length && turnoLabels.length">
+                <canvas baseChart width="400" height="400"
+                [datasets]="[data]"
+                [labels]="turnoLabels"
+                [options]="lineChartOptions"
+                [colors]="bareChartColors"
+                [legend]="true"
+                [chartType]="'bar'"
+                [options]="lineChartOptions"
+                >
+                </canvas>
+            </div>
+        </ng-container>
     </div>
     <div class="col-3">
         <h3 class="mt-2">Turnos por</h3>
@@ -136,6 +138,54 @@
 </div>
 <div class="my-4">
     <button class="btn btn-danger" (click)="exportAsPDF('turnos', 'Turnos')">Descargar PDF</button>
+</div>
+
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<!--  Especialidad -->
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<div class="row mt-5 p-5 shadow" id='Especialidades'>
+    <div class="col-6">
+        <h3>Especialidades</h3>
+            <ng-container *ngIf="especialidadData | async as data">
+                <div style="display: block;" *ngIf="data?.data?.length">
+                    <canvas baseChart width="400" height="400"
+                    [datasets]="[data]"
+                    [labels]="especialidades"
+                    [options]="lineChartOptions"
+                    [colors]="bareChartColors"
+                    [legend]="true"
+                    [chartType]="'bar'"
+                    [options]="lineChartOptions"
+                    >
+                    </canvas>
+                </div>
+            </ng-container>
+    </div>
+    <div class="col-3">
+        <h3 class="mt-2">Especialidades por</h3>
+        <div class="form-group">
+            <input id="pacientesEsp" type="radio" value="paciente" [(ngModel)]="filtrosEspecialidades.label" name="esp" (change)="getUsuariosPorEspecialidad()"> <!--(change)="getUsuariosPorEspecialidad()"> -->
+            <label for="pacientesEsp" class="mx-3">Pacientes</label>
+        </div>
+        <div class="form-group">
+            <input id="especialistaEsp" type="radio" value="especialista" [(ngModel)]="filtrosEspecialidades.label" name="esp"(change)="getUsuariosPorEspecialidad()"> <!--(change)="getUsuariosPorEspecialidad()"> -->
+            <label for="especialistaEsp" class="mx-3">Especialista</label>
+        </div>
+  
+    </div>
+</div>
+<div class="my-4">
+    <button class="btn btn-danger" (click)="exportAsPDF('Especialidades', 'Especialidades')">Descargar PDF</button>
 </div>
 
 <!--

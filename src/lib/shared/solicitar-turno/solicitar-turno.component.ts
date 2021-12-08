@@ -61,13 +61,13 @@ export class SolicitarTurnoComponent implements OnInit {
     this.getHorarios();
   }
 
-  getHorarios() {
+  async getHorarios() {
     if (!this.fecha || !this.especialidad.nombre) {
       return;
     }
 
     this.getHorasDisponibles();
-    const turnos = this.storeService.GetTurnos({
+    const turnos = await this.storeService.GetTurnos({
       especialidad: this.especialidad,
       especialista: this.especialista,
       fecha: this.fecha,

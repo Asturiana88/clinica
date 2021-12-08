@@ -55,12 +55,12 @@ export class EspecialistaTurnosComponent implements OnInit {
     }
   }
 
-  updateData(filtros?: Filtro) {
+  async updateData(filtros?: Filtro) {
     if (filtros) {
       this.filtros = filtros;
     }
 
-    this.turnos = this.storeService.GetTurnos({
+    this.turnos = await this.storeService.GetTurnos({
       especialista: this.authService.getUser,
       ...this.filtros,
     });

@@ -26,13 +26,13 @@ export class HistoriaClinicaComponent implements OnInit {
     this.getTurnos();
   }
 
-  getTurnos() {
+  async getTurnos() {
     let paciente = this.paciente;
     const rol = this.auth.getUser.rol;
     if (rol === 'paciente') {
       paciente = this.auth.getUser;
     }
-    this.turnos = this.store.GetTurnos({
+    this.turnos = await this.store.GetTurnos({
       paciente,
       historia: true,
     });

@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartOptions } from 'chart.js';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChartDataSets, ChartOptions } from 'chart.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { BehaviorSubject } from 'rxjs';
+import { Administrador } from 'src/lib/clases/administrador';
 import { Especialista } from 'src/lib/clases/especialista';
 import { Log } from 'src/lib/clases/log';
+import { Paciente } from 'src/lib/clases/paciente';
 import { Turno } from 'src/lib/clases/turno';
+import { Usuario } from 'src/lib/clases/usuario';
 import { LoggerService } from 'src/lib/servicios/logger.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
 
@@ -16,6 +20,7 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 export class InformesComponent implements OnInit {
   constructor(
     private logger: LoggerService,
+    private changeDetectorRef: ChangeDetectorRef,
     private store: StoreManagementService
   ) {}
 
@@ -30,8 +35,17 @@ export class InformesComponent implements OnInit {
     estado: string;
   } = { estado: '', desdeFecha: '', hastaFecha: '', label: 'fecha' };
   turnoLabels: any;
-  turnoData: any;
+  turnoData = new BehaviorSubject<ChartDataSets>({
+    data: [],
+    label: '',
+  });
   turnoFechas: any = [];
+
+  filtrosEspecialidades = { label: 'paciente', desdeFecha: '', hastaFecha: '' };
+  especialidadData = new BehaviorSubject<ChartDataSets>({
+    data: [],
+    label: '',
+  });
 
   public lineChartColors = [
     {
@@ -60,7 +74,10 @@ export class InformesComponent implements OnInit {
     },
   };
 
-  turnos: Turno[] = this.store.GetTurnos({});
+  timeoutEsp: any;
+  timeoutOth: any;
+
+  turnos = new BehaviorSubject<Turno[]>([]);
   especialistas: string[] = [];
   especialidades: string[] = [];
 
@@ -79,14 +96,70 @@ export class InformesComponent implements OnInit {
       });
     });
 
+    this.getTurnos();
     this.getTurnosData();
+    this.getUsuariosPorEspecialidad();
+  }
+
+  getUsuariosPorEspecialidad() {
+    this.turnos.subscribe((turnos) => {
+      const data: any = {};
+      const users: string[] = [];
+      if (this.filtrosEspecialidades.label === 'paciente') {
+        turnos.forEach((turno) => {
+          const user = turno.paciente;
+          if (!users.includes(user.uid)) {
+            console.log(user.nombre);
+            users.push(user.uid);
+            if (!data[turno.especialidad.nombre]) {
+              data[turno.especialidad.nombre] = 1;
+            } else {
+              data[turno.especialidad.nombre] += 1;
+            }
+          }
+        });
+        const [letra, ...resto] = this.filtrosEspecialidades.label;
+        const label = [letra?.toUpperCase(), ...resto].join('');
+
+        this.especialidadData.next({
+          data: this.especialidades.map((esp) => data[esp]),
+          label,
+        });
+      } else {
+        this.store.GetUsuarios().subscribe((usrs) => {
+          usrs.forEach((usr: Usuario) => {
+            if (usr.rol === 'especialista') {
+              (usr as Especialista).especialidad.forEach((especialidadData) => {
+                if (!data[especialidadData.nombre]) {
+                  data[especialidadData.nombre] = 1;
+                } else {
+                  data[especialidadData.nombre] += 1;
+                }
+              });
+            }
+          });
+          const [letra, ...resto] = this.filtrosEspecialidades.label;
+          const label = [letra?.toUpperCase(), ...resto].join('');
+
+          this.especialidadData.next({
+            data: this.especialidades.map((esp) => data[esp]),
+            label,
+          });
+        });
+      }
+    });
+  }
+
+  async getTurnos() {
+    this.store.GetTurnos({}).then((res) => {
+      this.turnos.next(res);
+    });
   }
 
   getTurnosData() {
-    setTimeout(() => {
+    this.turnos.subscribe((turnos) => {
       const data: any = {};
-
-      this.turnos.forEach((turno) => {
+      turnos.forEach((turno) => {
         if (this.turnoFechas.indexOf(turno.fecha) < 0) {
           this.turnoFechas.push(turno.fecha);
         }
@@ -96,20 +169,20 @@ export class InformesComponent implements OnInit {
 
       if (this.filtrosTurno.label === 'especialista') {
         this.especialistas.forEach((esp) => (data[esp] = 0));
-        this.turnos.forEach((turno) => {
+        turnos.forEach((turno) => {
           if (this.checkFechasEstado(turno)) {
             data[turno.especialista.nombre] += 1;
           }
         });
       } else if (this.filtrosTurno.label === 'especialidad') {
         this.especialidades.forEach((esp) => (data[esp] = 0));
-        this.turnos.forEach((turno) => {
+        turnos.forEach((turno) => {
           if (this.checkFechasEstado(turno)) {
             data[turno.especialidad.nombre] += 1;
           }
         });
       } else {
-        this.turnos.forEach((turno) => {
+        turnos.forEach((turno) => {
           if (this.checkFechasEstado(turno)) {
             if (!data[turno.fecha]) {
               data[turno.fecha] = 1;
@@ -125,11 +198,11 @@ export class InformesComponent implements OnInit {
 
       const [letra, ...resto] = this.filtrosTurno.estado;
       const label = [letra?.toUpperCase(), ...resto].join('');
-      this.turnoData = {
+      this.turnoData.next({
         data: labels.map((label1) => data[label1]),
         label: label || 'Todos los estados',
-      };
-    }, 600);
+      });
+    });
   }
 
   checkFechasEstado(turno: Turno) {
