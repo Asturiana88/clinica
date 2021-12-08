@@ -12,7 +12,7 @@
         <div style="display: block;" *ngIf="logData?.data.length">
             <canvas baseChart width="400" height="400"
             [datasets]="[logData]"
-            [labels]="logLabels"
+            [labels]="logFilter"
             [options]="lineChartOptions"
             [colors]="lineChartColors"
             [legend]="true"
@@ -83,7 +83,6 @@
                 [datasets]="[data]"
                 [labels]="turnoLabels"
                 [options]="lineChartOptions"
-                [colors]="bareChartColors"
                 [legend]="true"
                 [chartType]="'bar'"
                 [options]="lineChartOptions"
@@ -162,9 +161,8 @@
                     [datasets]="[data]"
                     [labels]="especialidades"
                     [options]="lineChartOptions"
-                    [colors]="bareChartColors"
                     [legend]="true"
-                    [chartType]="'bar'"
+                    [chartType]="'pie'"
                     [options]="lineChartOptions"
                     >
                     </canvas>
@@ -186,6 +184,111 @@
 </div>
 <div class="my-4">
     <button class="btn btn-danger" (click)="exportAsPDF('Especialidades', 'Especialidades')">Descargar PDF</button>
+</div>
+
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<!--  Encuestas -->
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<div class="row mt-5 p-5 shadow" id='calificaciones'>
+    <div class="col-6">
+        <h3>Calificaciones promedio</h3>
+            <ng-container *ngIf="calificacionData | async as data">
+                <div style="display: block;" *ngIf="data?.data?.length">
+                    <canvas baseChart width="400" height="400"
+                    [datasets]="[data]"
+                    [labels]="calificacionLables"
+                    [options]="lineChartOptions"
+                    [legend]="true"
+                    [chartType]="'bar'"
+                    [options]="lineChartOptions"
+                    >
+                    </canvas>
+                </div>
+            </ng-container>
+    </div>
+    <div class="col-4">
+        <h3 class="mt-2">Encuestas por</h3>
+         <div class="form-group">
+            <input id="especialidad1" type="radio" value="especialidad" [(ngModel)]="filtrosCalificacion.group" name="calificaciones" (change)="getCalificaciones()"> 
+            <label for="especialidad1" class="mx-3">Especialidad</label>
+        </div>
+        <div class="form-group">
+            <input id="especialista1" type="radio" value="especialista" [(ngModel)]="filtrosCalificacion.group" name="calificaciones"(change)="getCalificaciones()"> 
+            <label for="especialista1" class="mx-3">Especialista</label>
+        </div>
+
+        <hr>
+
+        <h3 class="mt-2">Tipo de puntuacion</h3>
+        <div class="mt-4">
+            <div class="form-group">
+                <input id="valoracion" type="radio" value="valoracion" [(ngModel)]="filtrosCalificacion.label" name="valoracion" (change)="getCalificaciones()"> 
+                <label for="valoracion" class="mx-3">Valoracion</label>
+            </div>
+            <div class="form-group">
+                <input id="recomdacion" type="radio" value="recomdacion" [(ngModel)]="filtrosCalificacion.label" name="valoracion"(change)="getCalificaciones()"> 
+                <label for="recomdacion" class="mx-3">Probabilidad de recomendacion</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="my-4">
+    <button class="btn btn-danger" (click)="exportAsPDF('calificaciones', 'Calificaciones')">Descargar PDF</button>
+</div>
+
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<!--  Paciente turnos -->
+<!--
+*************************************************************************************
+*************************************************************************************
+************************************************************************************* 
+-->
+
+<div class="row mt-5 p-5 shadow" id='turnosUser'>
+    <div class="col-6">
+        <h3>Turnos por paciente</h3>
+            <ng-container *ngIf="pacienteTurnoData | async as data">
+                <div style="display: block;" *ngIf="data?.data?.length">
+                    <canvas baseChart width="400" height="400"
+                    [datasets]="[data]"
+                    [labels]="pacienteTurnoLables"
+                    [options]="lineChartOptions"
+                    [legend]="true"
+                    [chartType]="'pie'"
+                    [options]="lineChartOptions"
+                    >
+                    </canvas>
+                </div>
+            </ng-container>
+    </div>
+    <div class="col-4">
+        <h3 class="mt-2">Turnos por usuario</h3>
+        <select name="paciente" id="" [(ngModel)]="pacienteFiltro" (change)="getPacienteTurnos()">
+            <option value="">Todos</option>
+            <ng-container *ngFor="let user of users| async">
+                <option *ngIf="user.rol == 'paciente'" [value]="user.email">{{user.nombre}}</option>
+            </ng-container>
+
+        </select>
+    </div>
+</div>
+<div class="my-4">
+    <button class="btn btn-danger" (click)="exportAsPDF('turnosUser', 'Turnos por usuario')">Descargar PDF</button>
 </div>
 
 <!--

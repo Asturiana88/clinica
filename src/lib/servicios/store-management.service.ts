@@ -32,6 +32,8 @@ export class StoreManagementService {
     return collection.valueChanges();
   }
 
+  // ESTA DE ESTA MANERA PORQUE PODEMOS OBTENER YA TODOS LOS TURNOS FILTRADOS
+  // EN VEZ DE USAR valueChanges USE get PARA PODER TENER EL ID DE CADA TURNO
   async GetTurnos(props: {
     fecha?: string;
     hora?: string;

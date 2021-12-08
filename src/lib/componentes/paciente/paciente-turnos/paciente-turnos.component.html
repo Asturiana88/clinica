@@ -22,7 +22,7 @@
                     <td [innerHTML]="turno.estado | estadoTurno | safeHtml">  </td>
                     <td>
                         <ng-container *ngIf="turno.estado == 'pendiente' || turno.estado == 'aceptado'">
-                            <button (click)="cancelarTurno(turno)" class="btn btn-danger">Cancelar</button>
+                            <button (click)="handleOpenModal(turno, 'cancelar')" class="btn btn-danger">Cancelar</button>
                         </ng-container>
                         <ng-container *ngIf="turno.resena">
                             <button class="btn btn-info" (click)="handleOpenModal(turno, 'resena')">Ver comentario</button>
@@ -41,6 +41,17 @@
             </tbody>
         </table>
     </div>
+</div>
+
+<div *ngIf="modal.cancelar">
+    <app-modal (onClose)="handleCloseModals()">
+        <div class="p-5 pt-2">
+            <h2>Cancelar turno</h2>
+            <input type="text" style="width: 100%;" placeholder="Deja un comentario" [(ngModel)]="comentario">
+            <br>
+            <button class="btn btn-danger mt-3" (click)="cancelarTurno()"> Cancelar turno </button>
+        </div>
+    </app-modal>
 </div>
 
 <div *ngIf="modal.resena">

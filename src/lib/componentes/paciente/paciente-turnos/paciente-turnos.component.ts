@@ -14,6 +14,7 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 export class PacienteTurnosComponent implements OnInit {
   especialidades = this.storeService.GetEspecialidades();
 
+  comentario?: string;
   especialistas: Especialista[] = [];
   especialista!: Especialista;
 
@@ -55,10 +56,17 @@ export class PacienteTurnosComponent implements OnInit {
     });
   }
 
-  cancelarTurno(turno: Turno) {
+  cancelarTurno() {
+    this.handleCloseModals();
+    const turno = this.turnoSelected;
+    if (!turno || !this.comentario) {
+      return;
+    }
+
     this.storeService.UpdateTurno(turno.id || '', {
       ...turno,
       estado: 'cancelado',
+      comentario: this.comentario,
     });
     this.updateData();
   }

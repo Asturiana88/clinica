@@ -1,9 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { BehaviorSubject } from 'rxjs';
-import { Administrador } from 'src/lib/clases/administrador';
 import { Especialista } from 'src/lib/clases/especialista';
 import { Log } from 'src/lib/clases/log';
 import { Paciente } from 'src/lib/clases/paciente';
@@ -20,12 +19,12 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 export class InformesComponent implements OnInit {
   constructor(
     private logger: LoggerService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private store: StoreManagementService
+    public store: StoreManagementService
   ) {}
 
   filtrosLogger = { rol: '', desdeFecha: '', hastaFecha: '' };
   logLabels: any;
+  logFilter: any;
   logData: any;
 
   filtrosTurno: {
@@ -81,6 +80,31 @@ export class InformesComponent implements OnInit {
   especialistas: string[] = [];
   especialidades: string[] = [];
 
+  filtrosCalificacion: {
+    label: 'valoracion' | 'recomdacion';
+    group: 'especialidad' | 'especialista';
+  } = { label: 'valoracion', group: 'especialidad' };
+  calificacionLables: string[] = [];
+  calificacionData = new BehaviorSubject<ChartDataSets>({
+    data: [],
+    label: '',
+  });
+
+  pacienteFiltro = '';
+  pacienteTurnoLables: string[] = [
+    'Pendiente',
+    'Finalizado',
+    'Aceptado',
+    'Cancelado',
+    'Rechazado',
+  ];
+  pacienteTurnoData = new BehaviorSubject<ChartDataSets>({
+    data: [],
+    label: 'Estado de turnos',
+  });
+
+  users = this.store.GetUsuarios();
+
   ngOnInit(): void {
     this.getLoggerData();
     this.store.GetUsuarios().subscribe((usuarios) => {
@@ -99,6 +123,105 @@ export class InformesComponent implements OnInit {
     this.getTurnos();
     this.getTurnosData();
     this.getUsuariosPorEspecialidad();
+    this.getCalificaciones();
+    this.getPacienteTurnos();
+  }
+
+  getPacienteTurnos() {
+    this.turnos.subscribe((turnos) => {
+      const data: any = {};
+      turnos.forEach((turno) => {
+        if (
+          !this.pacienteFiltro ||
+          this.pacienteFiltro === turno.paciente.email
+        ) {
+          if (!data[turno.estado]) {
+            data[turno.estado] = 1;
+          } else {
+            data[turno.estado] += 1;
+          }
+        }
+      });
+
+      this.pacienteTurnoData.next({
+        data: this.pacienteTurnoLables.map((esp) => data[esp.toLowerCase()]),
+        label: 'Estado de turnos',
+      });
+    });
+  }
+
+  getCalificaciones() {
+    this.turnos.subscribe((turnos) => {
+      const labels: string[] = [];
+      const data: any = {};
+      turnos.forEach((turno) => {
+        if (turno.calificacion) {
+          const especialidad = turno.especialidad;
+          const especialista = turno.especialista;
+          const valoracion = turno.calificacion.puntuacionAtencion;
+          const recomendacion = turno.calificacion.probabilidadDeRecomendacion;
+
+          if (this.filtrosCalificacion.group === 'especialidad') {
+            if (labels.indexOf(especialidad.nombre) < 0) {
+              labels.push(especialidad.nombre);
+            }
+          } else {
+            if (labels.indexOf(especialista.nombre) < 0) {
+              labels.push(especialista.nombre);
+            }
+          }
+
+          if (this.filtrosCalificacion.label === 'valoracion' && valoracion) {
+            if (this.filtrosCalificacion.group === 'especialidad') {
+              if (!data[especialidad.nombre]) {
+                data[especialidad.nombre] = [valoracion];
+              } else {
+                data[especialidad.nombre].push(valoracion);
+              }
+            } else {
+              if (!data[especialista.nombre]) {
+                data[especialista.nombre] = [valoracion];
+              } else {
+                data[especialista.nombre].push(valoracion);
+              }
+            }
+          } else if (recomendacion) {
+            if (this.filtrosCalificacion.group === 'especialidad') {
+              if (!data[especialidad.nombre]) {
+                data[especialidad.nombre] = [recomendacion];
+              } else {
+                data[especialidad.nombre].push(recomendacion);
+              }
+            } else {
+              if (!data[especialista.nombre]) {
+                data[especialista.nombre] = [recomendacion];
+              } else {
+                data[especialista.nombre].push(recomendacion);
+              }
+            }
+          }
+        }
+      });
+
+      this.calificacionLables = labels;
+
+      const formatedData: { [key: string]: number } = {};
+      Object.keys(data).forEach((key: string) => {
+        const promedio =
+          data[key].reduce((a: number, b: number) => a + b, 0) /
+          data[key].length;
+
+        formatedData[key] = promedio || 0;
+      });
+
+      const [letra, ...resto] = this.filtrosCalificacion.group;
+      const label = [letra?.toUpperCase(), ...resto].join('');
+
+      this.calificacionData.next({
+        data: labels.map((esp) => formatedData[esp]),
+        label,
+      });
+    });
   }
 
   getUsuariosPorEspecialidad() {
@@ -109,7 +232,6 @@ export class InformesComponent implements OnInit {
         turnos.forEach((turno) => {
           const user = turno.paciente;
           if (!users.includes(user.uid)) {
-            console.log(user.nombre);
             users.push(user.uid);
             if (!data[turno.especialidad.nombre]) {
               data[turno.especialidad.nombre] = 1;
@@ -251,6 +373,7 @@ export class InformesComponent implements OnInit {
 
   getDataLogger(data: any) {
     const labels = Object.keys(data).sort();
+    this.logFilter = labels;
     this.logLabels = labels;
 
     const labelsFiltradas = this.filtarFecha({
@@ -258,6 +381,7 @@ export class InformesComponent implements OnInit {
       desdeFecha: this.filtrosLogger.desdeFecha,
       hastaFecha: this.filtrosLogger.hastaFecha,
     });
+    this.logFilter = labelsFiltradas;
 
     const [letra, ...resto] = this.filtrosLogger.rol;
     const label = [letra?.toUpperCase(), ...resto].join('');
@@ -286,7 +410,7 @@ export class InformesComponent implements OnInit {
     } else if (desde && hasta && desde <= hasta) {
       return fechas.slice(desde, hasta + 1);
     } else if (desde) {
-      return fechas.slice(desde, fechas.length - 1);
+      return fechas.slice(desde, fechas.length);
     } else if (hasta && hasta !== 0) {
       return fechas.slice(0, hasta + 1);
     } else if (hasta === 0) {
