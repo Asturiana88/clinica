@@ -47,6 +47,8 @@ export class CaptchaDirective implements OnInit {
             host.firstChild
           );
         }
+      } else {
+        this.resolve.emit(true);
       }
     });
   }
