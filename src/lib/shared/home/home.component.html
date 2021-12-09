@@ -4,12 +4,7 @@
     </div>
 
     <div class="col-12 mt-5" *ngIf="usuario">
-        <ng-container *ngIf="!usuario.approved">
-            <h2 class="text-danger">El usuario no ha sido validado por un administrador</h2>
-        </ng-container>
-        <ng-container *ngIf="!usuario.emailVerified">
-            <h2 class="text-danger">El email del usuario no ha sido validado verifica tu cuenta de email</h2>
-        </ng-container>
+        <h1>Bienvenido {{usuario.nombre}}!</h1>
     </div>
 
     <div class="col-12 mt-5">

@@ -37,7 +37,7 @@
                             <button class="btn btn-warning mx-2" (click)="handleOpenModal(turno, 'encuesta')">Encuesta</button>
                         </ng-container>
                         <ng-container *ngIf="turno.estado == 'finalizado' && !turno.calificacion">
-                            <button class="btn btn-primary" (click)="handleOpenModal(turno, 'calificar')">Dar Calificacion</button>
+                            <button class="btn btn-primary mx-3" (click)="handleOpenModal(turno, 'calificar')">Dar Calificacion</button>
                         </ng-container>
                     </td>
                 </tr>

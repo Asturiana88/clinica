@@ -23,6 +23,9 @@ export class CaptchaDirective implements OnInit {
 
   @Output() resolve = new EventEmitter<boolean>(false);
 
+  // Crea el componente para el captcha con el resolveComponentFactory
+  // y lo inserta despues del elemento html que tenga la directiva
+  // - emite con la funcion resolve cuando el captcha se resuelve
   ngOnInit() {
     this.captcha.GetCaptcha().subscribe((enabled) => {
       if (enabled?.activo) {
@@ -38,7 +41,6 @@ export class CaptchaDirective implements OnInit {
         });
 
         const host = this.element.nativeElement;
-        const form = host.closest('form');
         if (host) {
           host.insertAfter(
             componentRef.location.nativeElement,

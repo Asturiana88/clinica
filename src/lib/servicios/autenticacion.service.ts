@@ -66,6 +66,7 @@ export class AuthService {
         this.SetUserData(result.user.toJSON(), usuario);
         this.logger.CrearLogIngreso(usuario);
         (await this.afAuth.currentUser)?.sendEmailVerification();
+        this.SignOut();
         this.router.navigate(['']);
       })
       .catch((err) => alert(err));
@@ -76,7 +77,6 @@ export class AuthService {
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   SetUserData(user: Usuario, userData: Usuario) {
     const userFormado = { ...user, ...userData };
-    console.log(userFormado);
     this.isLoading.next(true);
     if (user) {
       this.afs
@@ -97,21 +97,21 @@ export class AuthService {
     if (data) {
       if (!this.singout) {
         this.isLoading.next(false);
+        if (!data.emailVerified && data.rol !== 'admin') {
+          alert('Email no ha sido validado');
+          this.SignOut();
+          return;
+        }
+
+        if (data.rol === 'especialista' && !data.approved) {
+          alert(
+            'El especialista debe ser aprobado por un administrador para poder ingresar'
+          );
+          this.SignOut();
+          return;
+        }
         localStorage.setItem('user', JSON.stringify(data));
         this.logger.CrearLogIngreso(data);
-        if (
-          data.rol === 'especialista' &&
-          (!data.approved || !data.emailVerified)
-        ) {
-          if (!data.approved) {
-            alert(
-              'Especialista debe ser aprobado por un admin para poder iniciar sesion'
-            );
-          } else if (!data.emailVerified) {
-            alert('Especialista debe validar email');
-          }
-          this.SignOut();
-        }
       }
       this.isLoading.next(false);
     }
