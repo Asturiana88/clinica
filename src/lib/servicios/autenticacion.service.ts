@@ -29,7 +29,10 @@ export class AuthService {
   ) {
     this.afAuth.authState.subscribe((user) => {
       if (user && this.update) {
-        this.GetUserData((user.toJSON() as Usuario).uid);
+        this.GetUserData(
+          (user.toJSON() as Usuario).uid,
+          (user.toJSON() as Usuario).emailVerified
+        );
       } else {
         this.isLoading.next(false);
         this.update = true;
@@ -90,14 +93,14 @@ export class AuthService {
     }
   }
 
-  async GetUserData(userUid: string) {
+  async GetUserData(userUid: string, verifier: boolean) {
     this.isLoading.next(true);
     const user = await this.afs.collection('users').doc(userUid).ref.get();
     const data = user.data() as Usuario;
     if (data) {
       if (!this.singout) {
         this.isLoading.next(false);
-        if (!data.emailVerified && data.rol !== 'admin') {
+        if (!verifier && data.rol !== 'admin') {
           alert('Email no ha sido validado');
           this.SignOut();
           return;

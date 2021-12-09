@@ -31,7 +31,7 @@
         <div *ngIf="loadingImge" class="loader"> </div>
     </div>
 
-    <div style="max-height: 200px;" *ngIf="especialidades | async as especialidadesData">
+    <div style="max-height: 200px; overflow: auto;" *ngIf="especialidades | async as especialidadesData">
         <h3>Especialidad</h3>
         <div *ngFor="let especialidad of especialidadesData">
             <label class="d-flex align-items-center">

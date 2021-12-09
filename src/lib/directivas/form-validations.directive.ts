@@ -25,7 +25,6 @@ export class FormValidationsDirective implements OnInit {
 
           // tslint:disable-next-line: no-unused-expression
           this.submit && this.submit(this.that);
-
           // Agregamos 'that' a submit porque 'this' suele usarse para ejecutar codigo dentro de esa funcion
           // 'that' es la instancia del componente
         }
