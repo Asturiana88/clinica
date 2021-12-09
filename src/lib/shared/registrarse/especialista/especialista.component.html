@@ -14,11 +14,11 @@
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="number" name="dni"  [(ngModel)]="especialista.dni" placeholder="DNI">                                        
+        <input class="form-control required" type="number" name="dni" min="20000000" max="80000000" [(ngModel)]="especialista.dni" placeholder="DNI">                                        
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="number" name="edad"  [(ngModel)]="especialista.edad" placeholder="Edad">                                        
+        <input class="form-control required" type="number" name="edad" min="0" max="99" [(ngModel)]="especialista.edad" placeholder="Edad">                                        
     </div>
     
     <div style="margin-bottom: 25px" class="input-group">

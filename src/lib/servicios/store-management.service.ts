@@ -187,7 +187,7 @@ export class StoreManagementService {
       .doc(id)
       .update(data)
       .then((r) => {
-        this.authService.GetUserData(id);
+        this.authService.GetUserData(id, true);
         alert('Datos actualizados');
       });
   }

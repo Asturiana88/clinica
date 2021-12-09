@@ -29,6 +29,7 @@ export class AuthService {
   ) {
     this.afAuth.authState.subscribe((user) => {
       if (user && this.update) {
+        console.log(user.toJSON());
         this.GetUserData(
           (user.toJSON() as Usuario).uid,
           (user.toJSON() as Usuario).emailVerified
