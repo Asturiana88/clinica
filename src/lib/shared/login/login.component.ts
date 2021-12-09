@@ -18,9 +18,9 @@ export class LoginComponent implements OnInit {
     if (rol === 'admin') {
       this.auth.SignIn('julietaorce@gmail.com', 'test123');
     } else if (rol === 'especialista') {
-      this.auth.SignIn('shreck@especialista.com', 'test123');
+      this.auth.SignIn('hefabi2085@hagendes.com', '123456');
     } else {
-      this.auth.SignIn('paciente@gmail.com', 'test123');
+      this.auth.SignIn('xogen93247@gruppies.com', '123456');
     }
   }
 
