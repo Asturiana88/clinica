@@ -251,13 +251,15 @@ export class InformesComponent implements OnInit {
         this.store.GetUsuarios().subscribe((usrs) => {
           usrs.forEach((usr: Usuario) => {
             if (usr.rol === 'especialista') {
-              (usr as Especialista).especialidad.forEach((especialidadData) => {
-                if (!data[especialidadData.nombre]) {
-                  data[especialidadData.nombre] = 1;
-                } else {
-                  data[especialidadData.nombre] += 1;
+              (usr as Especialista).especialidad?.forEach(
+                (especialidadData) => {
+                  if (!data[especialidadData.nombre]) {
+                    data[especialidadData.nombre] = 1;
+                  } else {
+                    data[especialidadData.nombre] += 1;
+                  }
                 }
-              });
+              );
             }
           });
           const [letra, ...resto] = this.filtrosEspecialidades.label;
@@ -385,6 +387,9 @@ export class InformesComponent implements OnInit {
 
     const [letra, ...resto] = this.filtrosLogger.rol;
     const label = [letra?.toUpperCase(), ...resto].join('');
+    console.log(data);
+    console.log(labels);
+    console.log(labelsFiltradas);
     this.logData = {
       data: labelsFiltradas.map((label1) => data[label1]),
       label: label || 'Todos los roles',

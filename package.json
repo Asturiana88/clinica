@@ -6,7 +6,7 @@
     "build": "ng build",
     "test": "ng test",
     "start": "node server.js",
-    "dev": "ng serve",
+    "dev": "ng serve  --proxy-config proxy.conf.json",
     "postinstall": "ng build --output-path angularapp --aot --configuration production",
     "lint": "ng lint",
     "e2e": "ng e2e"

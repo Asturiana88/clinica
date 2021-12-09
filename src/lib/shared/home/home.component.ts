@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
+import { StoreManagementService } from 'src/lib/servicios/store-management.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,20 @@ import { AuthService } from 'src/lib/servicios/autenticacion.service';
 export class HomeComponent implements OnInit {
   usuario = this.authService.getUser;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private store: StoreManagementService
+  ) {}
+
+  getData() {
+    this.store.crearUsuariosFake();
+  }
+  getLoginsFake() {
+    this.store.crearLogsFake();
+  }
+  crearTurnosFake() {
+    this.store.crearTurnosFake();
+  }
 
   ngOnInit(): void {}
 }

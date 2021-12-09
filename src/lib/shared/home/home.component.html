@@ -3,8 +3,17 @@
         <h1>Clinica Pinpollo</h1>
     </div>
 
+
     <div class="col-12 mt-5" *ngIf="usuario">
         <h1>Bienvenido {{usuario.nombre}}!</h1>
+        <br>
+        <button class="btn btn-warning" (click)="getData()">Generar usuarios fake</button>
+        <br>
+        <br>
+        <button class="btn btn-warning" (click)="getLoginsFake()">Generar logins fake</button>
+        <br>
+        <br>
+        <button class="btn btn-warning" (click)="crearTurnosFake()">Generar Turnos fake</button>
     </div>
 
     <div class="col-12 mt-5">
