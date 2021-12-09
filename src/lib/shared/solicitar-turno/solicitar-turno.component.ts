@@ -53,10 +53,12 @@ export class SolicitarTurnoComponent implements OnInit {
   }
 
   updateEspecialistas() {
-    this.especialistas = this.especialistasFilter.filter((esp) =>
-      esp.especialidad.find(
-        (espld) => espld.nombre === this.especialidad.nombre
-      )
+    this.especialistas = this.especialistasFilter.filter(
+      (esp) =>
+        esp.especialidad &&
+        esp.especialidad.find(
+          (espld) => espld.nombre === this.especialidad.nombre
+        )
     );
     this.getHorarios();
   }
@@ -128,9 +130,11 @@ export class SolicitarTurnoComponent implements OnInit {
       base = 6;
     }
 
-    const especialidad = this.especialista.especialidad.find(
-      (esp) => esp.nombre === this.especialidad.nombre
-    );
+    const especialidad =
+      this.especialista.especialidad &&
+      this.especialista.especialidad.find(
+        (esp) => esp.nombre === this.especialidad.nombre
+      );
 
     if (base === 6) {
       // sabado
