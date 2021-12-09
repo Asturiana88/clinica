@@ -43,10 +43,24 @@
 
 <div *ngIf="modal.calificacion">
     <app-modal (onClose)="closeModal()">
-        <div class="p-5 pt-0">
-            <h3>Calificacion paciente</h3>
-            <h5 class="mt-4">{{turnoSelected?.calificacion}}</h5>
-        </div>
+            <div class="p-5 pt-0">
+                <h3>Calificacion paciente</h3>
+                <div *ngIf="turnoSelected?.calificacion?.comentario" class="d-flex">
+                    <h5>Comentario</h5>
+                    <p>{{turnoSelected?.calificacion?.comentario}}</p>
+                </div>
+                <div *ngIf="turnoSelected?.calificacion?.comentario" class="d-flex">
+                    <h5>Puntuacion</h5>
+                    <p>{{turnoSelected?.calificacion?.puntuacionAtencion}}</p>
+                </div>
+                <div *ngIf="turnoSelected?.calificacion?.probabilidadDeRecomendacion" class="d-flex">
+                    <h5>Recomendaria la clinica</h5>
+                    <p>{{turnoSelected?.calificacion?.probabilidadDeRecomendacion}}</p>
+                </div>  
+                <div *ngIf="turnoSelected?.calificacion?.puntuacionAtencion" class="d-flex">
+                    <h6 class="text-success">El paciente idico que se soluciono su problema</h6>
+                </div>
+            </div>
     </app-modal>
 </div>
 

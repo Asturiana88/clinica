@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 import { AuthService } from '../servicios/autenticacion.service';
-
+// Esconde campos por rol
 @Directive({
   selector: '[appDisplayIf]',
 })

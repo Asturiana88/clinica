@@ -1,6 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-// Le da formato a los estados de los turnos
+/////////////////////////////////////////////
+// Le da color a los estados de los turnos
+// Pero para poder usarse necesita otro pipe
+// sino angular le saca los estilos
+// safeHtml
+////////////////////////////////////////////
 @Pipe({
   name: 'estadoTurno',
 })
