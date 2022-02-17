@@ -1,57 +1,126 @@
-<h2 class="text-primarty mb-4"> Registrar paciente </h2>
+<h2 class="text-primarty mb-4">Registrar paciente</h2>
 
-<form id="pacienteSingup" appFormValidations [that]="that" [submit]="registrarse" class="form-horizontal" role="form">
-    <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control  required" name="nombre"  [(ngModel)]="paciente.nombre" placeholder="Nombre">                                        
-    </div>
+<form
+  id="pacienteSingup"
+  appFormValidations
+  [that]="that"
+  [submit]="registrarse"
+  class="form-horizontal"
+  role="form"
+>
+  <div style="margin-bottom: 25px" class="input-group">
+    <input
+      type="text"
+      class="form-control required"
+      name="nombre"
+      [(ngModel)]="paciente.nombre"
+      placeholder="{{ 'Registrarse' | translate }}"
+    />
+  </div>
 
-    <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control required" name="apellido"  [(ngModel)]="paciente.apellido" placeholder="Apellido">                                        
-    </div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <input
+      type="text"
+      class="form-control required"
+      name="apellido"
+      [(ngModel)]="paciente.apellido"
+      placeholder="{{ 'Apellido' | translate }}"
+    />
+  </div>
 
-    <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="number" name="dni" min="20000000" max="80000000" [(ngModel)]="paciente.dni" placeholder="DNI">                                        
-    </div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <input
+      class="form-control required"
+      type="number"
+      name="dni"
+      min="20000000"
+      max="80000000"
+      [(ngModel)]="paciente.dni"
+      placeholder="DNI"
+    />
+  </div>
 
-    <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="number" name="edad" min="0" max="99" [(ngModel)]="paciente.edad" placeholder="Edad">                                        
-    </div>
-    
-    <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="email" name="email"  [(ngModel)]="paciente.email" placeholder="Email">                                        
-    </div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <input
+      class="form-control required"
+      type="number"
+      name="edad"
+      min="0"
+      max="99"
+      [(ngModel)]="paciente.edad"
+      placeholder="{{ 'Edad' | translate }}"
+    />
+  </div>
 
-    <div style="margin-bottom: 25px" class="input-group">
-        <label for="file" style="margin-right: 15px">Foto perfil:</label>
-        <input [disabled]="loadingImge" type="file" (change)="handleImage1($event)" accept=".png,.jpg" />
-        <div *ngIf="loadingImge" class="loader"> </div>
-    </div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <input
+      class="form-control required"
+      type="email"
+      name="email"
+      [(ngModel)]="paciente.email"
+      placeholder="Email"
+    />
+  </div>
 
-    <div style="margin-bottom: 25px" class="input-group">
-        <label for="file" style="margin-right: 15px">Foto perfil 2:</label>
-        <input [disabled]="loadingImge2" type="file" (change)="handleImage2($event)" accept=".png,.jpg" />
-        <div *ngIf="loadingImge2" class="loader"> </div>
-    </div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <label for="file" style="margin-right: 15px"
+      >{{ "Foto perfil" | translate }}:</label
+    >
+    <input
+      [disabled]="loadingImge"
+      type="file"
+      (change)="handleImage1($event)"
+      accept=".png,.jpg"
+    />
+    <div *ngIf="loadingImge" class="loader"></div>
+  </div>
 
-    <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="text" name="obraSocial"  [(ngModel)]="paciente.obraSocial" placeholder="Obra social">                                        
-    </div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <label for="file" style="margin-right: 15px"
+      >{{ "Foto perfil" | translate }} 2:</label
+    >
+    <input
+      [disabled]="loadingImge2"
+      type="file"
+      (change)="handleImage2($event)"
+      accept=".png,.jpg"
+    />
+    <div *ngIf="loadingImge2" class="loader"></div>
+  </div>
 
-    <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="password" name="password"  [(ngModel)]="paciente.password" placeholder="Password">                                        
-    </div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <input
+      class="form-control required"
+      type="text"
+      name="obraSocial"
+      [(ngModel)]="paciente.obraSocial"
+      placeholder="{{ 'Obra social' | translate }}"
+    />
+  </div>
 
-    <div appCaptcha (resolve)="resolved($event)"></div>
+  <div style="margin-bottom: 25px" class="input-group">
+    <input
+      class="form-control required"
+      type="password"
+      name="password"
+      [(ngModel)]="paciente.password"
+      placeholder="Password"
+    />
+  </div>
 
-    <div class="input-group">
-        <div style="margin-top:10px" class="form-group">
-            <div class="col-sm-12 controls">
-                <button class="btn btn-success" type="submit" data-action='submit'>Registrarse</button>
-            </div>
-        </div>
-    </div>    
-    
-    <div class="mt-3">
-        <span class="text-danger" *ngIf="singUpError">{{singUpError}}</span>
+  <div appCaptcha (resolve)="resolved($event)"></div>
+
+  <div class="input-group">
+    <div style="margin-top: 10px" class="form-group">
+      <div class="col-sm-12 controls">
+        <button class="btn btn-success" type="submit" data-action="submit">
+          {{ "Registrarse" | translate }}
+        </button>
+      </div>
     </div>
-</form>  
+  </div>
+
+  <div class="mt-3">
+    <span class="text-danger" *ngIf="singUpError">{{ singUpError }}</span>
+  </div>
+</form>

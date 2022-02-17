@@ -1,53 +1,100 @@
-
 <div class="row">
-<h2 class="text-primarty my-4"> Registrar admin </h2>
-<form appFormValidations [that]="that" [submit]="registrarse">
+  <h2 class="text-primarty my-4">{{ "Registrar admin" | translate }}</h2>
+  <form appFormValidations [that]="that" [submit]="registrarse">
     <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control required" name="nombre"  [(ngModel)]="admin.nombre" placeholder="Nombre">                                        
+      <input
+        type="text"
+        class="form-control required"
+        name="nombre"
+        [(ngModel)]="admin.nombre"
+        placeholder="{{ 'Nombre' | translate }}"
+      />
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input type="text" class="form-control required" name="apellido"  [(ngModel)]="admin.apellido" placeholder="Apellido">                                        
+      <input
+        type="text"
+        class="form-control required"
+        name="apellido"
+        [(ngModel)]="admin.apellido"
+        placeholder="{{ 'Apellido' | translate }}"
+      />
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="number" name="dni" min="20000000" max="80000000" [(ngModel)]="admin.dni" placeholder="DNI">                                        
+      <input
+        class="form-control required"
+        type="number"
+        name="dni"
+        min="20000000"
+        max="80000000"
+        [(ngModel)]="admin.dni"
+        placeholder="DNI"
+      />
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="number" name="edad" min="0" max="99"  [(ngModel)]="admin.edad" placeholder="Edad">                                        
-    </div>
-    
-    <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="email" name="email"  [(ngModel)]="admin.email" placeholder="Email">                                        
-    </div>
-
-    <div style="margin-bottom: 25px" class="input-group">
-        <label for="file" style="margin-right: 15px">Foto perfil:</label>
-        <input [disabled]="loadingImge" type="file" (change)="handleImage($event)" accept=".png,.jpg" />
-        <div *ngIf="loadingImge" class="loader"> </div>
+      <input
+        class="form-control required"
+        type="number"
+        name="edad"
+        min="0"
+        max="99"
+        [(ngModel)]="admin.edad"
+        placeholder="{{ 'Edad' | translate }}"
+      />
     </div>
 
     <div style="margin-bottom: 25px" class="input-group">
-        <input class="form-control required" type="password" name="password"  [(ngModel)]="admin.password" placeholder="Password">                                        
+      <input
+        class="form-control required"
+        type="email"
+        name="email"
+        [(ngModel)]="admin.email"
+        placeholder="Email"
+      />
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+      <label for="file" style="margin-right: 15px"
+        >{{ "Foto perfil" | translate }}:</label
+      >
+      <input
+        [disabled]="loadingImge"
+        type="file"
+        (change)="handleImage($event)"
+        accept=".png,.jpg"
+      />
+      <div *ngIf="loadingImge" class="loader"></div>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+      <input
+        class="form-control required"
+        type="password"
+        name="password"
+        [(ngModel)]="admin.password"
+        placeholder="Password"
+      />
     </div>
 
     <div id="pacienteCaptcha"></div>
-    <br>
+    <br />
 
     <div appCaptcha (resolve)="resolved($event)"></div>
 
     <div class="input-group">
-        <div style="margin-top:10px" class="form-group">
-            <div class="col-sm-12 controls">
-                <button type="submit" class="btn btn-success"> Registrarse </button>
-            </div>
+      <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-12 controls">
+          <button type="submit" class="btn btn-success">
+            {{ "Registrarse" | translate }}
+          </button>
         </div>
-    </div>    
-    
-    <div class="mt-3">
-        <span class="text-danger" *ngIf="singUpError">{{singUpError}}</span>
+      </div>
     </div>
-</form>     
 
+    <div class="mt-3">
+      <span class="text-danger" *ngIf="singUpError">{{ singUpError }}</span>
+    </div>
+  </form>
 </div>

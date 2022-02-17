@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { AuthService } from 'src/lib/servicios/autenticacion.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, translate: TranslateModule) {}
 
   email!: string;
   password!: string;

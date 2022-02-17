@@ -4,6 +4,7 @@ import { PacientePerfilComponent } from './paciente-perfil.component';
 import { PacientePerfilRoutingModule } from './paciente-perfil.routing';
 import { PerfilModule } from 'src/lib/shared/perfil/perfil.module';
 import { HistoriaClinicaModule } from 'src/lib/shared/historia-clinica/historia-clinica.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [PacientePerfilComponent],
@@ -11,6 +12,7 @@ import { HistoriaClinicaModule } from 'src/lib/shared/historia-clinica/historia-
     CommonModule,
     PerfilModule,
     PacientePerfilRoutingModule,
+    TranslateModule,
     HistoriaClinicaModule,
   ],
 })

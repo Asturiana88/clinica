@@ -1,54 +1,67 @@
 <div class="row">
-    <div class="col-12">
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <!-- <th>DNI</th> -->
-                    <th>Rol</th>
-                    <th>Validado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="for let usuario of usuarios | async">
-                    <tr *ngIf="usuario.uid">
-                        <th>{{usuario.nombre}}</th>
-                        <th>{{usuario.apellido}}</th>
-                        <th>{{usuario.email}}</th>
-                        <!-- <th>{{usuario.dni}}</th> -->
-                        <th>{{usuario.rol}}</th>
-                        <th>
-                            <ng-container *ngIf="usuario.rol == 'especialista'">
-                                <ng-container *ngIf="usuario.approved;else notValidated">
-                                    <span class="text-success text-bold">
-                                        Validado
-                                    </span>
-                                    <button class="btn btn-danger" style="margin-left: 20px;" (click)="auth.RemoverAcceso(usuario.uid)">
-                                        Remover Accesso
-                                    </button>
-                                </ng-container>
-
-                                <ng-template #notValidated>
-                                    <button class="btn btn-warning" (click)="auth.Validar(usuario.uid)">
-                                        Dar Accesso
-                                    </button>
-                                </ng-template>
-                            </ng-container>
-                            <ng-container *ngIf="usuario.rol == 'paciente'">
-                                <td> <button class="btn-info" (click)="openModal(usuario)"> Ver historia clinica</button></td>
-                            </ng-container>
-                        </th>
-                    </tr>
+  <div class="col-12">
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th>{{ "Nombre" | translate }}</th>
+          <th>{{ "Apellido" | translate }}</th>
+          <th>{{ "Email" | translate }}</th>
+          <!-- <th>DNI</th> -->
+          <th>{{ "Rol" | translate }}</th>
+          <th>{{ "Validado" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="for; let usuario; of: usuarios | async">
+          <tr *ngIf="usuario.uid">
+            <th>{{ usuario.nombre }}</th>
+            <th>{{ usuario.apellido }}</th>
+            <th>{{ usuario.email }}</th>
+            <!-- <th>{{usuario.dni}}</th> -->
+            <th>{{ usuario.rol }}</th>
+            <th>
+              <ng-container *ngIf="usuario.rol == 'especialista'">
+                <ng-container *ngIf="usuario.approved; else notValidated">
+                  <span class="text-success text-bold">
+                    {{ "Validado" | translate }}
+                  </span>
+                  <button
+                    class="btn btn-danger"
+                    style="margin-left: 20px"
+                    (click)="auth.RemoverAcceso(usuario.uid)"
+                  >
+                    {{ "Remover Accesso" | translate }}
+                  </button>
                 </ng-container>
-            </tbody>
-        </table>
-    </div>
+
+                <ng-template #notValidated>
+                  <button
+                    class="btn btn-warning"
+                    (click)="auth.Validar(usuario.uid)"
+                  >
+                    {{ "Dar Accesso" | translate }}
+                  </button>
+                </ng-template>
+              </ng-container>
+              <ng-container *ngIf="usuario.rol == 'paciente'">
+                <td>
+                  <button class="btn-info" (click)="openModal(usuario)">
+                    {{ "Ver historia clinica" | translate }}
+                  </button>
+                </td>
+              </ng-container>
+            </th>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div *ngIf="modalOpen">
-    <app-modal (onClose)="closeModal()">
-        <app-historia-clinica [paciente]="pacienteSeleccionado"></app-historia-clinica>
-    </app-modal>
+  <app-modal (onClose)="closeModal()">
+    <app-historia-clinica
+      [paciente]="pacienteSeleccionado"
+    ></app-historia-clinica>
+  </app-modal>
 </div>

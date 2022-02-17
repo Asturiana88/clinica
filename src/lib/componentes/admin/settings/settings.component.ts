@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { CaptchaEnableService } from 'src/lib/servicios/captcha-enable.service';
 
 @Component({
@@ -8,7 +9,10 @@ import { CaptchaEnableService } from 'src/lib/servicios/captcha-enable.service';
 })
 export class SettingsComponent implements OnInit {
   status = this.captcha.GetCaptcha();
-  constructor(private captcha: CaptchaEnableService) {}
+  constructor(
+    private captcha: CaptchaEnableService,
+    translate: TranslateModule
+  ) {}
 
   ngOnInit(): void {}
 

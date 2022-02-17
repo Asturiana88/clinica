@@ -1,24 +1,28 @@
 <ng-container *ngIf="user">
-    <h3>{{user.nombre}} {{user.apellido}}</h3>
+  <h3>{{ user.nombre }} {{ user.apellido }}</h3>
 
-    <div class="row mt-5">
-        <div class="col-2">
-            <h5>Foto de perfil</h5>
-            <img src="{{user.fotoPerfil}}" class="shadow mt-4" width="100%">
-        </div>
-        <div class="col-2" *ngIf="user.fotoPerfil2">
-            <h5>Foto de perfil 2</h5>
-            <img src="{{user.fotoPerfil2}}" class="shadow mt-4" width="100%">
-        </div>
-
-        <div class="col-4 offset-1">
-            <h6><i>DNI</i> {{user.dni}}</h6>
-            <h6><i>Email</i> {{user.email}}</h6>
-            <h6 *ngIf="user.obraSocial"><i>Obra social</i> {{user.obraSocial}}</h6>
-            <div *ngIf="user.especialidad">
-                <h5>Especialidades</h5>
-                <h6 *ngFor="let especilidad of user.especialidad"> {{especilidad.nombre}}</h6>
-            </div>
-        </div>
+  <div class="row mt-5">
+    <div class="col-2">
+      <h5>{{ "Foto de perfil" | translate }}</h5>
+      <img src="{{ user.fotoPerfil }}" class="shadow mt-4" width="100%" />
     </div>
+    <div class="col-2" *ngIf="user.fotoPerfil2">
+      <h5>{{ "Foto de perfil" | translate }} 2</h5>
+      <img src="{{ user.fotoPerfil2 }}" class="shadow mt-4" width="100%" />
+    </div>
+
+    <div class="col-4 offset-1">
+      <h6><i>DNI</i> {{ user.dni }}</h6>
+      <h6><i>Email</i> {{ user.email }}</h6>
+      <h6 *ngIf="user.obraSocial">
+        <i>{{ "Obra social" | translate }}</i> {{ user.obraSocial }}
+      </h6>
+      <div *ngIf="user.especialidad">
+        <h5>{{ "Especialidades" | translate }}</h5>
+        <h6 *ngFor="let especilidad of user.especialidad">
+          {{ especilidad.nombre }}
+        </h6>
+      </div>
+    </div>
+  </div>
 </ng-container>

@@ -7,6 +7,7 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-historia-clinica',
@@ -18,6 +19,7 @@ export class HistoriaClinicaComponent implements OnInit {
   turnos!: Turno[];
 
   constructor(
+    translate: TranslateService,
     private auth: AuthService,
     private store: StoreManagementService
   ) {}

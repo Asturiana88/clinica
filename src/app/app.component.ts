@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../lib/servicios/autenticacion.service';
 import { routeTransitionAnimations } from './route-transition-animations';
 
@@ -13,10 +14,13 @@ export class AppComponent {
   title = 'clinica';
   loading = true;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, translate: TranslateService) {
     this.authService.isLoading.subscribe((val) => {
       this.loading = val;
     });
+
+    const storedLang = localStorage.getItem('clinica-idioma');
+    translate.setDefaultLang(storedLang || 'es');
   }
 
   prepareRoute(outlet: RouterOutlet) {

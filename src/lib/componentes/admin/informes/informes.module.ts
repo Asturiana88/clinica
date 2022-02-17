@@ -5,6 +5,7 @@ import { InformesRoutingModule } from './informes-routing.module';
 import { InformesComponent } from './informes.component';
 import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [InformesComponent],
@@ -14,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InformesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
 })
 export class InformesModule {}

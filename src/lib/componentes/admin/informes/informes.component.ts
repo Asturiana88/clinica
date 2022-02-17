@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -19,6 +20,7 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 export class InformesComponent implements OnInit {
   constructor(
     private logger: LoggerService,
+    translate: TranslateModule,
     public store: StoreManagementService
   ) {}
 

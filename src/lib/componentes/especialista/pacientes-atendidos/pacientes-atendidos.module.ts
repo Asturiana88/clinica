@@ -5,6 +5,7 @@ import { PacientesAtendidosRoutingModule } from './pacientes-atendidos-routing.m
 import { PacientesAtendidosComponent } from './pacientes-atendidos.component';
 import { HistoriaClinicaModule } from 'src/lib/shared/historia-clinica/historia-clinica.module';
 import { ModalModule } from 'src/lib/shared/modal/modal.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [PacientesAtendidosComponent],
@@ -12,6 +13,7 @@ import { ModalModule } from 'src/lib/shared/modal/modal.module';
     CommonModule,
     HistoriaClinicaModule,
     ModalModule,
+    TranslateModule,
     PacientesAtendidosRoutingModule,
   ],
 })

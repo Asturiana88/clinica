@@ -5,6 +5,7 @@ import { EspecialistaPerfilRoutingModule } from './especialista-perfil-routing.m
 import { EspecialistaPerfilComponent } from './especialista-perfil.component';
 import { PerfilModule } from 'src/lib/shared/perfil/perfil.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [EspecialistaPerfilComponent],
@@ -13,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PerfilModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     EspecialistaPerfilRoutingModule,
   ],
 })

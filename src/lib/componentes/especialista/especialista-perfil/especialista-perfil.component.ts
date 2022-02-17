@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   Especialista,
   EspecialistaDisponiobilidad,
@@ -16,6 +17,7 @@ export class EspecialistaPerfilComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
+    translate: TranslateModule,
     private storeService: StoreManagementService
   ) {}
 

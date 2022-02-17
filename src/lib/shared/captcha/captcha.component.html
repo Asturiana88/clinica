@@ -8,7 +8,7 @@
 
   <div>
     <ng-container *ngIf="success; else captcha">
-      <h3>Captcha correcto</h3>
+      <h3>{{ "Captcha correcto" | translate }}</h3>
     </ng-container>
     <ng-template #captcha>
       <div

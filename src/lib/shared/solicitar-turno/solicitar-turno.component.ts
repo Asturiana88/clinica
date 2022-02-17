@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { Especialidad } from 'src/lib/clases/especialidad';
 import { Especialista } from 'src/lib/clases/especialista';
 import { Paciente } from 'src/lib/clases/paciente';
@@ -42,6 +43,7 @@ export class SolicitarTurnoComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    translate: TranslateModule,
     private storeService: StoreManagementService
   ) {
     this.storeService.GetUsuarios().subscribe((usrs) => {

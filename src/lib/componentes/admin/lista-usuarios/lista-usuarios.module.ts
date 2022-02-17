@@ -4,6 +4,7 @@ import { ListaUsuariosComponent } from './lista-usuarios.component';
 import { ListaUsuariosRoutingModule } from './lista-usuarios.routing';
 import { ModalModule } from 'src/lib/shared/modal/modal.module';
 import { HistoriaClinicaModule } from 'src/lib/shared/historia-clinica/historia-clinica.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ListaUsuariosComponent],
@@ -11,6 +12,7 @@ import { HistoriaClinicaModule } from 'src/lib/shared/historia-clinica/historia-
     CommonModule,
     ModalModule,
     HistoriaClinicaModule,
+    TranslateModule,
     ListaUsuariosRoutingModule,
   ],
 })

@@ -1,36 +1,116 @@
 <nav class="site-header navbar-expand-md navbar-dark bg-dark mb-4">
-    <div class="container d-flex flex-column flex-md-row justify-content-between navbar-nav">
-        <!-- ALL -->
-        <a class="nav-item nav-link py-2" routerLink="/">Home</a>
+  <div
+    class="container d-flex flex-column flex-md-row justify-content-between navbar-nav"
+  >
+    <!-- ALL -->
+    <a class="nav-item nav-link py-2" routerLink="/">{{
+      "Home" | translate
+    }}</a>
 
+    <!-- ADMIN -->
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="user-list"
+      *ngIf="authService.isValidAdmin"
+      >{{ "Lista de Usuarios" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="register-admin"
+      *ngIf="authService.isValidAdmin"
+      >{{ "Crear Admin" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="admin-turnos"
+      *ngIf="authService.isValidAdmin"
+      >{{ "Turnos" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="informes"
+      *ngIf="authService.isValidAdmin"
+      >{{ "Informes" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="settings"
+      *ngIf="authService.isValidAdmin"
+      >{{ "Settings" | translate }}</a
+    >
 
-        <!-- ADMIN -->
-        <a class="nav-item nav-link py-2" routerLink="user-list" *ngIf="authService.isValidAdmin">Lista de Usuarios</a>
-        <a class="nav-item nav-link py-2" routerLink="register-admin" *ngIf="authService.isValidAdmin">Crear Admin</a>
-        <a class="nav-item nav-link py-2" routerLink="admin-turnos" *ngIf="authService.isValidAdmin">Turnos</a>
-        <a class="nav-item nav-link py-2" routerLink="informes" *ngIf="authService.isValidAdmin">Informes</a>
-        <a class="nav-item nav-link py-2" routerLink="settings" *ngIf="authService.isValidAdmin">Settings</a>
+    <!-- ESPECIALISTA -->
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="especialista-turnos"
+      *ngIf="authService.getUser?.rol == 'especialista'"
+      >{{ "Turnos" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="especialista-perfil"
+      *ngIf="authService.getUser?.rol == 'especialista'"
+      >{{ "Perfil" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="pacientes-atendidos"
+      *ngIf="authService.getUser?.rol == 'especialista'"
+      >{{ "Pacientes" | translate }}</a
+    >
 
-        <!-- ESPECIALISTA -->
-        <a class="nav-item nav-link py-2" routerLink="especialista-turnos" *ngIf="authService.getUser?.rol == 'especialista'">Turnos</a>
-        <a class="nav-item nav-link py-2" routerLink="especialista-perfil" *ngIf="authService.getUser?.rol == 'especialista'">Perfil</a>
-        <a class="nav-item nav-link py-2" routerLink="pacientes-atendidos" *ngIf="authService.getUser?.rol == 'especialista'">Pacientes</a>
+    <!-- PACIENTE -->
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="paciente-perfil"
+      *ngIf="authService.getUser?.rol == 'paciente'"
+      >{{ "Perfil" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="paciente-turnos"
+      *ngIf="authService.getUser?.rol == 'paciente'"
+      >{{ "Turnos" | translate }}</a
+    >
+    <a
+      class="nav-item nav-link py-2"
+      routerLink="solicitar-turno"
+      *ngIf="authService.isValidAdmin || authService.getUser?.rol == 'paciente'"
+      >{{ "Solicitar Turno" | translate }}</a
+    >
 
-        <!-- PACIENTE -->
-        <a class="nav-item nav-link py-2" routerLink="paciente-perfil" *ngIf="authService.getUser?.rol == 'paciente'">Perfil</a>
-        <a class="nav-item nav-link py-2" routerLink="paciente-turnos" *ngIf="authService.getUser?.rol == 'paciente'">Turnos</a>
-        <a class="nav-item nav-link py-2" routerLink="solicitar-turno" *ngIf="authService.isValidAdmin || authService.getUser?.rol == 'paciente'">Solicitar Turno</a>
+    <!-- ALL -->
+    <a
+      class="nav-item nav-link py-2"
+      *ngIf="!authService.isLoggedIn"
+      routerLink="login"
+      >{{ "Login" | translate }}</a
+    >
 
+    <a
+      class="nav-item nav-link py-2"
+      *ngIf="!authService.isLoggedIn"
+      routerLink="register"
+      >{{ "Registrarse" | translate }}</a
+    >
 
-        <!-- ALL -->
-        <a class="nav-item nav-link py-2" *ngIf="!authService.isLoggedIn"
-            routerLink="login">Login</a>
+    <span
+      class="nav-item nav-link py-2"
+      *ngIf="authService.isLoggedIn"
+      (click)="authService.SignOut()"
+      >{{ "Desloguearse" | translate }}</span
+    >
 
-        <a class="nav-item nav-link py-2" *ngIf="!authService.isLoggedIn"
-            routerLink="register">Registrarse</a>
-
-        <span class="nav-item nav-link py-2" *ngIf="authService.isLoggedIn"
-            (click)="authService.SignOut()">Desloguearse</span>
-
-    </div>
+    <select
+      name="idioma"
+      id="idioma"
+      [(ngModel)]="idioma"
+      (change)="onTranslationsChange()"
+    >
+      <option value="es">Espanol</option>
+      <!--       <option value="it">Italiano</option>
+ -->
+      <option value="en">Ingles</option>
+    </select>
+  </div>
 </nav>

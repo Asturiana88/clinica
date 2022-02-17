@@ -1,51 +1,59 @@
 <div *ngIf="turnos.length; else noHistoria">
-    <div id="data" class="row d-flex justify-content-center align-items-center">
-        <div class="col-12">
-            <h2 class="mt-5">Historia clinica</h2>
-    
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Especialidad</th>
-                        <th>Especialista</th>
-                        <th>Comentario</th>
-                        <th>Altura</th>
-                        <th>Peso</th>
-                        <th>Presion</th>
-                        <th>Temperatura</th>
-                        <th>Otros Datos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let turno of turnos">
-                        <td>{{turno.fecha}}</td>
-                        <td>{{turno.hora}}</td>
-                        <td>{{turno.especialidad.nombre}}</td>
-                        <td>{{turno.especialista.nombre}}</td>
-                        <td>{{turno.comentario}}</td>
-                        <td>{{turno.historiaClinica?.altura}}</td>
-                        <td>{{turno.historiaClinica?.peso}}</td>
-                        <td>{{turno.historiaClinica?.presion}}</td>
-                        <td>{{turno.historiaClinica?.temperatura}}</td>
-                        <td>
-                            <span class="d-block" *ngFor="let dato of getDatosDinamicos(turno)">{{dato.nombre}}: {{dato.valor}}</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    
-        <div class="mt-4 mb-2 d-flex justify-content-center">
-            <img width="200px" src="/assets/Pimpollo.png" alt="">
-        </div>
+  <div id="data" class="row d-flex justify-content-center align-items-center">
+    <div class="col-12">
+      <h2 class="mt-5">Historia clinica</h2>
+
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th>{{ "Fecha" | translate }}</th>
+            <th>{{ "Hora" | translate }}</th>
+            <th>{{ "Especialidad" | translate }}</th>
+            <th>{{ "Especialista" | translate }}</th>
+            <th>{{ "Comentario" | translate }}</th>
+            <th>{{ "Altura" | translate }}</th>
+            <th>{{ "Peso" | translate }}</th>
+            <th>{{ "Presion" | translate }}</th>
+            <th>{{ "Temperatura" | translate }}</th>
+            <th>{{ "Otros Datos" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of turnos">
+            <td>{{ turno.fecha }}</td>
+            <td>{{ turno.hora }}</td>
+            <td>{{ turno.especialidad.nombre }}</td>
+            <td>{{ turno.especialista.nombre }}</td>
+            <td>{{ turno.comentario }}</td>
+            <td>{{ turno.historiaClinica?.altura }}</td>
+            <td>{{ turno.historiaClinica?.peso }}</td>
+            <td>{{ turno.historiaClinica?.presion }}</td>
+            <td>{{ turno.historiaClinica?.temperatura }}</td>
+            <td>
+              <span
+                class="d-block"
+                *ngFor="let dato of getDatosDinamicos(turno)"
+                >{{ dato.nombre }}: {{ dato.valor }}</span
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    
-    <Button (click)="downloadFile()" class="btn btn-success">Descargar CSV</Button>
-    <Button (click)="exportAsPDF()" class="btn btn-warning mx-3">Descargar PDF</Button>
+
+    <div class="mt-4 mb-2 d-flex justify-content-center">
+      <img width="200px" src="/assets/Pimpollo.png" alt="" />
+    </div>
+  </div>
+
+  <Button (click)="downloadFile()" class="btn btn-success">{{
+    "Descargar CSV" | translate
+  }}</Button>
+  <Button (click)="exportAsPDF()" class="btn btn-warning mx-3">{{
+    "Descargar PDF" | translate
+  }}</Button>
 </div>
 
 <ng-template #noHistoria>
-    <h1>El paciente no tiene historia clinica</h1>
+  <h1>{{ "El paciente no tiene historia clinica" | translate }}</h1>
 </ng-template>

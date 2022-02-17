@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { Administrador } from 'src/lib/clases/administrador';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
@@ -16,6 +17,7 @@ export class AdminComponent implements OnInit {
   that = this;
 
   constructor(
+    translate: TranslateModule,
     private authService: AuthService,
     private _store: StoreManagementService
   ) {}

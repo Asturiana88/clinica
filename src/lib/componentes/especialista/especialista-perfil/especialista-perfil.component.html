@@ -1,45 +1,74 @@
 <app-perfil></app-perfil>
 
 <div class="row mt-5 mb-5 shadow p-5">
-    <div class="col-4">
-        <h4>Disponibilidad Horiaria</h4>
+  <div class="col-4">
+    <h4>{{ "Disponibilidad Horiaria" | translate }}</h4>
 
-        <h5>Especialidad</h5>
-        <div class="form-check" *ngFor="let option of especialista.especialidad">
-            <input (change)="setupHorarios()"  class="form-check-input" [(ngModel)]='especialidad' type="radio" [value]="option" name="especialidad" [id]="option.nombre">
-            <label class="form-check-label" [for]="option.nombre">
-            {{option.nombre}}
-            </label>
-        </div>
+    <h5>{{ "Especialidad" | translate }}</h5>
+    <div class="form-check" *ngFor="let option of especialista.especialidad">
+      <input
+        (change)="setupHorarios()"
+        class="form-check-input"
+        [(ngModel)]="especialidad"
+        type="radio"
+        [value]="option"
+        name="especialidad"
+        [id]="option.nombre"
+      />
+      <label class="form-check-label" [for]="option.nombre">
+        {{ option.nombre }}
+      </label>
     </div>
+  </div>
 
-    <div class="col-3">
-        <div *ngIf="horariosSabado">
-            <h3>Horarios Sabado</h3>
-            <button (click)="seleccionar('sabado')" class="btn btn-info">Seleccionar todos</button>
-            <div *ngFor="let horario of horariosSabado">
-                <label class="d-flex align-items-center" style="height: 25px">
-                    <input class="m-3" type="checkbox" [checked]="horariosSeleccionadosSabado.includes(horario)" (click)="handleHorario(horario, 'sabado')">                                        
-                    {{horario}}
-                </label>
-            </div>
-        </div>
+  <div class="col-3">
+    <div *ngIf="horariosSabado">
+      <h3>{{ "Horarios Sabado" | translate }}</h3>
+      <button (click)="seleccionar('sabado')" class="btn btn-info">
+        {{ "Seleccionar todos" | translate }}
+      </button>
+      <div *ngFor="let horario of horariosSabado">
+        <label class="d-flex align-items-center" style="height: 25px">
+          <input
+            class="m-3"
+            type="checkbox"
+            [checked]="horariosSeleccionadosSabado.includes(horario)"
+            (click)="handleHorario(horario, 'sabado')"
+          />
+          {{ horario }}
+        </label>
+      </div>
     </div>
+  </div>
 
-    <div class="col-3">
-        <div *ngIf="horariosSemana">
-            <h3>Horarios Semana</h3>
-            <button (click)="seleccionar('semana')" class="btn btn-info">Seleccionar todos</button>
-            <div *ngFor="let horario of horariosSemana">
-                <label class="d-flex align-items-center" style="height: 25px">
-                    <input class="m-3" type="checkbox" [checked]="horariosSeleccionadosSemana.includes(horario)" (click)="handleHorario(horario, 'semana')">                                        
-                    {{horario}}
-                </label>
-            </div>
-        </div>
+  <div class="col-3">
+    <div *ngIf="horariosSemana">
+      <h3>{{ "Horarios Semana" | translate }}</h3>
+      <button (click)="seleccionar('semana')" class="btn btn-info">
+        {{ "Seleccionar todos" | translate }}
+      </button>
+      <div *ngFor="let horario of horariosSemana">
+        <label class="d-flex align-items-center" style="height: 25px">
+          <input
+            class="m-3"
+            type="checkbox"
+            [checked]="horariosSeleccionadosSemana.includes(horario)"
+            (click)="handleHorario(horario, 'semana')"
+          />
+          {{ horario }}
+        </label>
+      </div>
     </div>
+  </div>
 
-    <div class="col-3 mt-4" *ngIf="horariosSeleccionadosSemana?.length || horariosSeleccionadosSabado?.length">
-        <button class="btn btn-primary" (click)="updateDisponibilidad()">Confirmar disponibilidad horaria</button>
-    </div>
+  <div
+    class="col-3 mt-4"
+    *ngIf="
+      horariosSeleccionadosSemana?.length || horariosSeleccionadosSabado?.length
+    "
+  >
+    <button class="btn btn-primary" (click)="updateDisponibilidad()">
+      {{ "Confirmar disponibilidad horaria" | translate }}
+    </button>
+  </div>
 </div>

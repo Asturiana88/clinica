@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Filtro } from 'src/lib/clases/filtro';
 import { Turno } from 'src/lib/clases/turno';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
@@ -14,7 +15,7 @@ export class TurnoFiltrosComponent implements OnInit {
 
   turno = new Turno();
   mostrarFiltros = false;
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, translations: TranslateService) {}
 
   ngOnInit(): void {}
 

@@ -1,128 +1,180 @@
 <app-turno-filtros (filtrosChange)="updateData($event)"></app-turno-filtros>
 <div class="row">
-    <div class="col-12">
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Especialidad</th>
-                    <th>Paciente</th>
-                    <th>Estado</th>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody *ngIf="turnosFiltrados as turnosData">
-                <tr *ngFor="let turno of turnosData">
-                    <td> {{turno.fecha}} </td>
-                    <td> {{turno.hora}} </td>
-                    <td> {{turno.especialidad.nombre}} </td>
-                    <td> {{turno.paciente.nombre}} </td>
-                    <td [innerHTML]="turno.estado | estadoTurno | safeHtml"> </td>
-                    <td>
-                        <ng-container *ngIf="turno.estado == 'aceptado'">
-                            <button (click)="handleOpenModal(turno, 'cancelado')" class="btn btn-danger">Cancelar</button>
-                        </ng-container>
-                        <ng-container *ngIf="turno.estado == 'aceptado'">
-                            <button (click)="handleOpenModal(turno, 'finalizar')" class="btn btn-info mx-2">Finalizar</button>
-                        </ng-container>
-                        <ng-container *ngIf="turno.resena">
-                            <button (click)="handleOpenModal(turno, 'comentario')" class="btn btn-info">Ver comentario</button>
-                        </ng-container>
-                        <ng-container *ngIf="turno.estado == 'pendiente'">
-                            <button (click)="handleOpenModal(turno, 'rechazar')" class="btn btn-danger">Rechazar</button>
-                        </ng-container>
-                        <ng-container *ngIf="turno.estado == 'pendiente'">
-                            <button (click)="updateEstado(turno, 'aceptado')" class="btn btn-success mx-2">Aceptar</button>
-                        </ng-container>
-                        <ng-container *ngIf="turno.encuesta">
-                            <button class="btn btn-warning mx-2"  (click)="handleOpenModal(turno, 'encuestaVer')">Ver encuesta</button>
-                        </ng-container>
-                        <ng-container *ngIf="turno.calificacion">
-                            <button class="btn btn-light"  (click)="handleOpenModal(turno, 'calificacion')">Ver calificacion</button>
-                        </ng-container>
-                        <!-- <ng-container *ngIf="turno.resena && turno.estado == 'finalizado' && !turno.encuesta">
+  <div class="col-12">
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Especialidad</th>
+          <th>Paciente</th>
+          <th>Estado</th>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody *ngIf="turnosFiltrados as turnosData">
+        <tr *ngFor="let turno of turnosData">
+          <td>{{ turno.fecha }}</td>
+          <td>{{ turno.hora }}</td>
+          <td>{{ turno.especialidad.nombre }}</td>
+          <td>{{ turno.paciente.nombre }}</td>
+          <td [innerHTML]="turno.estado | estadoTurno | safeHtml"></td>
+          <td>
+            <ng-container *ngIf="turno.estado == 'aceptado'">
+              <button
+                (click)="handleOpenModal(turno, 'cancelado')"
+                class="btn btn-danger"
+              >
+                Cancelar
+              </button>
+            </ng-container>
+            <ng-container *ngIf="turno.estado == 'aceptado'">
+              <button
+                (click)="handleOpenModal(turno, 'finalizar')"
+                class="btn btn-info mx-2"
+              >
+                Finalizar
+              </button>
+            </ng-container>
+            <ng-container *ngIf="turno.resena">
+              <button
+                (click)="handleOpenModal(turno, 'comentario')"
+                class="btn btn-info"
+              >
+                Ver comentario
+              </button>
+            </ng-container>
+            <ng-container *ngIf="turno.estado == 'pendiente'">
+              <button
+                (click)="handleOpenModal(turno, 'rechazar')"
+                class="btn btn-danger"
+              >
+                Rechazar
+              </button>
+            </ng-container>
+            <ng-container *ngIf="turno.estado == 'pendiente'">
+              <button
+                (click)="updateEstado(turno, 'aceptado')"
+                class="btn btn-success mx-2"
+              >
+                Aceptar
+              </button>
+            </ng-container>
+            <ng-container *ngIf="turno.encuesta">
+              <button
+                class="btn btn-warning mx-2"
+                (click)="handleOpenModal(turno, 'encuestaVer')"
+              >
+                Ver encuesta
+              </button>
+            </ng-container>
+            <ng-container *ngIf="turno.calificacion">
+              <button
+                class="btn btn-light"
+                (click)="handleOpenModal(turno, 'calificacion')"
+              >
+                Ver calificacion
+              </button>
+            </ng-container>
+            <!-- <ng-container *ngIf="turno.resena && turno.estado == 'finalizado' && !turno.encuesta">
                             <button class="btn btn-warning">Encuesta</button>
                         </ng-container> -->
-                        <ng-container *ngIf="turno.estado == 'finalizado' && turno.encuesta && !turno.calificacion">
-                            <button class="btn btn-primary">Dar Calificacion</button>
-                        </ng-container>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+            <ng-container
+              *ngIf="
+                turno.estado == 'finalizado' &&
+                turno.encuesta &&
+                !turno.calificacion
+              "
+            >
+              <button class="btn btn-primary">Dar Calificacion</button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div *ngIf="modal.calificacion">
-    <app-modal (onClose)="closeModal()">
-        <div class="p-5 pt-0">
-            <h3>Calificacion paciente</h3>
-            <div *ngIf="turnoSelected?.calificacion?.comentario" class="d-flex">
-                <h5>Comentario</h5>
-                <p>{{turnoSelected?.calificacion?.comentario}}</p>
-            </div>
-            <div *ngIf="turnoSelected?.calificacion?.comentario" class="d-flex">
-                <h5>Puntuacion</h5>
-                <p>{{turnoSelected?.calificacion?.puntuacionAtencion}}</p>
-            </div>
-            <div *ngIf="turnoSelected?.calificacion?.probabilidadDeRecomendacion" class="d-flex">
-                <h5>Recomendaria la clinica</h5>
-                <p>{{turnoSelected?.calificacion?.probabilidadDeRecomendacion}}</p>
-            </div>  
-            <div *ngIf="turnoSelected?.calificacion?.puntuacionAtencion" class="d-flex">
-                <h6 class="text-success">El paciente idico que se soluciono su problema</h6>
-            </div>
-        </div>
-    </app-modal>
+  <app-modal (onClose)="closeModal()">
+    <div class="p-5 pt-0">
+      <h3>Calificacion paciente</h3>
+      <div *ngIf="turnoSelected?.calificacion?.comentario" class="d-flex">
+        <h5>Comentario</h5>
+        <p>{{ turnoSelected?.calificacion?.comentario }}</p>
+      </div>
+      <div *ngIf="turnoSelected?.calificacion?.comentario" class="d-flex">
+        <h5>Puntuacion</h5>
+        <p>{{ turnoSelected?.calificacion?.puntuacionAtencion }}</p>
+      </div>
+      <div
+        *ngIf="turnoSelected?.calificacion?.probabilidadDeRecomendacion"
+        class="d-flex"
+      >
+        <h5>Recomendaria la clinica</h5>
+        <p>{{ turnoSelected?.calificacion?.probabilidadDeRecomendacion }}</p>
+      </div>
+      <div
+        *ngIf="turnoSelected?.calificacion?.puntuacionAtencion"
+        class="d-flex"
+      >
+        <h6 class="text-success">
+          El paciente idico que se soluciono su problema
+        </h6>
+      </div>
+    </div>
+  </app-modal>
 </div>
 
 <div *ngIf="modal.encuestaVer">
-    <app-modal (onClose)="closeModal()">
-        <div class="p-5 pt-0">
-            <h3>Encuesta paciente</h3>
-            <h5 class="mt-4">{{turnoSelected?.encuesta}}</h5>
-        </div>
-    </app-modal>
+  <app-modal (onClose)="closeModal()">
+    <div class="p-5 pt-0">
+      <h3>Encuesta paciente</h3>
+      <h5 class="mt-4">{{ turnoSelected?.encuesta }}</h5>
+    </div>
+  </app-modal>
 </div>
 
 <div *ngIf="modal.finalizar && turnoSelected">
-    <app-modal (onClose)="closeModal()">
-        <app-historia-clinica-form (callbackFunc)="updateData()" [turno]="turnoSelected"></app-historia-clinica-form>
-    </app-modal>
+  <app-modal (onClose)="closeModal()">
+    <app-historia-clinica-form
+      (callbackFunc)="updateData()"
+      [turno]="turnoSelected"
+    ></app-historia-clinica-form>
+  </app-modal>
 </div>
 
 <div *ngIf="modal.cancelado">
-    <app-modal (onClose)="closeModal()">
-        <h3>Indique la razon por la que quiere rechazar el turno</h3>
-        <input type="text" name="resena" [(ngModel)]="resena" class="mt-3">
+  <app-modal (onClose)="closeModal()">
+    <h3>Indique la razon por la que quiere rechazar el turno</h3>
+    <input type="text" name="resena" [(ngModel)]="resena" class="mt-3" />
 
-        <button class="btn btn-danger mt-4" (click)="turnoUpdateModal('cancelado')">
-            Cancelar Turno
-        </button>
-    </app-modal>
+    <button class="btn btn-danger mt-4" (click)="turnoUpdateModal('cancelado')">
+      Cancelar Turno
+    </button>
+  </app-modal>
 </div>
 
-
 <div *ngIf="modal.rechazar">
-    <app-modal (onClose)="closeModal()">
-        <h3>Indique la razon por la que quiere rechazar el turno</h3>
-        <input type="text" name="resena" [(ngModel)]="resena" class="mt-3">
+  <app-modal (onClose)="closeModal()">
+    <h3>Indique la razon por la que quiere rechazar el turno</h3>
+    <input type="text" name="resena" [(ngModel)]="resena" class="mt-3" />
 
-        <button class="btn btn-success mt-4" (click)="turnoUpdateModal('rechazado')">
-            Rechazar
-        </button>
-        <button class="btn btn-danger mt-4" (click)="closeModal()">
-            Cancelar
-        </button>
-    </app-modal>
+    <button
+      class="btn btn-success mt-4"
+      (click)="turnoUpdateModal('rechazado')"
+    >
+      Rechazar
+    </button>
+    <button class="btn btn-danger mt-4" (click)="closeModal()">Cancelar</button>
+  </app-modal>
 </div>
 
 <div *ngIf="modal.comentario">
-    <app-modal (onClose)="closeModal()">
-        <div class="p-5 pt-2">
-            <h2>Comentario</h2>
-            <h5 class="mt-4">{{turnoSelected?.resena}}</h5>
-        </div>
-    </app-modal>
+  <app-modal (onClose)="closeModal()">
+    <div class="p-5 pt-2">
+      <h2>Comentario</h2>
+      <h5 class="mt-4">{{ turnoSelected?.resena }}</h5>
+    </div>
+  </app-modal>
 </div>

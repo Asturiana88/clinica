@@ -9,6 +9,7 @@ import { EncuetaComponent } from './encueta/encueta.component';
 import { CalificacionComponent } from './calificacion/calificacion.component';
 import { PipesModule } from 'src/lib/pipes';
 import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.m
     ReactiveFormsModule,
     ModalModule,
     PipesModule,
+    TranslateModule,
     TurnoFiltrosModule,
     PacienteTurnosRoutingModule,
   ],

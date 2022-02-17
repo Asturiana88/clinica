@@ -7,6 +7,7 @@ import { ModalModule } from 'src/lib/shared/modal/modal.module';
 import { PipesModule } from 'src/lib/pipes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [AdminTurnosComponent],
@@ -18,6 +19,7 @@ import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.m
     ReactiveFormsModule,
     TurnoFiltrosModule,
     PipesModule,
+    TranslateModule,
     AdminTurnosRoutingModule,
   ],
 })

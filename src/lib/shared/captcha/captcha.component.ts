@@ -1,4 +1,5 @@
 import { Component, EventEmitter, AfterViewInit, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { v4 } from 'uuid';
 
 @Component({
@@ -15,7 +16,7 @@ export class CaptchaComponent implements AfterViewInit {
   error = false;
   success = false;
 
-  constructor() {}
+  constructor(translate: TranslateService) {}
 
   ngAfterViewInit() {
     this.crearCaptcha();
