@@ -1,5 +1,46 @@
 <ng-container>
-    <form action="">
-    <re-captcha (resolved)="onInteract()" siteKey="6LcCcHAdAAAAAJe3md0bC_Y0Eg6yv-eARP9k9PPB"></re-captcha>
-    </form>
+  <!--   <form action="">
+    <re-captcha
+      (resolved)="onInteract()"
+      siteKey="6LcCcHAdAAAAAJe3md0bC_Y0Eg6yv-eARP9k9PPB"
+    ></re-captcha>
+  </form> -->
+
+  <div>
+    <ng-container *ngIf="success; else captcha">
+      <h3>Captcha correcto</h3>
+    </ng-container>
+    <ng-template #captcha>
+      <div
+        style="width: fit-content; height: fit-content"
+        [class]="
+          error
+            ? 'border border-danger'
+            : success
+            ? 'border border-success'
+            : ''
+        "
+      >
+        <canvas id="captchaCanvas" width="150" height="80"> </canvas>
+      </div>
+      <div class="col-6 d-flex mt-2 mb-4">
+        <input
+          type="text"
+          class="form-control mr-3"
+          style="height: fit-content"
+          [disabled]="success"
+          [(ngModel)]="captchaInput"
+        />
+        <input
+          value="Confirmar"
+          type="button"
+          class="btn btn-outline-warning"
+          style="height: fit-content"
+          [disabled]="success"
+          (click)="onConfirm()"
+        />
+      </div>
+    </ng-template>
+  </div>
+  <br />
 </ng-container>

@@ -18,7 +18,14 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { DirectivesModule } from 'src/lib/directivas';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TurnoFiltrosModule } from 'src/lib/shared/turno-filtros/turno-filtros.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -41,7 +48,17 @@ import { HttpClientModule } from '@angular/common/http';
     DirectivesModule,
     TurnoFiltrosModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'es',
+    }),
   ],
+  exports: [TranslateModule],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],
 })
