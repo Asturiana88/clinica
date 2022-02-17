@@ -1,4 +1,5 @@
 import { Component, EventEmitter, AfterViewInit, Output } from '@angular/core';
+import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-captcha',
@@ -8,6 +9,7 @@ import { Component, EventEmitter, AfterViewInit, Output } from '@angular/core';
 export class CaptchaComponent implements AfterViewInit {
   @Output() resolve = new EventEmitter<boolean>(false);
 
+  uuid = v4();
   captchaRandom = '';
   captchaInput = '';
   error = false;
@@ -21,9 +23,7 @@ export class CaptchaComponent implements AfterViewInit {
 
   crearCaptcha() {
     this.captchaRandom = this.randomWord(6);
-    const canvas = document.getElementById(
-      'captchaCanvas'
-    ) as HTMLCanvasElement;
+    const canvas = document.getElementById(this.uuid) as HTMLCanvasElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     ctx.font = '30px Arial';
     ctx.clearRect(0, 0, 150, 80);
@@ -31,8 +31,6 @@ export class CaptchaComponent implements AfterViewInit {
   }
 
   onConfirm() {
-    console.log(this.captchaRandom);
-    console.log(this.captchaInput);
     if (this.captchaRandom == this.captchaInput) {
       this.success = true;
       return this.resolve.emit(true);
