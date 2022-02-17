@@ -63,13 +63,13 @@ export class PacienteTurnosComponent implements OnInit {
       return;
     }
 
-    this.handleCloseModals();
     this.storeService.UpdateTurno(turno.id || '', {
       ...turno,
       estado: 'cancelado',
-      comentario: this.comentario,
+      resena: this.comentario,
     });
     this.updateData();
+    this.handleCloseModals();
   }
 
   ngOnInit(): void {
