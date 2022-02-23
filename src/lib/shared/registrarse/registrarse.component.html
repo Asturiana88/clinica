@@ -1,8 +1,44 @@
-<div class="row">
-    <div class="col-6">
+<div class="row mt-3">
+  <h2>Registrar Usuario</h2>
+  <div class="content {{ tipo ? 'display' : 'hidden' }}">
+    <div class="col-12">
+      <img
+        class="back"
+        src="/assets/back.png"
+        alt=""
+        width="50px"
+        (click)="seleccionarTipo()"
+      />
+      <ng-container *ngIf="tipo == 'paciente'">
         <app-paciente></app-paciente>
-    </div>
-    <div class="col-6">
+      </ng-container>
+      <ng-container *ngIf="tipo == 'especialista'">
         <app-especialista></app-especialista>
+      </ng-container>
     </div>
+  </div>
+  <div
+    class="d-flex content justify-content-between {{
+      tipo ? 'hidden' : 'display'
+    }}"
+  >
+    <div class="col-5 btnCard">
+      <div>Especialista</div>
+      <img
+        src="/assets/especialista.png"
+        alt=""
+        width="100%"
+        (click)="seleccionarTipo('especialista')"
+      />
+    </div>
+    <div class="col-5 btnCard">
+      <div>Paciente</div>
+      <img
+        src="/assets/paciente.png"
+        alt=""
+        width="100%"
+        (click)="seleccionarTipo('paciente')"
+      />
+    </div>
+  </div>
 </div>

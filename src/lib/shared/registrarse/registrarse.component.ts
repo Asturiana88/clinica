@@ -8,5 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class RegistrarseComponent implements OnInit {
   constructor() {}
 
+  tipo?: 'especialista' | 'paciente';
+
   ngOnInit(): void {}
+
+  seleccionarTipo(tipo?: 'especialista' | 'paciente') {
+    this.tipo = tipo;
+  }
 }

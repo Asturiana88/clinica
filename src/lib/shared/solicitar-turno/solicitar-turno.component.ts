@@ -15,12 +15,46 @@ import { StoreManagementService } from 'src/lib/servicios/store-management.servi
 export class SolicitarTurnoComponent implements OnInit {
   pacientes?: Paciente[];
   paciente?: Paciente;
-  especialidad!: Especialidad;
-  especialista!: Especialista;
+  especialidad?: Especialidad;
+  especialista?: Especialista;
   fecha!: string;
   hora!: string;
 
-  that = this;
+  step: 'especialista' | 'especialidad' | 'fecha' = 'especialista';
+
+  turnoOpciones: string[][] = [];
+
+  setEspecialidad(especialidad?: Especialidad) {
+    this.especialidad = especialidad;
+    if (especialidad) {
+      this.step = 'fecha';
+      const horarios: any[] = [];
+      this.dias.map((dia) => {
+        horarios.push(
+          this.getHorasDisponibles(dia.toISOString().split('T')[0])
+        );
+      });
+      console.log(horarios);
+    } else {
+      this.step = 'especialidad';
+      this.turnoOpciones = [];
+    }
+  }
+
+  setEspecialista(especialista?: Especialista) {
+    this.especialista = especialista;
+    if (especialista) {
+      this.step = 'especialidad';
+    } else {
+      this.step = 'especialista';
+    }
+  }
+
+  hasEspecialidad(especialidad: Especialidad) {
+    return this.especialista?.especialidad.find(
+      (esp) => esp.nombre == especialidad.nombre
+    );
+  }
 
   nombreDias = [
     'Domingo',
@@ -59,14 +93,14 @@ export class SolicitarTurnoComponent implements OnInit {
       (esp) =>
         esp.especialidad &&
         esp.especialidad.find(
-          (espld) => espld.nombre === this.especialidad.nombre
+          (espld) => espld.nombre === this.especialidad?.nombre
         )
     );
     this.getHorarios();
   }
 
   async getHorarios() {
-    if (!this.fecha || !this.especialidad.nombre) {
+    if (!this.fecha || !this.especialidad?.nombre) {
       return;
     }
 
@@ -96,14 +130,16 @@ export class SolicitarTurnoComponent implements OnInit {
       }
     }
 
-    thisObj.storeService.CreateTurno({
-      paciente,
-      especialidad: thisObj.especialidad,
-      especialista: thisObj.especialista,
-      estado: 'pendiente',
-      fecha: thisObj.fecha,
-      hora: thisObj.hora,
-    });
+    if (thisObj.especialidad && thisObj.especialista) {
+      thisObj.storeService.CreateTurno({
+        paciente,
+        especialidad: thisObj.especialidad,
+        especialista: thisObj.especialista,
+        estado: 'pendiente',
+        fecha: thisObj.fecha,
+        hora: thisObj.hora,
+      });
+    }
   }
 
   formatNumb(num: number) {
@@ -119,9 +155,9 @@ export class SolicitarTurnoComponent implements OnInit {
     return result;
   }
 
-  getHorasDisponibles() {
+  getHorasDisponibles(fecha?: string) {
     this.horas = [];
-    const date = new Date(this.fecha);
+    const date = new Date(fecha || this.fecha);
     // dia de semana
     let base = 11;
     if (date.getDate() === 0) {
@@ -133,36 +169,38 @@ export class SolicitarTurnoComponent implements OnInit {
     }
 
     const especialidad =
-      this.especialista.especialidad &&
-      this.especialista.especialidad.find(
-        (esp) => esp.nombre === this.especialidad.nombre
+      this?.especialista?.especialidad &&
+      this?.especialista.especialidad.find(
+        (esp) => esp.nombre === this?.especialidad?.nombre
       );
 
     if (base === 6) {
       // sabado
       if (especialidad?.disponibilidadSabado?.length) {
         this.horas = especialidad.disponibilidadSabado.sort();
-        return;
+        return especialidad.disponibilidadSabado.sort();
       }
     } else {
       // semana
       if (especialidad?.disponibilidadSemana?.length) {
         this.horas = especialidad.disponibilidadSemana.sort();
-        return;
+        return especialidad.disponibilidadSemana.sort();
       }
     }
 
     // Todos los horarios disponibles
-    for (
-      let index = 0;
-      index < base * 60;
-      index += this.especialidad.duracionTurno
-    ) {
-      const minutos = this.formatNumb(index % 60);
-      const horas = this.formatNumb(8 + Math.floor(index / 60));
+    if (this?.especialidad?.duracionTurno)
+      for (
+        let index = 0;
+        index < base * 60;
+        index += this.especialidad.duracionTurno
+      ) {
+        const minutos = this.formatNumb(index % 60);
+        const horas = this.formatNumb(8 + Math.floor(index / 60));
 
-      this.horas = [...this.horas, `${horas}:${minutos}hs`];
-    }
+        this.horas = [...this.horas, `${horas}:${minutos}hs`];
+      }
+    return this.horas;
   }
 
   ngOnInit(): void {

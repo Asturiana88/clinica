@@ -1,4 +1,5 @@
 export class Especialidad {
-    nombre!: string;
-    duracionTurno!: number;
+  nombre!: string;
+  foto?: string;
+  duracionTurno!: number;
 }

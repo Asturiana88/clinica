@@ -1,0 +1,58 @@
+.btnCard {
+  margin-top: 50px;
+  cursor: pointer;
+  transition: all .3s ease-in;
+  position: relative;
+
+  border-radius: 30px;
+  border: 2px solid rgb(168, 168, 168);
+  padding: 10px;
+
+  & div {
+
+    pointer-events: none;
+    transition: all .3s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -50px;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    font-size: 2rem;
+  }
+  &:hover{
+    transform: scale(.95);
+
+    & div {
+      opacity: 1;
+    }
+  }
+}
+
+.back {
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+  margin-bottom: 50px;
+  &:hover {
+    transform: scale(.85);
+  }
+
+}
+
+.content {
+  transition: all .2s ease-in-out;
+  overflow: hidden;
+}
+
+.display {
+  max-height: 10000px;
+}
+
+.hidden {
+  max-height: 0;
+}
