@@ -24,6 +24,10 @@ export class SolicitarTurnoComponent implements OnInit {
 
   turnoOpciones: string[][] = [];
 
+  setHora(hora: string) {
+    this.hora = hora;
+  }
+
   setEspecialidad(especialidad?: Especialidad) {
     this.especialidad = especialidad;
     if (especialidad) {
@@ -34,7 +38,7 @@ export class SolicitarTurnoComponent implements OnInit {
           this.getHorasDisponibles(dia.toISOString().split('T')[0])
         );
       });
-      console.log(horarios);
+      this.turnoOpciones = horarios;
     } else {
       this.step = 'especialidad';
       this.turnoOpciones = [];
@@ -130,14 +134,16 @@ export class SolicitarTurnoComponent implements OnInit {
       }
     }
 
+    const [fecha, hora] = thisObj.hora.split(' ');
+
     if (thisObj.especialidad && thisObj.especialista) {
       thisObj.storeService.CreateTurno({
         paciente,
         especialidad: thisObj.especialidad,
         especialista: thisObj.especialista,
         estado: 'pendiente',
-        fecha: thisObj.fecha,
-        hora: thisObj.hora,
+        fecha,
+        hora,
       });
     }
   }
@@ -177,14 +183,16 @@ export class SolicitarTurnoComponent implements OnInit {
     if (base === 6) {
       // sabado
       if (especialidad?.disponibilidadSabado?.length) {
-        this.horas = especialidad.disponibilidadSabado.sort();
-        return especialidad.disponibilidadSabado.sort();
+        return especialidad.disponibilidadSabado
+          .map((d) => `${fecha} ${d}`)
+          .sort();
       }
     } else {
       // semana
       if (especialidad?.disponibilidadSemana?.length) {
-        this.horas = especialidad.disponibilidadSemana.sort();
-        return especialidad.disponibilidadSemana.sort();
+        return especialidad.disponibilidadSemana
+          .map((d) => `${fecha} ${d}`)
+          .sort();
       }
     }
 
@@ -198,7 +206,7 @@ export class SolicitarTurnoComponent implements OnInit {
         const minutos = this.formatNumb(index % 60);
         const horas = this.formatNumb(8 + Math.floor(index / 60));
 
-        this.horas = [...this.horas, `${horas}:${minutos}hs`];
+        this.horas = [...this.horas, `${fecha} ${horas}:${minutos}hs`];
       }
     return this.horas;
   }
