@@ -6,8 +6,8 @@ import { AuthService } from 'src/lib/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import { TranslateService } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-historia-clinica',
@@ -23,6 +23,15 @@ export class HistoriaClinicaComponent implements OnInit {
     private auth: AuthService,
     private store: StoreManagementService
   ) {}
+
+  filtroEspecialidad = '';
+  fecha = new Date().toISOString().split('T')[0];
+
+  checkEspecialidad(turno: Turno) {
+    return turno.especialidad.nombre
+      .toLocaleLowerCase()
+      .includes(this.filtroEspecialidad.toLocaleLowerCase());
+  }
 
   ngOnInit(): void {
     this.getTurnos();
@@ -99,14 +108,20 @@ export class HistoriaClinicaComponent implements OnInit {
   exportAsPDF() {
     const data = document.getElementById('data');
     if (data) {
-      html2canvas(data).then((canvas) => {
+      const { width, height } = data.getBoundingClientRect();
+      html2canvas(data, {
+        width,
+        height,
+      }).then((canvas) => {
         const contentDataURL = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('l');
+        const pdf = new jsPDF('l', 'px');
         const imgProps = pdf.getImageProperties(contentDataURL);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         pdf.addImage(contentDataURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('Filename.pdf');
+        pdf.save(
+          `Historia clinica - ${this.paciente?.nombre} ${this.paciente?.apellido} - ${this.fecha}.pdf`
+        );
       });
     }
   }

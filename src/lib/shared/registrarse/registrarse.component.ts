@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registrarse',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registrarse.component.scss'],
 })
 export class RegistrarseComponent implements OnInit {
-  constructor() {}
+  constructor(translate: TranslateModule) {}
 
   tipo?: 'especialista' | 'paciente';
 

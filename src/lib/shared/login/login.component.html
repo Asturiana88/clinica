@@ -35,37 +35,25 @@
           </div>
         </div>
       </div>
-
-      <div class="input-group">
-        <div style="margin-top: 10px" class="form-group">
-          <div class="col-sm-12 controls">
-            <button (click)="customLogin('admin')" class="btn btn-warning">
-              {{ "Login como admin" | translate }}
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="input-group">
-        <div style="margin-top: 10px" class="form-group">
-          <div class="col-sm-12 controls">
-            <button (click)="customLogin('paciente')" class="btn btn-warning">
-              {{ "Login como paciente" | translate }}
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="input-group">
-        <div style="margin-top: 10px" class="form-group">
-          <div class="col-sm-12 controls">
-            <button
-              (click)="customLogin('especialista')"
-              class="btn btn-warning"
-            >
-              {{ "Login como especialista" | translate }}
-            </button>
-          </div>
-        </div>
-      </div>
     </form>
+  </div>
+  <div class="col-6">
+    <div class="input-group">
+      <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-12 controls d-flex align-items-center">
+          <button
+            class="m-2 btn btn-info d-flex align-items-center"
+            (click)="customLogin('juli')"
+          >
+            <div
+              style="width: 50px; height: 50px; background-image: url({{
+                getPhoto('juli')
+              }}); background-size: cover; background-repeat:   no-repeat; background-position: center center;"
+            ></div>
+          </button>
+          {{ "Login como admin" | translate }}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

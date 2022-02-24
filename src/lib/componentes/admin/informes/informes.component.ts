@@ -34,7 +34,7 @@ export class InformesComponent implements OnInit {
     hastaFecha: string;
     label: 'fecha' | 'especialidad' | 'especialista';
     estado: string;
-  } = { estado: '', desdeFecha: '', hastaFecha: '', label: 'fecha' };
+  } = { estado: '', desdeFecha: '', hastaFecha: '', label: 'especialidad' };
   turnoLabels: any;
   turnoData = new BehaviorSubject<ChartDataSets>({
     data: [],
