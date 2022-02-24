@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 
-type Usuario = 'guadalupe' | 'juli';
+type Usuario = 'guadalupe' | 'juli' | 'melvin' | 'todd' | 'regina' | 'gloria';
 
 const USER_DATA = {
   guadalupe: {
@@ -16,6 +16,30 @@ const USER_DATA = {
     password: 'test123',
     image:
       'https://media-exp1.licdn.com/dms/image/C5603AQHyNBlIw53D5g/profile-displayphoto-shrink_200_200/0/1606221901002?e=1651104000&v=beta&t=UMcGoWK8ofuGaIYkiUnaa-KE7SDqr4xsUozGF-pH_cE',
+  },
+  melvin: {
+    email: 'qubukiwa@musiccode.me',
+    password: 'test123',
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/sala-de-juegos-db.appspot.com/o/cxfquady17t?alt=media&token=0aab4a83-3aa7-4c33-b3fe-1e00317c9bcb',
+  },
+  todd: {
+    email: 'ludusi@ryteto.me',
+    password: 'test123',
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/sala-de-juegos-db.appspot.com/o/j4vdq5ezw3?alt=media&token=8ff78a00-da63-4939-b118-aac291877224',
+  },
+  regina: {
+    email: 'gusuvuje@ryteto.me',
+    password: 'test123',
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/sala-de-juegos-db.appspot.com/o/rmfqpp12dan?alt=media&token=fb909ad0-63be-4b76-a1bb-cbeebdcf3dda',
+  },
+  gloria: {
+    email: 'nirivypo@thecarinformation.com',
+    password: 'test123',
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/sala-de-juegos-db.appspot.com/o/pnp13lw2z9s?alt=media&token=40456cd0-b899-417b-a352-8fa22efc47fa',
   },
 } as { [key: string]: { email: string; password: string; image: string } };
 

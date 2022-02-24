@@ -37,11 +37,13 @@
       </div>
     </form>
   </div>
-  <div class="col-6">
+  <div class="col-6 my-4">
+    {{ "Login como admin" | translate }}
     <div class="input-group">
       <div style="margin-top: 10px" class="form-group">
         <div class="col-sm-12 controls d-flex align-items-center">
           <button
+            style="padding: 10px"
             class="m-2 btn btn-info d-flex align-items-center"
             (click)="customLogin('juli')"
           >
@@ -51,7 +53,98 @@
               }}); background-size: cover; background-repeat:   no-repeat; background-position: center center;"
             ></div>
           </button>
-          {{ "Login como admin" | translate }}
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    {{ "Login como admin" | translate }}
+    <div class="input-group">
+      <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-12 controls d-flex align-items-center">
+          <button
+            style="padding: 10px"
+            class="m-2 btn btn-info d-flex align-items-center"
+            (click)="customLogin('gloria')"
+          >
+            <div
+              style="width: 50px; height: 50px; background-image: url({{
+                getPhoto('gloria')
+              }}); background-size: cover; background-repeat:   no-repeat; background-position: center center;"
+            ></div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="input-group">
+      <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-12 controls d-flex align-items-center">
+          <button
+            style="padding: 10px"
+            class="m-2 btn btn-info d-flex align-items-center"
+            (click)="customLogin('regina')"
+          >
+            <div
+              style="width: 50px; height: 50px; background-image: url({{
+                getPhoto('regina')
+              }}); background-size: cover; background-repeat:   no-repeat; background-position: center center;"
+            ></div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+    {{ "Login como paciente" | translate }}
+    <div class="input-group">
+      <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-12 controls d-flex align-items-center">
+          <button
+            class="m-2 btn btn-info d-flex align-items-center"
+            style="padding: 10px"
+            (click)="customLogin('guadalupe')"
+          >
+            <div
+              style="width: 50px; height: 50px; background-image: url({{
+                getPhoto('guadalupe')
+              }}); background-size: cover; background-repeat:   no-repeat; background-position: center center;"
+            ></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-12 controls d-flex align-items-center">
+          <button
+            class="m-2 btn btn-info d-flex align-items-center"
+            style="padding: 10px"
+            (click)="customLogin('melvin')"
+          >
+            <div
+              style="width: 50px; height: 50px; background-image: url({{
+                getPhoto('melvin')
+              }}); background-size: cover; background-repeat:   no-repeat; background-position: center center;"
+            ></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-12 controls d-flex align-items-center">
+          <button
+            class="m-2 btn btn-info d-flex align-items-center"
+            style="padding: 10px"
+            (click)="customLogin('todd')"
+          >
+            <div
+              style="width: 50px; height: 50px; background-image: url({{
+                getPhoto('todd')
+              }}); background-size: cover; background-repeat:   no-repeat; background-position: center center;"
+            ></div>
+          </button>
         </div>
       </div>
     </div>
