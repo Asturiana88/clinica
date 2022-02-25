@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Paciente } from 'src/lib/clases/paciente';
+import { Turno } from 'src/lib/clases/turno';
 import { AuthService } from 'src/lib/servicios/autenticacion.service';
 import { StoreManagementService } from 'src/lib/servicios/store-management.service';
 
@@ -14,7 +15,7 @@ export class PacientesAtendidosComponent implements OnInit {
     private auth: AuthService
   ) {}
 
-  pacientes: Paciente[] = [];
+  pacientes: { paciente: Paciente; turnos: Turno[] }[] = [];
 
   pacienteSeleccionado?: Paciente;
   modalOpen = false;
@@ -44,11 +45,20 @@ export class PacientesAtendidosComponent implements OnInit {
     setTimeout(() => {
       if (turnos.length) {
         thisInstance.store.GetUsuarios().subscribe((users) => {
-          thisInstance.pacientes = users.filter(
-            (user) =>
+          users.forEach((user) => {
+            if (
               user.rol === 'paciente' &&
               turnos.find((turno) => turno.paciente.uid === user.uid)
-          ) as Paciente[];
+            ) {
+              const pacienteTurnos = turnos.filter(
+                (turno) => turno.paciente.uid === user.uid
+              );
+              thisInstance.pacientes.push({
+                paciente: user as Paciente,
+                turnos: pacienteTurnos,
+              });
+            }
+          });
         });
       } else {
         setTimeout(() => {
